@@ -1,7 +1,5 @@
 package com.github.matyassladek.ac_wgp.ac_wgp.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.Setter;
 
 import java.util.HashMap;
