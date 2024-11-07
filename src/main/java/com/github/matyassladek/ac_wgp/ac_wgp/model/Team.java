@@ -1,8 +1,13 @@
 package com.github.matyassladek.ac_wgp.ac_wgp.model;
 
-public class Team {
+import lombok.Getter;
+import lombok.Setter;
 
-    private final String name;
+@Getter
+@Setter
+public class Team {
+    private final String nameLong;
+    private final String nameShort;
     private final Country country;
     private int budget;
     private Engine engine;
@@ -10,8 +15,9 @@ public class Team {
     private Driver driver1;
     private Driver driver2;
 
-    public Team(String name, Country country, Driver driver1, Driver driver2) {
-        this.name = name;
+    public Team(String nameLong, String nameShort, Country country, Driver driver1, Driver driver2) {
+        this.nameLong = nameLong;
+        this.nameShort = nameShort;
         this.country = country;
         this.budget = 1_000_000;
         this.engine = new Engine();
