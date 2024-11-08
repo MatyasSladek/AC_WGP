@@ -14,6 +14,7 @@ public class Championship {
     private int currentRound;
     private List<HashMap<Driver, Integer>> driversStandings;
     private List<HashMap<Team, Integer>> constructorsStandings;
+    private List<Race> results;
 
     public Championship(Track[] calendar) {
         this.calendar = calendar;
