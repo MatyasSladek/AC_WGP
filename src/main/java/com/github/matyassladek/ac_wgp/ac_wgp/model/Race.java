@@ -7,8 +7,8 @@ import java.util.List;
 @Getter
 public class Race {
 
-    private int round;
-    private Track track;
+    private final int round;
+    private final Track track;
     private List<Driver> result;
 
     public Race(int round, Track track) {
