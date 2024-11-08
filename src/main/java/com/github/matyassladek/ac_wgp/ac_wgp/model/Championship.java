@@ -8,7 +8,7 @@ import java.util.List;
 @Setter
 public class Championship {
 
-    private static int season = 0;
+    private int season = 0;
     private final Track[] calendar;
     private final int[] scoring;
     private int currentRound;
