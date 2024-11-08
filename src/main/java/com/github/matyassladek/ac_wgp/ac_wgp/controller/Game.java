@@ -1,18 +1,52 @@
 package com.github.matyassladek.ac_wgp.ac_wgp.controller;
 
 import com.github.matyassladek.ac_wgp.ac_wgp.model.*;
+import lombok.NonNull;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Game {
 
-    public Championship championshipInit() {
-        Championship championship = new Championship(new Track[]{Track.SILVERSTONE, Track.NURBURGRING, Track.MUGELLO, Track.LE_MANS_BUGATTI, Track.ROAD_AMERICA, Track.SUZUKA});
+    @NonNull
+    private Championship championshipInit() {
+        Championship championship = new Championship(Calendar.SEASON_1.getTracks());
+        List<Team> teams = teamsInit();
+        championship.setDriversStandings(driverStandingsInit(teams));
+        championship.setConstructorsStandings(constructorsStandingsInit(teams));
         return championship;
     }
 
-    public List<Team> teamsInit() {
+    @NonNull
+    private List<HashMap<Driver, Integer>> driverStandingsInit(@NonNull List<Team> teams) {
+        List<HashMap<Driver, Integer>> driverStandings = new ArrayList<>(12);
+        for (Team team : teams) {
+            HashMap<Driver, Integer> driver1 = new HashMap<>(1);
+            driver1.put(team.getDriver1(), 0);
+            driverStandings.add(driver1);
+
+            HashMap<Driver, Integer> driver2 = new HashMap<>(1);
+            driver2.put(team.getDriver2(), 0);
+            driverStandings.add(driver2);
+
+        }
+        return driverStandings;
+    }
+
+    @NonNull
+    private List<HashMap<Team, Integer>> constructorsStandingsInit(@NonNull List<Team> teams) {
+        List<HashMap<Team, Integer>> constructorsStandings = new ArrayList<>(12);
+        for (Team team : teams) {
+            HashMap<Team, Integer> constructor = new HashMap<>(1);
+            constructor.put(team, 0);
+            constructorsStandings.add(constructor);
+        }
+        return constructorsStandings;
+    }
+
+    @NonNull
+    private List<Team> teamsInit() {
         List<Team> teams = new ArrayList<>();
 
         teams.add(new Team("Scuderia Ferrari", "Ferrari", Country.ITA, 1,
