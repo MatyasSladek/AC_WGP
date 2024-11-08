@@ -1,5 +1,8 @@
 package com.github.matyassladek.ac_wgp.ac_wgp.model;
 
+import org.eclipse.jdt.annotation.NonNullByDefault;
+
+@NonNullByDefault
 public enum Calendar {
     SEASON_1(new Track[]{
             Track.SILVERSTONE,

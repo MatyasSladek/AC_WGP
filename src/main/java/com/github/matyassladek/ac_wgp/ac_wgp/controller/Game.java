@@ -2,11 +2,13 @@ package com.github.matyassladek.ac_wgp.ac_wgp.controller;
 
 import com.github.matyassladek.ac_wgp.ac_wgp.model.*;
 import lombok.NonNull;
+import org.eclipse.jdt.annotation.NonNullByDefault;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+@NonNullByDefault
 public class Game {
 
     private int season = 0;
@@ -28,17 +30,22 @@ public class Game {
             Calendar.SEASON_15.getTracks(),
             Calendar.SEASON_16.getTracks()};
 
-    @NonNull
     private Championship gameInit() {
         Championship championship = new Championship(allSeasons[season]);
         List<Team> teams = teamsInit();
+        //TODO: finish playerInit
         championship.setDriversStandings(driverStandingsInit(teams));
         championship.setConstructorsStandings(constructorsStandingsInit(teams));
         return championship;
     }
 
-    @NonNull
-    private List<HashMap<Driver, Integer>> driverStandingsInit(@NonNull List<Team> teams) {
+    private HashMap<Driver, Team> playerInit(String firstName, String lastName, String abbreviation, Country country, Team team) {
+        HashMap<Driver, Team> player = new HashMap<>();
+        player.put(new Driver(firstName, lastName, abbreviation, country), team);
+        return player;
+    }
+
+    private List<HashMap<Driver, Integer>> driverStandingsInit(List<Team> teams) {
         List<HashMap<Driver, Integer>> driverStandings = new ArrayList<>(12);
         for (Team team : teams) {
             HashMap<Driver, Integer> driver1 = new HashMap<>(1);
@@ -53,8 +60,7 @@ public class Game {
         return driverStandings;
     }
 
-    @NonNull
-    private List<HashMap<Team, Integer>> constructorsStandingsInit(@NonNull List<Team> teams) {
+    private List<HashMap<Team, Integer>> constructorsStandingsInit(List<Team> teams) {
         List<HashMap<Team, Integer>> constructorsStandings = new ArrayList<>(12);
         for (Team team : teams) {
             HashMap<Team, Integer> constructor = new HashMap<>(1);
@@ -64,7 +70,6 @@ public class Game {
         return constructorsStandings;
     }
 
-    @NonNull
     private List<Team> teamsInit() {
         List<Team> teams = new ArrayList<>();
 
