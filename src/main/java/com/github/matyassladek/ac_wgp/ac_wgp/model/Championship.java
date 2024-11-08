@@ -9,13 +9,13 @@ import java.util.List;
 public class Championship {
 
     private static int season = 0;
-    private final Tracks[] calendar;
+    private final Track[] calendar;
     private final int[] scoring;
     private int currentRound;
     private List<HashMap<Driver, Integer>> driversStandings;
     private List<HashMap<Team, Integer>> constructorsStandings;
 
-    public Championship(Tracks[] calendar) {
+    public Championship(Track[] calendar) {
         this.calendar = calendar;
         this.scoring = new int[]{50, 30, 20, 15, 10, 5, 4, 3, 2, 1};
         this.currentRound = 0;

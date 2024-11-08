@@ -1,13 +1,16 @@
 package com.github.matyassladek.ac_wgp.ac_wgp.controller;
 
-import com.github.matyassladek.ac_wgp.ac_wgp.model.Country;
-import com.github.matyassladek.ac_wgp.ac_wgp.model.Driver;
-import com.github.matyassladek.ac_wgp.ac_wgp.model.Team;
+import com.github.matyassladek.ac_wgp.ac_wgp.model.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Game {
+
+    public Championship championshipInit() {
+        Championship championship = new Championship(new Track[]{Track.SILVERSTONE, Track.NURBURGRING, Track.MUGELLO, Track.LE_MANS_BUGATTI, Track.ROAD_AMERICA, Track.SUZUKA});
+        return championship;
+    }
 
     public List<Team> teamsInit() {
         List<Team> teams = new ArrayList<>();
