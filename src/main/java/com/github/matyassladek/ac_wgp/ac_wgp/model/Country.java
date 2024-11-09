@@ -1,6 +1,7 @@
 package com.github.matyassladek.ac_wgp.ac_wgp.model;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.eclipse.jdt.annotation.NonNullByDefault;
 
 /**
@@ -8,6 +9,7 @@ import org.eclipse.jdt.annotation.NonNullByDefault;
  */
 @AllArgsConstructor
 @NonNullByDefault
+@Getter
 public enum Country {
 
     AND("Andorra", "AND", "/country/ad.png"),

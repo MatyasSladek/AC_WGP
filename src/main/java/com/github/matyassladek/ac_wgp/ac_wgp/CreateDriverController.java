@@ -1,11 +1,19 @@
-package com.github.matyassladek.ac_wgp.ac_wgp.view;
+package com.github.matyassladek.ac_wgp.ac_wgp;
 
+import com.github.matyassladek.ac_wgp.ac_wgp.model.Country;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+/**
+ * Source of this code: chatgpt.com
+ */
 public class CreateDriverController {
 
     @FXML
@@ -25,14 +33,16 @@ public class CreateDriverController {
 
     @FXML
     public void initialize() {
-        // Populate countryChoiceBox with a list of countries
-        countryChoiceBox.setItems(FXCollections.observableArrayList(
-                "USA", "Canada", "UK", "Germany", "France", "Japan", "Australia", "Italy"
-                // Add more countries as needed
-        ));
+        // Get country names from Country enum
+        List<String> countryNames = Arrays.stream(Country.values())
+                .map(Country::getName)
+                .collect(Collectors.toList());
+
+        // Populate countryChoiceBox with the list of country names
+        countryChoiceBox.setItems(FXCollections.observableArrayList(countryNames));
 
         // Optional: Set default selection for the ChoiceBox
-        countryChoiceBox.setValue("USA");
+        countryChoiceBox.setValue("Argentina");
     }
 
     @FXML
@@ -55,7 +65,7 @@ public class CreateDriverController {
         // Reset the form (optional)
         firstNameField.clear();
         lastNameField.clear();
-        countryChoiceBox.setValue("USA");  // Reset to default
+        countryChoiceBox.setValue("Argentina");  // Reset to default
         teamChoiceBox.setValue(null);      // Clear team selection
     }
 }
