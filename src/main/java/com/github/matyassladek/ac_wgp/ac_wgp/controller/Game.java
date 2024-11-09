@@ -1,6 +1,8 @@
 package com.github.matyassladek.ac_wgp.ac_wgp.controller;
 
 import com.github.matyassladek.ac_wgp.ac_wgp.model.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.eclipse.jdt.annotation.NonNullByDefault;
 
 import java.util.ArrayList;
@@ -8,6 +10,8 @@ import java.util.HashMap;
 import java.util.List;
 
 @NonNullByDefault
+@Setter
+@Getter
 public class Game {
 
     private final Track[][] allSeasons;
@@ -41,27 +45,19 @@ public class Game {
         return teams;
     }
 
-    private List<HashMap<Driver, Integer>> driverStandingsInit(List<Team> teams) {
-        List<HashMap<Driver, Integer>> driverStandings = new ArrayList<>(12);
+    private List<Championship.DriverSlot> driverStandingsInit(List<Team> teams) {
+        List<Championship.DriverSlot> driverStandings = new ArrayList<>(12);
         for (Team team : teams) {
-            HashMap<Driver, Integer> driver1 = new HashMap<>(1);
-            driver1.put(team.getDriver1(), 0);
-            driverStandings.add(driver1);
-
-            HashMap<Driver, Integer> driver2 = new HashMap<>(1);
-            driver2.put(team.getDriver2(), 0);
-            driverStandings.add(driver2);
-
+            driverStandings.add(new Championship.DriverSlot(team.getDriver1(), team));
+            driverStandings.add(new Championship.DriverSlot(team.getDriver2(), team));
         }
         return driverStandings;
     }
 
-    private List<HashMap<Team, Integer>> constructorsStandingsInit(List<Team> teams) {
-        List<HashMap<Team, Integer>> constructorsStandings = new ArrayList<>(12);
+    private List<Championship.TeamSlot> constructorsStandingsInit(List<Team> teams) {
+        List<Championship.TeamSlot> constructorsStandings = new ArrayList<>(12);
         for (Team team : teams) {
-            HashMap<Team, Integer> constructor = new HashMap<>(1);
-            constructor.put(team, 0);
-            constructorsStandings.add(constructor);
+            constructorsStandings.add(new Championship.TeamSlot(team));
         }
         return constructorsStandings;
     }
