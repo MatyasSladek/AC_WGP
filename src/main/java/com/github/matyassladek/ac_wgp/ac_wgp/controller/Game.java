@@ -12,17 +12,18 @@ public class Game {
 
     private final Track[][] allSeasons;
     private final Driver player;
-    private final Team playerTeam;
+    private final List<Team> teams;
+    private Championship currentChampionship;
     private int currentSeason = 0;
 
     public Game(String playerFirstName, String playerLastName, String playerAbbreviation, Country playerCountry, Team playerTeam) {
         this.allSeasons = allSeasonsInit();
         this.player = new Driver(playerFirstName, playerLastName, playerAbbreviation, playerCountry);
-        this.playerTeam = playerTeam;
+        this.teams = playerInit(player, playerTeam);
+        this.currentChampionship = championshipInit();
     }
 
     private Championship championshipInit() {
-        List<Team> teams = playerInit(player, playerTeam);
         Championship championship = new Championship(allSeasons[currentSeason]);
         championship.setDriversStandings(driverStandingsInit(teams));
         championship.setConstructorsStandings(constructorsStandingsInit(teams));
