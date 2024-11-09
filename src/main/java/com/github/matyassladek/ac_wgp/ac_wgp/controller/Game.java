@@ -10,29 +10,20 @@ import java.util.List;
 @NonNullByDefault
 public class Game {
 
-    private int season = 0;
-    private final Track[][] allSeasons = new Track[][]{
-            Calendar.SEASON_1.getTracks(),
-            Calendar.SEASON_2.getTracks(),
-            Calendar.SEASON_3.getTracks(),
-            Calendar.SEASON_4.getTracks(),
-            Calendar.SEASON_5.getTracks(),
-            Calendar.SEASON_6.getTracks(),
-            Calendar.SEASON_7.getTracks(),
-            Calendar.SEASON_8.getTracks(),
-            Calendar.SEASON_9.getTracks(),
-            Calendar.SEASON_10.getTracks(),
-            Calendar.SEASON_11.getTracks(),
-            Calendar.SEASON_12.getTracks(),
-            Calendar.SEASON_13.getTracks(),
-            Calendar.SEASON_14.getTracks(),
-            Calendar.SEASON_15.getTracks(),
-            Calendar.SEASON_16.getTracks()};
+    private final Track[][] allSeasons;
+    private final Driver player;
+    private final Team playerTeam;
+    private int currentSeason = 0;
 
-    private Championship gameInit(String playerFirstName, String playerLastName, String playerAbbreviation, Country playerCountry,
-                                  Team playerTeam) {
-        List<Team> teams = playerInit(new Driver(playerFirstName, playerLastName, playerAbbreviation, playerCountry), playerTeam);
-        Championship championship = new Championship(allSeasons[season]);
+    public Game(String playerFirstName, String playerLastName, String playerAbbreviation, Country playerCountry, Team playerTeam) {
+        this.allSeasons = allSeasonsInit();
+        this.player = new Driver(playerFirstName, playerLastName, playerAbbreviation, playerCountry);
+        this.playerTeam = playerTeam;
+    }
+
+    private Championship championshipInit() {
+        List<Team> teams = playerInit(player, playerTeam);
+        Championship championship = new Championship(allSeasons[currentSeason]);
         championship.setDriversStandings(driverStandingsInit(teams));
         championship.setConstructorsStandings(constructorsStandingsInit(teams));
         return championship;
@@ -126,5 +117,26 @@ public class Game {
                 new Driver("Samuel", "Schmid", "SCH", Country.AUT)));
 
         return teams;
+    }
+
+    private Track[][] allSeasonsInit() {
+        return new Track[][] {
+            Calendar.SEASON_1.getTracks(),
+            Calendar.SEASON_2.getTracks(),
+            Calendar.SEASON_3.getTracks(),
+            Calendar.SEASON_4.getTracks(),
+            Calendar.SEASON_5.getTracks(),
+            Calendar.SEASON_6.getTracks(),
+            Calendar.SEASON_7.getTracks(),
+            Calendar.SEASON_8.getTracks(),
+            Calendar.SEASON_9.getTracks(),
+            Calendar.SEASON_10.getTracks(),
+            Calendar.SEASON_11.getTracks(),
+            Calendar.SEASON_12.getTracks(),
+            Calendar.SEASON_13.getTracks(),
+            Calendar.SEASON_14.getTracks(),
+            Calendar.SEASON_15.getTracks(),
+            Calendar.SEASON_16.getTracks()
+        };
     }
 }
