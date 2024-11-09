@@ -2,9 +2,11 @@ package com.github.matyassladek.ac_wgp.ac_wgp.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.eclipse.jdt.annotation.NonNullByDefault;
 
 @Getter
 @Setter
+@NonNullByDefault
 public class Team {
     private final String nameLong;
     private final String nameShort;

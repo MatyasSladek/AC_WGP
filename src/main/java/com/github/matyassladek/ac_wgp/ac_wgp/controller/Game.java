@@ -1,7 +1,6 @@
 package com.github.matyassladek.ac_wgp.ac_wgp.controller;
 
 import com.github.matyassladek.ac_wgp.ac_wgp.model.*;
-import lombok.NonNull;
 import org.eclipse.jdt.annotation.NonNullByDefault;
 
 import java.util.ArrayList;

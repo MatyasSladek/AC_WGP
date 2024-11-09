@@ -1,11 +1,13 @@
 package com.github.matyassladek.ac_wgp.ac_wgp.model;
 
 import lombok.AllArgsConstructor;
+import org.eclipse.jdt.annotation.NonNullByDefault;
 
 /**
  * Flags downloaded from https://flagpedia.net/download/images
  */
 @AllArgsConstructor
+@NonNullByDefault
 public enum Country {
 
     AND("Andorra", "AND", "/country/ad.png"),

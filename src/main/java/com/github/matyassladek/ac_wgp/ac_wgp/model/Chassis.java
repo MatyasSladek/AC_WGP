@@ -1,5 +1,8 @@
 package com.github.matyassladek.ac_wgp.ac_wgp.model;
 
+import org.eclipse.jdt.annotation.NonNullByDefault;
+
+@NonNullByDefault
 public class Chassis extends VehiclePart {
     public Chassis() {
         super(new int[]{20, 25, 25, 20, 20, 15, 15, 10, 10, 10, 10, 5, 5, 5, 5},

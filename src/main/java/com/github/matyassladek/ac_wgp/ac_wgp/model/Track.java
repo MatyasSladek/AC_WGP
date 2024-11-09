@@ -2,9 +2,11 @@ package com.github.matyassladek.ac_wgp.ac_wgp.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.eclipse.jdt.annotation.NonNullByDefault;
 
 @AllArgsConstructor
 @Getter
+@NonNullByDefault
 public enum Track {
     ALGARVE("Algarve International Circuit", Country.PRT, calculateLaps(4653)),
     BARCELONA("Circuit de Barcelona-Catalunya", Country.ESP, calculateLaps(4675)),
