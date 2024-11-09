@@ -30,9 +30,9 @@ public class Game {
             Calendar.SEASON_15.getTracks(),
             Calendar.SEASON_16.getTracks()};
 
-    private Championship gameInit(String playerFrstName, String playerLastName, String playerAbbreviation, Country playerCountry,
+    private Championship gameInit(String playerFirstName, String playerLastName, String playerAbbreviation, Country playerCountry,
                                   Team playerTeam) {
-        List<Team> teams = playerInit(new Driver(playerFrstName, playerLastName, playerAbbreviation, playerCountry), playerTeam);
+        List<Team> teams = playerInit(new Driver(playerFirstName, playerLastName, playerAbbreviation, playerCountry), playerTeam);
         Championship championship = new Championship(allSeasons[season]);
         championship.setDriversStandings(driverStandingsInit(teams));
         championship.setConstructorsStandings(constructorsStandingsInit(teams));
