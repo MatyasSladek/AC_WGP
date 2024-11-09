@@ -25,6 +25,9 @@ public class Championship {
         this.currentRound = 0;
     }
 
+    @Setter
+    @Getter
+    @NonNullByDefault
     public static class DriverSlot {
 
         private final Driver driver;
@@ -38,6 +41,9 @@ public class Championship {
         }
     }
 
+    @Setter
+    @Getter
+    @NonNullByDefault
     public static class TeamSlot {
 
         private final Team team;

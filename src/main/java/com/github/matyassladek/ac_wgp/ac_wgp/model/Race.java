@@ -10,13 +10,5 @@ import java.util.List;
 @Getter
 @NonNullByDefault
 public class Race {
-
-    private final int round;
-    private final Track track;
     private List<Driver> result;
-
-    public Race(int round, Track track) {
-        this.round = round;
-        this.track = track;
-    }
 }
