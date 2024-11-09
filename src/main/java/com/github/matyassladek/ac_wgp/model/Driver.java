@@ -1,4 +1,4 @@
-package com.github.matyassladek.ac_wgp.ac_wgp.model;
+package com.github.matyassladek.ac_wgp.model;
 
 import org.eclipse.jdt.annotation.NonNullByDefault;
 

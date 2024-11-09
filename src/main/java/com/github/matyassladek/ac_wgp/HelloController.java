@@ -1,4 +1,4 @@
-package com.github.matyassladek.ac_wgp.ac_wgp;
+package com.github.matyassladek.ac_wgp;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

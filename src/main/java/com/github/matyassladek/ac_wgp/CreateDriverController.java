@@ -1,6 +1,6 @@
-package com.github.matyassladek.ac_wgp.ac_wgp;
+package com.github.matyassladek.ac_wgp;
 
-import com.github.matyassladek.ac_wgp.ac_wgp.model.Country;
+import com.github.matyassladek.ac_wgp.model.Country;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;

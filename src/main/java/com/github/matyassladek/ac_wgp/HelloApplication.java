@@ -1,4 +1,4 @@
-package com.github.matyassladek.ac_wgp.ac_wgp;
+package com.github.matyassladek.ac_wgp;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

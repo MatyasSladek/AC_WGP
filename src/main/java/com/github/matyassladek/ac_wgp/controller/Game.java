@@ -1,12 +1,11 @@
-package com.github.matyassladek.ac_wgp.ac_wgp.controller;
+package com.github.matyassladek.ac_wgp.controller;
 
-import com.github.matyassladek.ac_wgp.ac_wgp.model.*;
+import com.github.matyassladek.ac_wgp.model.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.eclipse.jdt.annotation.NonNullByDefault;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 @NonNullByDefault

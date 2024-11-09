@@ -1,4 +1,4 @@
-module com.github.matyassladek.ac_wgp.ac_wgp {
+module com.github.matyassladek.ac_wgp {
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.web;
@@ -13,6 +13,6 @@ module com.github.matyassladek.ac_wgp.ac_wgp {
     requires static lombok;
     requires org.eclipse.jdt.annotation;
 
-    opens com.github.matyassladek.ac_wgp.ac_wgp to javafx.fxml;
-    exports com.github.matyassladek.ac_wgp.ac_wgp;
+    opens com.github.matyassladek.ac_wgp to javafx.fxml;
+    exports com.github.matyassladek.ac_wgp;
 }

@@ -1,13 +1,12 @@
-package com.github.matyassladek.ac_wgp.ac_wgp.controller;
+package com.github.matyassladek.ac_wgp.controller;
 
-import com.github.matyassladek.ac_wgp.ac_wgp.model.Championship;
-import com.github.matyassladek.ac_wgp.ac_wgp.model.Driver;
-import com.github.matyassladek.ac_wgp.ac_wgp.model.Race;
-import com.github.matyassladek.ac_wgp.ac_wgp.model.Track;
+import com.github.matyassladek.ac_wgp.model.Championship;
+import com.github.matyassladek.ac_wgp.model.Driver;
+import com.github.matyassladek.ac_wgp.model.Race;
+import com.github.matyassladek.ac_wgp.model.Track;
 import lombok.Getter;
 import org.eclipse.jdt.annotation.NonNullByDefault;
 
-import java.util.HashMap;
 import java.util.List;
 
 @NonNullByDefault
