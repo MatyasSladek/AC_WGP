@@ -30,19 +30,24 @@ public class Game {
             Calendar.SEASON_15.getTracks(),
             Calendar.SEASON_16.getTracks()};
 
-    private Championship gameInit() {
+    private Championship gameInit(String playerFrstName, String playerLastName, String playerAbbreviation, Country playerCountry,
+                                  Team playerTeam) {
+        List<Team> teams = playerInit(new Driver(playerFrstName, playerLastName, playerAbbreviation, playerCountry), playerTeam);
         Championship championship = new Championship(allSeasons[season]);
-        List<Team> teams = teamsInit();
-        //TODO: finish playerInit
         championship.setDriversStandings(driverStandingsInit(teams));
         championship.setConstructorsStandings(constructorsStandingsInit(teams));
         return championship;
     }
 
-    private HashMap<Driver, Team> playerInit(String firstName, String lastName, String abbreviation, Country country, Team team) {
-        HashMap<Driver, Team> player = new HashMap<>();
-        player.put(new Driver(firstName, lastName, abbreviation, country), team);
-        return player;
+    private List<Team> playerInit(Driver player, Team playerTeam) {
+        List<Team> teams = teamsInit();
+        for (Team team : teams) {
+            if (team.equals(playerTeam)) {
+                team.setDriver2(player);
+                return teams;
+            }
+        }
+        return teams;
     }
 
     private List<HashMap<Driver, Integer>> driverStandingsInit(List<Team> teams) {
