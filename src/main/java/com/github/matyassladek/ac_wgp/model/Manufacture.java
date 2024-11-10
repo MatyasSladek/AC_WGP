@@ -10,15 +10,15 @@ public enum Manufacture {
     FERRARI("Scuderia Ferrari", "Ferrari", Country.ITA),
     MCLAREN("Gulf McLaren GP Team", "McLaren", Country.GBR),
     RENAULT("NewMan Team Renault Elf", "Renault", Country.FRA),
-    MERCEDES("Mercedes AMG Petronas", "Mercedes", Country.GBR),
-    LOTUS("Team Lotus JPS", "Lotus", Country.BRA),
-    HONDA("Red Bull Honda Racing", "Honda", Country.NLD),
-    ALFA_ROMEO("Aitalia Alfa Romeo", "Alfa Romeo", Country.FIN),
-    CHEVROLET("Chevrolet", "Chevrolet", Country.BRA),
-    JAGUAR("Castrol Jaguar Racing", "Jaguar", Country.ZAF),
-    PORSCHE("Warsteiner Porsche", "Porsche", Country.PRT),
-    TOYOTA("Jägermeister Toyota Racing", "Toyota", Country.MEX),
-    BMW("BMW Martini Racing", "BMW", Country.AUT);
+    MERCEDES("Mercedes AMG Petronas", "Mercedes", Country.DEU),
+    LOTUS("Team Lotus JPS", "Lotus", Country.GBR),
+    HONDA("Red Bull Honda Racing", "Honda", Country.JPN),
+    ALFA_ROMEO("Aitalia Alfa Romeo", "Alfa Romeo", Country.ITA),
+    CHEVROLET("Chevrolet", "Chevrolet", Country.USA),
+    JAGUAR("Castrol Jaguar Racing", "Jaguar", Country.GBR),
+    PORSCHE("Warsteiner Porsche", "Porsche", Country.DEU),
+    TOYOTA("Jägermeister Toyota Racing", "Toyota", Country.JPN),
+    BMW("BMW Martini Racing", "BMW", Country.DEU);
 
     private final String nameLong;
     private final String nameShort;
