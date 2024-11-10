@@ -8,9 +8,7 @@ import org.eclipse.jdt.annotation.NonNullByDefault;
 @Setter
 @NonNullByDefault
 public class Team {
-    private final String nameLong;
-    private final String nameShort;
-    private final Country country;
+    private final Manufacture manufacture;
     private int budget;
     private Engine engine;
     private Chassis chassis;
@@ -18,10 +16,8 @@ public class Team {
     private Driver driver1;
     private Driver driver2;
 
-    public Team(String nameLong, String nameShort, Country country, int garage, Driver driver1, Driver driver2) {
-        this.nameLong = nameLong;
-        this.nameShort = nameShort;
-        this.country = country;
+    public Team(Manufacture manufacture, int garage, Driver driver1, Driver driver2) {
+        this.manufacture = manufacture;
         this.budget = 1_000_000;
         this.engine = new Engine();
         this.chassis = new Chassis();
