@@ -1,6 +1,7 @@
 package com.github.matyassladek.ac_wgp;
 
 import com.github.matyassladek.ac_wgp.model.Country;
+import com.github.matyassladek.ac_wgp.model.Manufacture;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -12,7 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Source of this code: chatgpt.com
+ * Edite code from chatgpt.com
  */
 public class CreateDriverController {
 
@@ -43,6 +44,14 @@ public class CreateDriverController {
 
         // Optional: Set default selection for the ChoiceBox
         countryChoiceBox.setValue("Argentina");
+
+        List<String> teamNames = Arrays.stream(Manufacture.values())
+                .map(Manufacture::getNameShort)
+                .collect(Collectors.toList());
+
+        teamChoiceBox.setItems(FXCollections.observableArrayList(teamNames));
+
+        teamChoiceBox.setValue("Ferrari");
     }
 
     @FXML
