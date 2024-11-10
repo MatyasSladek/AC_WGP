@@ -75,6 +75,12 @@ public class CreateDriverController {
         // Process the form submission
         log.info(String.format("Driver Created: %s %s from %s, Team: %s%n", firstName, lastName, country, team));
 
+        try {
+            HelloApplication.showWindow("hello-view.fxml");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         // Reset the form (optional)
         firstNameField.clear();
         lastNameField.clear();
