@@ -16,8 +16,8 @@ public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         primaryStage = stage;
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("create-driver.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 800, 600);
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("event-results.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 1200, 800);
         stage.setTitle("Assetto Corsa: World Grand Prix Championship Career");
         stage.setScene(scene);
         stage.show();
