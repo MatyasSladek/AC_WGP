@@ -16,7 +16,7 @@ public class HelloApplication extends Application {
     private final String[] screenName = new String[]{
             "hello-view.fxml",             //0
             "next-event.fxml",             //1
-            "even-results.fxml",           //2
+            "event-results.fxml",           //2
             "drivers-standings.fxml",      //3
             "constructors-standings.fxml"  //4
     };
@@ -24,7 +24,7 @@ public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         primaryStage = stage;
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource(screenName[4]));
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource(screenName[1]));
         Scene scene = new Scene(fxmlLoader.load(), 1200, 800);
         stage.setTitle("Assetto Corsa: World Grand Prix Championship Career");
         stage.setScene(scene);
