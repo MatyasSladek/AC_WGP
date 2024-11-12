@@ -1,12 +1,8 @@
-package com.github.matyassladek.ac_wgp;
+package com.github.matyassladek.ac_wgp.view;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.Button;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class EventResultsController {
 

@@ -16,4 +16,6 @@ module com.github.matyassladek.ac_wgp {
 
     opens com.github.matyassladek.ac_wgp to javafx.fxml;
     exports com.github.matyassladek.ac_wgp;
+    exports com.github.matyassladek.ac_wgp.view;
+    opens com.github.matyassladek.ac_wgp.view to javafx.fxml;
 }

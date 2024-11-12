@@ -1,4 +1,4 @@
-package com.github.matyassladek.ac_wgp;
+package com.github.matyassladek.ac_wgp.view;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;

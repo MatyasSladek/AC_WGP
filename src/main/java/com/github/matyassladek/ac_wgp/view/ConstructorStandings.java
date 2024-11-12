@@ -1,4 +1,4 @@
-package com.github.matyassladek.ac_wgp;
+package com.github.matyassladek.ac_wgp.view;
 
 public class ConstructorStandings {
     private int position;

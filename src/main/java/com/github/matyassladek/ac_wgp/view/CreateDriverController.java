@@ -1,5 +1,6 @@
-package com.github.matyassladek.ac_wgp;
+package com.github.matyassladek.ac_wgp.view;
 
+import com.github.matyassladek.ac_wgp.HelloApplication;
 import com.github.matyassladek.ac_wgp.model.Country;
 import com.github.matyassladek.ac_wgp.model.Manufacture;
 import javafx.collections.FXCollections;
