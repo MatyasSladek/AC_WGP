@@ -1,5 +1,6 @@
 package com.github.matyassladek.ac_wgp.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import org.eclipse.jdt.annotation.NonNullByDefault;
@@ -11,11 +12,22 @@ import java.util.List;
 @NonNullByDefault
 public class Championship {
 
-    private final Track[] calendar;
+    @JsonProperty("calendar")
+    private Track[] calendar;
+
+    @JsonProperty("scoring")
     private final int[] scoring;
+
+    @JsonProperty("currentRound")
     private int currentRound;
+
+    @JsonProperty("driversStandings")
     private List<DriverSlot> driversStandings;
+
+    @JsonProperty("constructorsStandings")
     private List<TeamSlot> constructorsStandings;
+
+    @JsonProperty("results")
     private List<Race> results;
 
     public Championship(Track[] calendar) {
@@ -29,8 +41,13 @@ public class Championship {
     @NonNullByDefault
     public static class DriverSlot {
 
+        @JsonProperty("driver")
         private final Driver driver;
+
+        @JsonProperty("team")
         private final Team team;
+
+        @JsonProperty("points")
         private int points;
 
         public DriverSlot(Driver driver, Team team) {
@@ -45,7 +62,10 @@ public class Championship {
     @NonNullByDefault
     public static class TeamSlot {
 
+        @JsonProperty("team")
         private final Team team;
+
+        @JsonProperty("points")
         private int points;
 
         public TeamSlot(Team team) {

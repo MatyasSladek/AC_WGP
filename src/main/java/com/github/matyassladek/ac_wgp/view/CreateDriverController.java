@@ -2,6 +2,7 @@ package com.github.matyassladek.ac_wgp.view;
 
 import com.github.matyassladek.ac_wgp.HelloApplication;
 import com.github.matyassladek.ac_wgp.controller.Game;
+import com.github.matyassladek.ac_wgp.controller.GameManager;
 import com.github.matyassladek.ac_wgp.model.Country;
 import com.github.matyassladek.ac_wgp.model.Manufacture;
 import javafx.collections.FXCollections;
@@ -91,6 +92,7 @@ public class CreateDriverController {
         }
 
         Game game = new Game(firstName, lastName, country.get(), team.get());
+        GameManager.saveGame(game);
 
         try {
             HelloApplication.showWindow("view/hello-view.fxml");

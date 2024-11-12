@@ -19,4 +19,9 @@ module com.github.matyassladek.ac_wgp {
     exports com.github.matyassladek.ac_wgp;
     exports com.github.matyassladek.ac_wgp.view;
     opens com.github.matyassladek.ac_wgp.view to javafx.fxml;
+
+    exports com.github.matyassladek.ac_wgp.controller;
+    exports com.github.matyassladek.ac_wgp.model;
+    opens com.github.matyassladek.ac_wgp.controller to com.fasterxml.jackson.databind;
+    opens com.github.matyassladek.ac_wgp.model to com.fasterxml.jackson.databind;
 }
