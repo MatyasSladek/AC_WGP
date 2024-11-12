@@ -13,6 +13,7 @@ module com.github.matyassladek.ac_wgp {
     requires static lombok;
     requires org.eclipse.jdt.annotation;
     requires java.logging;
+    requires com.fasterxml.jackson.databind;
 
     opens com.github.matyassladek.ac_wgp to javafx.fxml;
     exports com.github.matyassladek.ac_wgp;
