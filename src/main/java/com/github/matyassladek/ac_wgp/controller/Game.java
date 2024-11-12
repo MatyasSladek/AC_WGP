@@ -3,6 +3,7 @@ package com.github.matyassladek.ac_wgp.controller;
 import com.github.matyassladek.ac_wgp.model.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.eclipse.jdt.annotation.NonNullByDefault;
 
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import java.util.List;
 @NonNullByDefault
 @Setter
 @Getter
+@ToString
 public class Game {
 
     private final Track[][] allSeasons;
@@ -19,9 +21,9 @@ public class Game {
     private Championship currentChampionship;
     private int currentSeason = 0;
 
-    public Game(String playerFirstName, String playerLastName, String playerAbbreviation, Country playerCountry, Team playerTeam) {
+    public Game(String playerFirstName, String playerLastName, Country playerCountry, Manufacture playerTeam) {
         this.allSeasons = allSeasonsInit();
-        this.player = new Driver(playerFirstName, playerLastName, playerAbbreviation, playerCountry);
+        this.player = new Driver(playerFirstName, playerLastName, playerCountry);
         this.teams = playerInit(player, playerTeam);
         this.currentChampionship = championshipInit();
     }
@@ -33,10 +35,10 @@ public class Game {
         return championship;
     }
 
-    private List<Team> playerInit(Driver player, Team playerTeam) {
+    private List<Team> playerInit(Driver player, Manufacture playerTeam) {
         List<Team> teams = teamsInit();
         for (Team team : teams) {
-            if (team.equals(playerTeam)) {
+            if (team.getManufacture().equals(playerTeam)) {
                 team.setDriver2(player);
                 return teams;
             }
@@ -64,53 +66,55 @@ public class Game {
     private List<Team> teamsInit() {
         List<Team> teams = new ArrayList<>();
 
+
+
         teams.add(new Team(Manufacture.FERRARI, 1,
-                new Driver("Romeo", "Morbidelli", "MOR", Country.ITA),
-                new Driver("Ethan", "Simon", "SIM", Country.BEL)));
+                new Driver("Romeo", "Morbidelli", Country.ITA),
+                new Driver("Ethan", "Simon", Country.BEL)));
 
         teams.add(new Team(Manufacture.MCLAREN, 2,
-                new Driver("Brent", "Harris", "HAR", Country.AUS),
-                new Driver("Arthur", "Hardwick", "HRW", Country.GBR)));
+                new Driver("Brent", "Harris", Country.AUS),
+                new Driver("Arthur", "Hardwick", Country.GBR)));
 
         teams.add(new Team(Manufacture.RENAULT, 3,
-                new Driver("Emilio", "Cevallos", "CEV", Country.ESP),
-                new Driver("Antoine", "Lavoie", "LAV", Country.FRA)));
+                new Driver("Emilio", "Cevallos", Country.ESP),
+                new Driver("Antoine", "Lavoie", Country.FRA)));
 
         teams.add(new Team(Manufacture.MERCEDES, 4,
-                new Driver("Gerhard", "Drager", "DRA", Country.DEU),
-                new Driver("Noah", "Tanner", "TAN", Country.GBR)));
+                new Driver("Gerhard", "Drager",Country.DEU),
+                new Driver("Noah", "Tanner", Country.GBR)));
 
         teams.add(new Team(Manufacture.LOTUS, 5,
-                new Driver("Jack", "Campbell", "CAM", Country.NZL),
-                new Driver("Arthur", "Ferreira", "FER", Country.BRA)));
+                new Driver("Jack", "Campbell", Country.NZL),
+                new Driver("Arthur", "Ferreira", Country.BRA)));
 
         teams.add(new Team(Manufacture.HONDA, 6,
-                new Driver("David", "Stark", "STA", Country.USA),
-                new Driver("Jozef", "Kloosterman", "KLO", Country.NLD)));
+                new Driver("David", "Stark", Country.USA),
+                new Driver("Jozef", "Kloosterman", Country.NLD)));
 
         teams.add(new Team(Manufacture.ALFA_ROMEO, 7,
-                new Driver("Bruno", "Campioni", "CAM", Country.ITA),
-                new Driver("Mikko", "Vanhala", "VAN", Country.FIN)));
+                new Driver("Bruno", "Campioni", Country.ITA),
+                new Driver("Mikko", "Vanhala", Country.FIN)));
 
         teams.add(new Team(Manufacture.CHEVROLET, 8,
-                new Driver("Naveen", "Daggubati", "DAG", Country.IND),
-                new Driver("Felipe", "Pinto", "PIN", Country.BRA)));
+                new Driver("Felipe", "Pinto", Country.BRA),
+                new Driver("Naveen", "Daggubati", Country.IND)));
 
         teams.add(new Team(Manufacture.JAGUAR, 9,
-                new Driver("Ruairi", "Ferriter", "FRT", Country.IRL),
-                new Driver("Rick", "Swart", "SWA", Country.ZAF)));
+                new Driver("Ruairi", "Ferriter", Country.IRL),
+                new Driver("Rick", "Swart", Country.ZAF)));
 
         teams.add(new Team(Manufacture.PORSCHE, 10,
-                new Driver("Lucas", "Pereyra", "PER", Country.ARG),
-                new Driver("Jaime", "Oliveira", "OLI", Country.PRT)));
+                new Driver("Lucas", "Pereyra", Country.ARG),
+                new Driver("Jaime", "Oliveira", Country.PRT)));
 
         teams.add(new Team(Manufacture.TOYOTA, 11,
-                new Driver("Hiro", "Iwata", "IWA", Country.JPN),
-                new Driver("Marcos", "Peralta", "PER", Country.MEX)));
+                new Driver("Hiro", "Iwata", Country.JPN),
+                new Driver("Marcos", "Peralta", Country.MEX)));
 
         teams.add(new Team(Manufacture.BMW, 12,
-                new Driver("Sebastian", "Duda", "DUD", Country.POL),
-                new Driver("Samuel", "Schmid", "SCH", Country.AUT)));
+                new Driver("Sebastian", "Duda", Country.POL),
+                new Driver("Samuel", "Schmid", Country.AUT)));
 
         return teams;
     }
