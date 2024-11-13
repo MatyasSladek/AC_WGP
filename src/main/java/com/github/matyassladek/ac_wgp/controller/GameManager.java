@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 
 public class GameManager {
     private static final Logger log = Logger.getLogger(GameManager.class.getName());
-    private static final String SAVE_FILE_PATH = "game_save.json";
+    private static final String SAVE_FILE_PATH = "src/main/resources/save/game_save.json";
 
     // Save the game state to a JSON file
     public static void saveGame(Game game) {
