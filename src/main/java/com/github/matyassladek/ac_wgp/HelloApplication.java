@@ -33,7 +33,7 @@ public class HelloApplication extends Application {
 
     public static void showWindow(String fxmlFile) throws Exception {
         Parent root = FXMLLoader.load(Objects.requireNonNull(HelloApplication.class.getResource(fxmlFile)));
-        primaryStage.setScene(new Scene(root));
+        primaryStage.setScene(new Scene(root, 1200, 800));
         primaryStage.show();
     }
 
