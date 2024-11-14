@@ -62,7 +62,7 @@ public class NextEventController {
             resultsController.setDrivers(drivers);
 
             Stage stage = (Stage) raceButton.getScene().getWindow();
-            stage.setScene(new Scene(root));
+            stage.setScene(new Scene(root, 1200, 800));
         } catch (IOException e) {
             e.printStackTrace();
         }
