@@ -27,106 +27,84 @@
         <rowConstraints>
             <!-- Generate 24 RowConstraints for each position -->
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <!-- Repeat this RowConstraints as needed for 24 rows -->
         </rowConstraints>
         <children>
             <Label text="Position" />
             <Label text="Driver" GridPane.columnIndex="1" />
 
-            <!-- Labels and ChoiceBoxes for each of the 24 positions -->
+            <!-- Labels and ChoiceBoxes for each of the 24 positions, with fx:id added to each ChoiceBox -->
             <Label text="1" GridPane.rowIndex="1" />
-            <ChoiceBox prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <ChoiceBox fx:id="choiceBoxPosition1" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
             <Label text="2" GridPane.rowIndex="2" />
-            <ChoiceBox prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <ChoiceBox fx:id="choiceBoxPosition2" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
             <Label text="3" GridPane.rowIndex="3" />
-            <ChoiceBox prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <ChoiceBox fx:id="choiceBoxPosition3" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 
             <Label text="4" GridPane.rowIndex="4" />
-            <ChoiceBox prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <ChoiceBox fx:id="choiceBoxPosition4" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
 
             <Label text="5" GridPane.rowIndex="5" />
-            <ChoiceBox prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <ChoiceBox fx:id="choiceBoxPosition5" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
 
             <Label text="6" GridPane.rowIndex="6" />
-            <ChoiceBox prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <ChoiceBox fx:id="choiceBoxPosition6" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
 
             <Label text="7" GridPane.rowIndex="7" />
-            <ChoiceBox prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+            <ChoiceBox fx:id="choiceBoxPosition7" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
 
             <Label text="8" GridPane.rowIndex="8" />
-            <ChoiceBox prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+            <ChoiceBox fx:id="choiceBoxPosition8" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="8" />
 
             <Label text="9" GridPane.rowIndex="9" />
-            <ChoiceBox prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+            <ChoiceBox fx:id="choiceBoxPosition9" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="9" />
 
             <Label text="10" GridPane.rowIndex="10" />
-            <ChoiceBox prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+            <ChoiceBox fx:id="choiceBoxPosition10" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="10" />
 
             <Label text="11" GridPane.rowIndex="11" />
-            <ChoiceBox prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="11" />
+            <ChoiceBox fx:id="choiceBoxPosition11" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="11" />
 
             <Label text="12" GridPane.rowIndex="12" />
-            <ChoiceBox prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="12" />
+            <ChoiceBox fx:id="choiceBoxPosition12" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="12" />
 
             <Label text="13" GridPane.rowIndex="13" />
-            <ChoiceBox prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="13" />
+            <ChoiceBox fx:id="choiceBoxPosition13" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="13" />
 
             <Label text="14" GridPane.rowIndex="14" />
-            <ChoiceBox prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="14" />
+            <ChoiceBox fx:id="choiceBoxPosition14" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="14" />
 
             <Label text="15" GridPane.rowIndex="15" />
-            <ChoiceBox prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="15" />
+            <ChoiceBox fx:id="choiceBoxPosition15" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="15" />
 
             <Label text="16" GridPane.rowIndex="16" />
-            <ChoiceBox prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="16" />
+            <ChoiceBox fx:id="choiceBoxPosition16" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="16" />
 
             <Label text="17" GridPane.rowIndex="17" />
-            <ChoiceBox prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="17" />
+            <ChoiceBox fx:id="choiceBoxPosition17" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="17" />
 
             <Label text="18" GridPane.rowIndex="18" />
-            <ChoiceBox prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="18" />
+            <ChoiceBox fx:id="choiceBoxPosition18" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="18" />
 
             <Label text="19" GridPane.rowIndex="19" />
-            <ChoiceBox prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="19" />
+            <ChoiceBox fx:id="choiceBoxPosition19" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="19" />
 
             <Label text="20" GridPane.rowIndex="20" />
-            <ChoiceBox prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="20" />
+            <ChoiceBox fx:id="choiceBoxPosition20" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="20" />
 
             <Label text="21" GridPane.rowIndex="21" />
-            <ChoiceBox prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="21" />
+            <ChoiceBox fx:id="choiceBoxPosition21" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="21" />
 
             <Label text="22" GridPane.rowIndex="22" />
-            <ChoiceBox prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="22" />
+            <ChoiceBox fx:id="choiceBoxPosition22" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="22" />
 
             <Label text="23" GridPane.rowIndex="23" />
-            <ChoiceBox prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="23" />
+            <ChoiceBox fx:id="choiceBoxPosition23" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="23" />
 
             <Label text="24" GridPane.rowIndex="24" />
-            <ChoiceBox prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="24" />
+            <ChoiceBox fx:id="choiceBoxPosition24" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="24" />
 
         </children>
     </GridPane>

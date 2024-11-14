@@ -1,5 +1,6 @@
 package com.github.matyassladek.ac_wgp.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,5 +26,10 @@ public class Driver {
         this.firstName = firstName;
         this.lastName = lastName;
         this.country = country;
+    }
+
+    @JsonIgnore
+    public String getName() {
+        return firstName + " " + lastName;
     }
 }

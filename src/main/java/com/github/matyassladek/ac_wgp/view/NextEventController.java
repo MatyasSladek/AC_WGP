@@ -1,14 +1,21 @@
 package com.github.matyassladek.ac_wgp.view;
 
 import com.github.matyassladek.ac_wgp.controller.Game;
+import com.github.matyassladek.ac_wgp.model.Driver;
 import com.github.matyassladek.ac_wgp.model.Track;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.util.List;
 
 public class NextEventController {
 
-    // FXML references
     @FXML
     private Label circuitLabel;
 
@@ -20,13 +27,11 @@ public class NextEventController {
 
     private Game game;
 
-    // Method to set the Game instance
     public void setGame(Game game) {
         this.game = game;
         loadNextEvent();
     }
 
-    // Load the details of the next event
     private void loadNextEvent() {
         if (game == null || game.getCurrentChampionship() == null) return;
 
@@ -44,11 +49,22 @@ public class NextEventController {
         }
     }
 
-    // Called when the "RACE" button is clicked
     @FXML
     private void onSubmitButtonClick() {
-        System.out.println("Race button clicked!");
-        // Placeholder: Trigger the race start or transition to race view
-        // You can add additional logic here to handle the "RACE" action
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("event-results.fxml"));
+            Parent root = loader.load();
+
+            EventResultsController resultsController = loader.getController();
+
+            // Get drivers from the current championship
+            List<Driver> drivers = game.getCurrentChampionship().getDrivers();
+            resultsController.setDrivers(drivers);
+
+            Stage stage = (Stage) raceButton.getScene().getWindow();
+            stage.setScene(new Scene(root));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

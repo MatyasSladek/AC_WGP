@@ -1,10 +1,12 @@
 package com.github.matyassladek.ac_wgp.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import org.eclipse.jdt.annotation.NonNullByDefault;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Setter
@@ -34,6 +36,15 @@ public class Championship {
         this.calendar = calendar;
         this.scoring = new int[]{50, 30, 20, 15, 10, 5, 4, 3, 2, 1};
         this.currentRound = 0;
+    }
+
+    @JsonIgnore
+    public List<Driver> getDrivers() {
+        List<Driver> drivers = new ArrayList<>();
+        for (DriverSlot driver : driversStandings) {
+            drivers.add(driver.getDriver());
+        }
+        return drivers;
     }
 
     @Setter
