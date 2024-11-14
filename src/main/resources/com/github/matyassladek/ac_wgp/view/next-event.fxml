@@ -15,7 +15,7 @@
          <Font size="48.0" />
       </font>
    </Label>
-   <Label text="(circuit)" />
-   <Label text="(laps)" />
-   <Button mnemonicParsing="false" onAction="#onSubmitButtonClick" text="RACE" />
+   <Label fx:id="circuitLabel" text="(circuit)" />
+   <Label fx:id="lapsLabel" text="(laps)" />
+   <Button fx:id="raceButton" mnemonicParsing="false" onAction="#onSubmitButtonClick" text="RACE" />
 </VBox>

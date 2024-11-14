@@ -95,7 +95,7 @@ public class CreateDriverController {
         GameManager.saveGame(game);
 
         try {
-            HelloApplication.showWindow("view/next-event.fxml");
+            HelloApplication.showNextEvent(game);
         } catch (Exception e) {
             e.printStackTrace();
         }

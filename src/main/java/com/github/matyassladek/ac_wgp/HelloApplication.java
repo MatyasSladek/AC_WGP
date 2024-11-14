@@ -1,5 +1,7 @@
 package com.github.matyassladek.ac_wgp;
 
+import com.github.matyassladek.ac_wgp.controller.Game;
+import com.github.matyassladek.ac_wgp.view.NextEventController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -36,6 +38,19 @@ public class HelloApplication extends Application {
         primaryStage.setScene(new Scene(root, 1200, 800));
         primaryStage.show();
     }
+
+    public static void showNextEvent(Game game) throws IOException {
+        FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("view/next-event.fxml"));
+        Parent root = loader.load();
+
+        // Get the controller instance and set the game state
+        NextEventController controller = loader.getController();
+        controller.setGame(game);
+
+        primaryStage.setScene(new Scene(root, primaryStage.getWidth(), primaryStage.getHeight()));
+        primaryStage.show();
+    }
+
 
     public static void main(String[] args) {
         launch();
