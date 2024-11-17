@@ -3,15 +3,14 @@ package com.github.matyassladek.ac_wgp.controller;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.matyassladek.ac_wgp.factory.CalendarFactory;
+import com.github.matyassladek.ac_wgp.factory.ChampionshipFactory;
 import com.github.matyassladek.ac_wgp.factory.TeamFactory;
 import com.github.matyassladek.ac_wgp.model.*;
-import com.github.matyassladek.ac_wgp.view.DriverStandingsController;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.eclipse.jdt.annotation.NonNullByDefault;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @NonNullByDefault
@@ -39,14 +38,9 @@ public class Game {
     public Game(String playerFirstName, String playerLastName, Country playerCountry, Manufacture playerTeam) {
         this.allSeasons = allSeasonsInit();
         this.player = new Driver(playerFirstName, playerLastName, playerCountry);
-        this.teams = playerInit(player, playerTeam);
+        this.teams = teamsInit(playerTeam);
         this.currentChampionship = championshipInit();
         this.currentSeason = 0;
-    }
-
-    // Here is an example of how to set the championship from Game to the controller
-    public void initializeDriverStandingsController(DriverStandingsController controller) {
-        controller.setChampionship(currentChampionship); // Pass the current championship
     }
 
     @JsonIgnore
@@ -54,46 +48,21 @@ public class Game {
         return allSeasons;
     }
 
+    @JsonIgnore
     private Championship championshipInit() {
-        Championship championship = new Championship(allSeasons[currentSeason]);
-        championship.setDriversStandings(driverStandingsInit(teams));
-        championship.setConstructorsStandings(constructorsStandingsInit(teams));
-        return championship;
+        ChampionshipFactory championshipFactory = new ChampionshipFactory();
+        return championshipFactory.createChampionship(teams, allSeasons[currentSeason]);
     }
 
-    private List<Team> playerInit(Driver player, Manufacture playerTeam) {
-        List<Team> teams = teamsInit();
-        for (Team team : teams) {
-            if (team.getManufacture().equals(playerTeam)) {
-                team.setDriver2(player);
-                return teams;
-            }
-        }
-        return teams;
+    @JsonIgnore
+    private List<Team> teamsInit(Manufacture playerTeam){
+        TeamFactory teamFactory = new TeamFactory();
+        return teamFactory.crateTeamList(player, playerTeam);
     }
 
-    private List<Championship.DriverSlot> driverStandingsInit(List<Team> teams) {
-        List<Championship.DriverSlot> driverStandings = new ArrayList<>(12);
-        for (Team team : teams) {
-            driverStandings.add(new Championship.DriverSlot(team.getDriver1(), team));
-            driverStandings.add(new Championship.DriverSlot(team.getDriver2(), team));
-        }
-        return driverStandings;
-    }
-
-    private List<Championship.TeamSlot> constructorsStandingsInit(List<Team> teams) {
-        List<Championship.TeamSlot> constructorsStandings = new ArrayList<>(12);
-        for (Team team : teams) {
-            constructorsStandings.add(new Championship.TeamSlot(team));
-        }
-        return constructorsStandings;
-    }
-
-    private List<Team> teamsInit() {
-        return TeamFactory.teamsInit();
-    }
-
+    @JsonIgnore
     private Track[][] allSeasonsInit() {
-        return CalendarFactory.allSeasonsInit();
+        CalendarFactory calendarFactory = new CalendarFactory();
+        return calendarFactory.createAllSeasons();
     }
 }
