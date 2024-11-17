@@ -1,7 +1,9 @@
 package com.github.matyassladek.ac_wgp.model;
 
+import lombok.Getter;
 import org.eclipse.jdt.annotation.NonNullByDefault;
 
+@Getter
 @NonNullByDefault
 public enum Calendar {
     SEASON_1(new Track[]{
@@ -249,7 +251,4 @@ public enum Calendar {
         this.tracks = tracks;
     }
 
-    public Track[] getTracks() {
-        return tracks;
-    }
 }
