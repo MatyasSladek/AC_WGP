@@ -4,7 +4,7 @@ import com.github.matyassladek.ac_wgp.model.Calendar;
 import com.github.matyassladek.ac_wgp.model.Track;
 
 public class CalendarFactory {
-    public static Track[][] allSeasonsInit() {
+    public Track[][] createAllSeasons() {
         return new Track[][] {
                 Calendar.SEASON_1.getTracks(),
                 Calendar.SEASON_2.getTracks(),

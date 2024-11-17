@@ -10,57 +10,69 @@ import java.util.List;
 
 public class TeamFactory {
 
-    public static List<Team> teamsInit() {
-        List<Team> teams = new ArrayList<>();
+    private List<Team> teams = new ArrayList<>();
+    private int garage = 0;
 
-        teams.add(new Team(Manufacture.FERRARI, 1,
+    public List<Team> crateTeamList(Driver player, Manufacture playerTeam) {
+
+        basicTeamList();
+        for (Team team : this.teams) {
+            if (team.getManufacture().equals(playerTeam)) {
+                team.setDriver2(player);
+                return this.teams;
+            }
+        }
+        return this.teams;
+    }
+
+    private void basicTeamList() {
+
+        this.teams.add(new Team(Manufacture.FERRARI, ++garage,
                 new Driver("Romeo", "Morbidelli", Country.ITA),
                 new Driver("Ethan", "Simon", Country.BEL)));
 
-        teams.add(new Team(Manufacture.MCLAREN, 2,
+        this.teams.add(new Team(Manufacture.MCLAREN, ++garage,
                 new Driver("Brent", "Harris", Country.AUS),
                 new Driver("Arthur", "Hardwick", Country.GBR)));
 
-        teams.add(new Team(Manufacture.RENAULT, 3,
+        this.teams.add(new Team(Manufacture.RENAULT, ++garage,
                 new Driver("Emilio", "Cevallos", Country.ESP),
                 new Driver("Antoine", "Lavoie", Country.FRA)));
 
-        teams.add(new Team(Manufacture.MERCEDES, 4,
+        this.teams.add(new Team(Manufacture.MERCEDES, ++garage,
                 new Driver("Gerhard", "Drager",Country.DEU),
                 new Driver("Noah", "Tanner", Country.GBR)));
 
-        teams.add(new Team(Manufacture.LOTUS, 5,
+        this.teams.add(new Team(Manufacture.LOTUS, ++garage,
                 new Driver("Jack", "Campbell", Country.NZL),
                 new Driver("Arthur", "Ferreira", Country.BRA)));
 
-        teams.add(new Team(Manufacture.HONDA, 6,
+        this.teams.add(new Team(Manufacture.HONDA, ++garage,
                 new Driver("David", "Stark", Country.USA),
                 new Driver("Jozef", "Kloosterman", Country.NLD)));
 
-        teams.add(new Team(Manufacture.ALFA_ROMEO, 7,
+        this.teams.add(new Team(Manufacture.ALFA_ROMEO, ++garage,
                 new Driver("Bruno", "Campioni", Country.ITA),
                 new Driver("Mikko", "Vanhala", Country.FIN)));
 
-        teams.add(new Team(Manufacture.CHEVROLET, 8,
+        this.teams.add(new Team(Manufacture.CHEVROLET, ++garage,
                 new Driver("Felipe", "Pinto", Country.BRA),
                 new Driver("Naveen", "Daggubati", Country.IND)));
 
-        teams.add(new Team(Manufacture.JAGUAR, 9,
+        this.teams.add(new Team(Manufacture.JAGUAR, ++garage,
                 new Driver("Ruairi", "Ferriter", Country.IRL),
                 new Driver("Rick", "Swart", Country.ZAF)));
 
-        teams.add(new Team(Manufacture.PORSCHE, 10,
+        this.teams.add(new Team(Manufacture.PORSCHE, ++garage,
                 new Driver("Lucas", "Pereyra", Country.ARG),
                 new Driver("Jaime", "Oliveira", Country.PRT)));
 
-        teams.add(new Team(Manufacture.TOYOTA, 11,
+        this.teams.add(new Team(Manufacture.TOYOTA, ++garage,
                 new Driver("Hiro", "Iwata", Country.JPN),
                 new Driver("Marcos", "Peralta", Country.MEX)));
 
-        teams.add(new Team(Manufacture.BMW, 12,
+        this.teams.add(new Team(Manufacture.BMW, ++garage,
                 new Driver("Sebastian", "Duda", Country.POL),
                 new Driver("Samuel", "Schmid", Country.AUT)));
-
-        return teams;
     }
 }
