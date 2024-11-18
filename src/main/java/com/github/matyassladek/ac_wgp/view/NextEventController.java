@@ -1,5 +1,6 @@
 package com.github.matyassladek.ac_wgp.view;
 
+import com.github.matyassladek.ac_wgp.HelloApplication;
 import com.github.matyassladek.ac_wgp.controller.Game;
 import com.github.matyassladek.ac_wgp.model.Driver;
 import com.github.matyassladek.ac_wgp.model.Track;
@@ -52,17 +53,7 @@ public class NextEventController {
     @FXML
     private void onSubmitButtonClick() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("event-results.fxml"));
-            Parent root = loader.load();
-
-            EventResultsController resultsController = loader.getController();
-
-            // Get drivers from the current championship
-            List<Driver> drivers = game.getCurrentChampionship().getDrivers();
-            resultsController.setDrivers(drivers);
-
-            Stage stage = (Stage) raceButton.getScene().getWindow();
-            stage.setScene(new Scene(root, 1200, 800));
+            HelloApplication.showEventResults(game);
         } catch (IOException e) {
             e.printStackTrace();
         }

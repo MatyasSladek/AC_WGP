@@ -1,5 +1,6 @@
 package com.github.matyassladek.ac_wgp.view;
 
+import com.github.matyassladek.ac_wgp.controller.Game;
 import com.github.matyassladek.ac_wgp.model.Championship;
 import com.github.matyassladek.ac_wgp.model.Driver;
 import javafx.fxml.FXML;
@@ -44,6 +45,12 @@ public class EventResultsController {
     private List<ChoiceBox<String>> choiceBoxes;
     private Championship championship;
 
+    private Game game;
+
+    public void setGame(Game game) {
+        this.game = game;
+    }
+
     public void initialize() {
         // Initialize choiceBoxes list
         choiceBoxes = List.of(
@@ -54,11 +61,6 @@ public class EventResultsController {
                 choiceBoxPosition17, choiceBoxPosition18, choiceBoxPosition19, choiceBoxPosition20,
                 choiceBoxPosition21, choiceBoxPosition22, choiceBoxPosition23, choiceBoxPosition24
         );
-    }
-
-    // Set Championship object to this controller
-    public void setChampionship(Championship championship) {
-        this.championship = championship;
     }
 
     // Set drivers for the race (based on existing drivers in the championship)
@@ -87,28 +89,6 @@ public class EventResultsController {
             return;
         }
 
-        // Assume scoring array in Championship is already set
-        int[] scoring = championship.getScoring();
-
-        // Go through the positions and update the driver standings
-        for (int i = 0; i < choiceBoxes.size(); i++) {
-            String driverName = choiceBoxes.get(i).getValue();
-            if (driverName != null) {
-                // Find driver in championship list
-                for (Championship.DriverSlot driverSlot : championship.getDriversStandings()) {
-                    if (driverSlot.getDriver().getName().equals(driverName)) {
-                        // Update points based on position
-                        int position = i + 1;
-                        int points = position <= scoring.length ? scoring[position - 1] : 0;
-                        driverSlot.setPoints(driverSlot.getPoints() + points);
-                    }
-                }
-            }
-        }
-
-        // Call method to update standings in UI
-        updateDriverStandings();
-
         // Provide feedback upon successful submission
         showAlert("Success", "Race results submitted successfully!", AlertType.INFORMATION);
     }
@@ -123,14 +103,6 @@ public class EventResultsController {
             }
         }
         return true; // No duplicates
-    }
-
-    private void updateDriverStandings() {
-        // Sort the standings based on points in descending order
-        championship.getDriversStandings().sort((ds1, ds2) -> Integer.compare(ds2.getPoints(), ds1.getPoints()));
-
-        // Here you can call a method to update the UI (e.g., DriverStandingsController.updateTable())
-        System.out.println("Standings updated!");
     }
 
     // Helper method to show alerts

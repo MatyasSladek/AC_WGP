@@ -1,6 +1,9 @@
 package com.github.matyassladek.ac_wgp;
 
 import com.github.matyassladek.ac_wgp.controller.Game;
+import com.github.matyassladek.ac_wgp.model.Driver;
+import com.github.matyassladek.ac_wgp.view.DriverStandingsController;
+import com.github.matyassladek.ac_wgp.view.EventResultsController;
 import com.github.matyassladek.ac_wgp.view.NextEventController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -9,13 +12,14 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 
 public class HelloApplication extends Application {
 
     private static Stage primaryStage;
 
-    private final String[] screenName = new String[]{
+    private static final String[] screenName = new String[]{
             "create-driver.fxml",           //0
             "next-event.fxml",              //1
             "event-results.fxml",           //2
@@ -40,7 +44,7 @@ public class HelloApplication extends Application {
     }
 
     public static void showNextEvent(Game game) throws IOException {
-        FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("view/next-event.fxml"));
+        FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("view/" + screenName[1]));
         Parent root = loader.load();
 
         // Get the controller instance and set the game state
@@ -50,6 +54,35 @@ public class HelloApplication extends Application {
         primaryStage.setScene(new Scene(root, primaryStage.getWidth(), primaryStage.getHeight()));
         primaryStage.show();
     }
+
+    public static void showEventResults(Game game) throws IOException {
+        FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("view/" + screenName[2]));
+        Parent root = loader.load();
+
+        // Get the controller instance and set the game state
+        EventResultsController controller = loader.getController();
+
+        List<Driver> drivers = game.getCurrentChampionship().getDrivers();
+        controller.setDrivers(drivers);
+
+        controller.setGame(game);
+
+        primaryStage.setScene(new Scene(root, primaryStage.getWidth(), primaryStage.getHeight()));
+        primaryStage.show();
+    }
+
+    public static void DriverStandingsResults(Game game) throws IOException {
+        FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("view/" + screenName[2]));
+        Parent root = loader.load();
+
+        // Get the controller instance and set the game state
+        DriverStandingsController controller = loader.getController();
+        controller.setGame(game);
+
+        primaryStage.setScene(new Scene(root, primaryStage.getWidth(), primaryStage.getHeight()));
+        primaryStage.show();
+    }
+
 
 
     public static void main(String[] args) {
