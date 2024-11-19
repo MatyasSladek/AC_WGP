@@ -9,7 +9,9 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-public class DriverStandingsController {
+import java.io.IOException;
+
+public class DriverStandingsController extends ViewController {
 
     @FXML
     private TableView<DriverSlot> standingsTable;
@@ -26,11 +28,14 @@ public class DriverStandingsController {
     @FXML
     private TableColumn<DriverSlot, Integer> pointsColumn;
 
-    private Game game;
-
+    @Override
     public void setGame(Game game) {
         this.game = game;
         loadDriverStandings();
+    }
+
+    public DriverStandingsController() {
+        super(FXMLFile.CONSTRUCTORS_STANDINGS.getFileName());
     }
 
     public void initialize() {
@@ -45,7 +50,7 @@ public class DriverStandingsController {
     }
 
     private void loadDriverStandings() {
-        if (game != null && game.getCurrentChampionship() != null) {
+        if (game != null) {
             // Get the driversStandings list from the Championship object
             ObservableList<DriverSlot> standings = FXCollections.observableArrayList(game.getCurrentChampionship().getDriversStandings());
             standingsTable.setItems(standings);
@@ -53,8 +58,9 @@ public class DriverStandingsController {
     }
 
     @FXML
-    private void onContinueButtonClick() {
+    private void onContinueButtonClick() throws IOException {
         System.out.println("Continue button clicked!");
+        showNextScreen();
         // Action to perform when the "Continue" button is clicked
         // Example: Navigate to another scene or perform game logic
     }

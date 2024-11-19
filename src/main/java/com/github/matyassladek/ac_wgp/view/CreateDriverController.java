@@ -1,6 +1,5 @@
 package com.github.matyassladek.ac_wgp.view;
 
-import com.github.matyassladek.ac_wgp.HelloApplication;
 import com.github.matyassladek.ac_wgp.controller.Game;
 import com.github.matyassladek.ac_wgp.controller.GameManager;
 import com.github.matyassladek.ac_wgp.model.Country;
@@ -11,16 +10,14 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-/**
- * Edite code from chatgpt.com
- */
-public class CreateDriverController {
+public class CreateDriverController extends ViewController {
 
     private static final Logger log = Logger.getLogger(CreateDriverController.class.getName());
 
@@ -38,6 +35,10 @@ public class CreateDriverController {
 
     @FXML
     private Button submitButton;
+
+    public CreateDriverController() {
+        super(FXMLFile.NEXT_EVENT.getFileName());
+    }
 
     @FXML
     public void initialize() {
@@ -62,7 +63,7 @@ public class CreateDriverController {
     }
 
     @FXML
-    private void onSubmitButtonClick() {
+    private void onSubmitButtonClick() throws IOException {
         String firstName = firstNameField.getText();
         String lastName = lastNameField.getText();
         String countryName = countryChoiceBox.getValue();
@@ -91,14 +92,9 @@ public class CreateDriverController {
             return;
         }
 
-        Game game = new Game(firstName, lastName, country.get(), team.get());
+        game = new Game(firstName, lastName, country.get(), team.get());
         GameManager.saveGame(game);
-
-        try {
-            HelloApplication.showNextEvent(game);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        showNextScreen();
 
         log.info(game.getPlayer().toString());
     }

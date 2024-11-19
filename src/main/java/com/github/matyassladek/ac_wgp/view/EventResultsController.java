@@ -1,8 +1,6 @@
 package com.github.matyassladek.ac_wgp.view;
 
-import com.github.matyassladek.ac_wgp.HelloApplication;
 import com.github.matyassladek.ac_wgp.controller.Game;
-import com.github.matyassladek.ac_wgp.model.Championship;
 import com.github.matyassladek.ac_wgp.model.Driver;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
@@ -15,7 +13,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class EventResultsController {
+public class EventResultsController extends ViewController {
 
     @FXML private ChoiceBox<String> choiceBoxPosition1;
     @FXML private ChoiceBox<String> choiceBoxPosition2;
@@ -44,13 +42,16 @@ public class EventResultsController {
 
     @FXML private Button submitButton;
 
-    private List<ChoiceBox<String>> choiceBoxes;
-    private Championship championship;
-
-    private Game game;
-
+    @Override
     public void setGame(Game game) {
         this.game = game;
+        setDrivers();
+    }
+
+    private List<ChoiceBox<String>> choiceBoxes;
+
+    public EventResultsController() {
+        super(FXMLFile.DRIVERS_STANDINGS.getFileName());
     }
 
     public void initialize() {
@@ -66,7 +67,8 @@ public class EventResultsController {
     }
 
     // Set drivers for the race (based on existing drivers in the championship)
-    public void setDrivers(List<Driver> drivers) {
+    public void setDrivers() {
+        List<Driver> drivers = game.getCurrentChampionship().getDrivers();
         for (int i = 0; i < choiceBoxes.size(); i++) {
             ChoiceBox<String> choiceBox = choiceBoxes.get(i);
             choiceBox.getItems().clear();
@@ -82,7 +84,7 @@ public class EventResultsController {
     }
 
     @FXML
-    private void onSubmitButtonClick() {
+    private void onSubmitButtonClick() throws IOException {
         System.out.println("Submit button clicked!");
 
         // Validate that no duplicate drivers are selected
@@ -90,15 +92,7 @@ public class EventResultsController {
             showAlert("Error", "Duplicate driver selected!", AlertType.ERROR);
             return;
         }
-
-        try {
-            HelloApplication.showDriverStandings(game);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        // Provide feedback upon successful submission
-//        showAlert("Success", "Race results submitted successfully!", AlertType.INFORMATION);
+        showNextScreen();
     }
 
     // Validates that no driver is selected more than once
