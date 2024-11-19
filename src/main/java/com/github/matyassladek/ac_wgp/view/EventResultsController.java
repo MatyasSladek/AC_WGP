@@ -1,5 +1,6 @@
 package com.github.matyassladek.ac_wgp.view;
 
+import com.github.matyassladek.ac_wgp.HelloApplication;
 import com.github.matyassladek.ac_wgp.controller.Game;
 import com.github.matyassladek.ac_wgp.model.Championship;
 import com.github.matyassladek.ac_wgp.model.Driver;
@@ -9,6 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -89,8 +91,14 @@ public class EventResultsController {
             return;
         }
 
+        try {
+            HelloApplication.showDriverStandings(game);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         // Provide feedback upon successful submission
-        showAlert("Success", "Race results submitted successfully!", AlertType.INFORMATION);
+//        showAlert("Success", "Race results submitted successfully!", AlertType.INFORMATION);
     }
 
     // Validates that no driver is selected more than once

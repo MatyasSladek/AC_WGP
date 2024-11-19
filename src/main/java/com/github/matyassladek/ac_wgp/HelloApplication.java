@@ -71,8 +71,8 @@ public class HelloApplication extends Application {
         primaryStage.show();
     }
 
-    public static void DriverStandingsResults(Game game) throws IOException {
-        FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("view/" + screenName[2]));
+    public static void showDriverStandings(Game game) throws IOException {
+        FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("view/" + screenName[3]));
         Parent root = loader.load();
 
         // Get the controller instance and set the game state
