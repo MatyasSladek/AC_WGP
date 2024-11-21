@@ -1,6 +1,7 @@
 package com.github.matyassladek.ac_wgp.view;
 
 import com.github.matyassladek.ac_wgp.controller.Game;
+import com.github.matyassladek.ac_wgp.model.Championship;
 import com.github.matyassladek.ac_wgp.model.Driver;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
@@ -92,6 +93,7 @@ public class EventResultsController extends ViewController {
             showAlert("Error", "Duplicate driver selected!", AlertType.ERROR);
             return;
         }
+        addChampionshipPoints(game.getCurrentChampionship());
         showNextScreen();
     }
 
@@ -115,4 +117,31 @@ public class EventResultsController extends ViewController {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
+    private void addChampionshipPoints(Championship currentChampionship) {
+        currentChampionship.setDriversStandings(updateDriversChampionship(currentChampionship));
+        setConstructorsChampionship(currentChampionship.getConstructorsStandings());
+    }
+
+    private List<Championship.DriverSlot> updateDriversChampionship(Championship currentChampionship) {
+        List<Championship.DriverSlot> driversStandings = currentChampionship.getDriversStandings();
+        List<String> raceResult = getSelectedValues();
+        for (int i = 0; i < 10; i++) {
+            for (Championship.DriverSlot driverSlot : driversStandings) {
+                if (driverSlot.getDriver().getName().equals(raceResult.get(i))) {
+                    driverSlot.setPoints(currentChampionship.getScoring()[i]);
+                }
+            }
+        }
+        return driversStandings;
+    }
+
+    private void setConstructorsChampionship(List<Championship.TeamSlot> constructorsStandings) { return; }
+
+    private List<String> getSelectedValues() {
+        return choiceBoxes.stream()
+                .map(ChoiceBox::getValue) // Get the selected value for each ChoiceBox
+                .toList();
+    }
+
 }
