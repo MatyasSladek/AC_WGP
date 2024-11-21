@@ -10,6 +10,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -133,6 +134,7 @@ public class EventResultsController extends ViewController {
                 }
             }
         }
+        driversStandings.sort(Comparator.comparingInt(Championship.DriverSlot::getPoints).reversed());
         return driversStandings;
     }
 
