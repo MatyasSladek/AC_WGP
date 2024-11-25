@@ -182,7 +182,7 @@ public enum Calendar {
     SEASON_14(new Track[]{
             Track.MELBOURNE,
             Track.SEPANG,
-            Track.SHANGHAI,
+            Track.KYALAMI,
             Track.SAKHIR,
             Track.BARCELONA,
             Track.MONTE_CARLO,
