@@ -7,6 +7,15 @@ import org.eclipse.jdt.annotation.NonNullByDefault;
 @NonNullByDefault
 public enum Calendar {
     SEASON_1(new Track[]{
+            Track.IMOLA,
+            Track.SILVERSTONE,
+            Track.NURBURGRING,
+            Track.ZANDVOORT,
+            Track.SPA_FRANCORCHAMPS,
+            Track.MONZA,
+            Track.MUGELLO
+    }),
+    SEASON_2(new Track[]{
             Track.SILVERSTONE,
             Track.NURBURGRING,
             Track.MUGELLO,
@@ -14,7 +23,7 @@ public enum Calendar {
             Track.ROAD_AMERICA,
             Track.SUZUKA
     }),
-    SEASON_2(new Track[]{
+    SEASON_3(new Track[]{
             Track.MELBOURNE,
             Track.KYALAMI,
             Track.SILVERSTONE,
@@ -25,25 +34,60 @@ public enum Calendar {
             Track.INTERLAGOS,
             Track.SUZUKA
     }),
-    SEASON_3(new Track[]{
-            Track.INTERLAGOS,
+    SEASON_4(new Track[]{
+            Track.MELBOURNE,
             Track.KYALAMI,
             Track.SILVERSTONE,
             Track.LE_MANS_BUGATTI,
             Track.NURBURGRING,
             Track.MUGELLO,
             Track.ALGARVE,
-            Track.SURFERS_PARADISE,
-            Track.SUZUKA,
-            Track.ZHUHAI,
             Track.ROAD_AMERICA,
-            Track.LAS_VEGAS
+            Track.SUZUKA,
+            Track.INTERLAGOS
     }),
-    SEASON_4(new Track[]{
+    SEASON_5(new Track[]{
+            Track.MELBOURNE,
+            Track.KYALAMI,
+            Track.MONTE_CARLO,
+            Track.NURBURGRING,
+            Track.SILVERSTONE,
+            Track.SPA_FRANCORCHAMPS,
+            Track.MONZA,
+            Track.SUZUKA,
+            Track.ROAD_AMERICA,
+            Track.INTERLAGOS
+    }),
+    SEASON_6(new Track[]{
+            Track.MELBOURNE,
+            Track.KYALAMI,
+            Track.MONTE_CARLO,
+            Track.NURBURGRING,
+            Track.SILVERSTONE,
+            Track.SPA_FRANCORCHAMPS,
+            Track.MONZA,
+            Track.ROAD_AMERICA,
+            Track.INTERLAGOS,
+            Track.SUZUKA
+    }),
+    SEASON_7(new Track[]{
             Track.MELBOURNE,
             Track.SEPANG,
             Track.KYALAMI,
-            Track.MONACO,
+            Track.SAKHIR,
+            Track.SILVERSTONE,
+            Track.MONTE_CARLO,
+            Track.SPA_FRANCORCHAMPS,
+            Track.MONZA,
+            Track.INTERLAGOS,
+            Track.ROAD_AMERICA,
+            Track.SUZUKA
+    }),
+    SEASON_8(new Track[]{
+            Track.MELBOURNE,
+            Track.SEPANG,
+            Track.KYALAMI,
+            Track.MONTE_CARLO,
             Track.NURBURGRING,
             Track.SILVERSTONE,
             Track.SPA_FRANCORCHAMPS,
@@ -52,57 +96,6 @@ public enum Calendar {
             Track.ROAD_AMERICA,
             Track.INTERLAGOS,
             Track.SUZUKA
-    }),
-    SEASON_5(new Track[]{
-            Track.KYALAMI,
-            Track.MONACO,
-            Track.NURBURGRING,
-            Track.SILVERSTONE,
-            Track.SPA_FRANCORCHAMPS,
-            Track.MONZA,
-            Track.SURFERS_PARADISE,
-            Track.SUZUKA,
-            Track.LAS_VEGAS,
-            Track.INTERLAGOS
-    }),
-    SEASON_6(new Track[]{
-            Track.MELBOURNE,
-            Track.KYALAMI,
-            Track.MONACO,
-            Track.NURBURGRING,
-            Track.SILVERSTONE,
-            Track.SPA_FRANCORCHAMPS,
-            Track.MONZA,
-            Track.INDIANAPOLIS,
-            Track.INTERLAGOS,
-            Track.SUZUKA
-    }),
-    SEASON_7(new Track[]{
-            Track.MELBOURNE,
-            Track.SEPANG,
-            Track.KYALAMI,
-            Track.ALGARVE,
-            Track.SILVERSTONE,
-            Track.MONACO,
-            Track.SPA_FRANCORCHAMPS,
-            Track.MONZA,
-            Track.INTERLAGOS,
-            Track.HERMANOS_RODRIGUEZ,
-            Track.ROAD_AMERICA,
-            Track.SUZUKA
-    }),
-    SEASON_8(new Track[]{
-            Track.MELBOURNE,
-            Track.SEPANG,
-            Track.SAKHIR,
-            Track.ALGARVE,
-            Track.BARCELONA,
-            Track.MONACO,
-            Track.SILVERSTONE,
-            Track.SPA_FRANCORCHAMPS,
-            Track.MONZA,
-            Track.SUZUKA,
-            Track.INTERLAGOS
     }),
     SEASON_9(new Track[]{
             Track.MELBOURNE,
@@ -117,16 +110,30 @@ public enum Calendar {
             Track.MONZA,
             Track.ROAD_AMERICA,
             Track.INTERLAGOS,
-            Track.ZHUHAI,
             Track.SUZUKA
     }),
     SEASON_10(new Track[]{
             Track.MELBOURNE,
             Track.SEPANG,
             Track.SAKHIR,
+            Track.ALGARVE,
+            Track.BARCELONA,
+            Track.MONTE_CARLO,
+            Track.NURBURGRING,
+            Track.SILVERSTONE,
+            Track.SPA_FRANCORCHAMPS,
+            Track.MONZA,
+            Track.INDIANAPOLIS,
+            Track.SUZUKA,
+            Track.INTERLAGOS
+    }),
+    SEASON_11(new Track[]{
+            Track.MELBOURNE,
+            Track.SEPANG,
+            Track.SAKHIR,
             Track.KYALAMI,
             Track.BARCELONA,
-            Track.MONACO,
+            Track.MONTE_CARLO,
             Track.SILVERSTONE,
             Track.NURBURGRING,
             Track.LE_MANS_BUGATTI,
@@ -137,13 +144,13 @@ public enum Calendar {
             Track.INTERLAGOS,
             Track.SUZUKA
     }),
-    SEASON_11(new Track[]{
+    SEASON_12(new Track[]{
             Track.MELBOURNE,
             Track.SEPANG,
             Track.SAKHIR,
             Track.KYALAMI,
             Track.BARCELONA,
-            Track.MONACO,
+            Track.MONTE_CARLO,
             Track.MONTREAL,
             Track.SILVERSTONE,
             Track.NURBURGRING,
@@ -154,14 +161,14 @@ public enum Calendar {
             Track.SUZUKA,
             Track.INTERLAGOS
     }),
-    SEASON_12(new Track[]{
+    SEASON_13(new Track[]{
             Track.MELBOURNE,
             Track.SEPANG,
             Track.SAKHIR,
             Track.KYALAMI,
             Track.ALGARVE,
             Track.BARCELONA,
-            Track.MONACO,
+            Track.MONTE_CARLO,
             Track.SILVERSTONE,
             Track.NURBURGRING,
             Track.LE_MANS_BUGATTI,
@@ -170,16 +177,15 @@ public enum Calendar {
             Track.INDIANAPOLIS,
             Track.MONTREAL,
             Track.INTERLAGOS,
-            Track.SHANGHAI,
             Track.SUZUKA
     }),
-    SEASON_13(new Track[]{
+    SEASON_14(new Track[]{
             Track.MELBOURNE,
             Track.SEPANG,
             Track.SHANGHAI,
             Track.SAKHIR,
             Track.BARCELONA,
-            Track.MONACO,
+            Track.MONTE_CARLO,
             Track.SILVERSTONE,
             Track.NURBURGRING,
             Track.LE_MANS_BUGATTI,
@@ -188,61 +194,64 @@ public enum Calendar {
             Track.ALGARVE,
             Track.MONTREAL,
             Track.ROAD_AMERICA,
-            Track.HERMANOS_RODRIGUEZ,
             Track.INTERLAGOS,
             Track.SUZUKA
     }),
-    SEASON_14(new Track[]{
-            Track.KYALAMI,
-            Track.SEPANG,
-            Track.SHANGHAI_TAINMA,
-            Track.SAKHIR,
-            Track.CHANG,
-            Track.ALGARVE,
-            Track.BARCELONA,
-            Track.MONACO,
-            Track.BRNO,
-            Track.MUGELLO,
-            Track.LE_MANS_BUGATTI,
-            Track.WATKINS_GLEN,
-            Track.FUJI,
-            Track.ROAD_AMERICA,
-            Track.ZHUHAI,
-            Track.HERMANOS_RODRIGUEZ
-    }),
     SEASON_15(new Track[]{
-            Track.MELBOURNE,
-            Track.SEPANG,
-            Track.SHANGHAI_TAINMA,
-            Track.SAKHIR,
-            Track.CHANG,
-            Track.BARCELONA,
-            Track.MONACO,
-            Track.SPIELBERG,
-            Track.SILVERSTONE,
-            Track.NURBURGRING,
-            Track.HUNGARORING,
-            Track.SPA_FRANCORCHAMPS,
-            Track.MUGELLO,
-            Track.BRNO,
-            Track.ALGARVE,
-            Track.WATKINS_GLEN,
             Track.INTERLAGOS,
-            Track.SUZUKA,
-            Track.ZHUHAI,
-            Track.ROAD_AMERICA,
-            Track.MOST
-    }),
-    SEASON_16(new Track[]{
+            Track.KYALAMI,
+            Track.MELBOURNE,
             Track.IMOLA,
+            Track.BARCELONA,
+            Track.MONTE_CARLO,
             Track.SILVERSTONE,
             Track.NURBURGRING,
-            Track.ZANDVOORT,
+            Track.LE_MANS_BUGATTI,
             Track.SPA_FRANCORCHAMPS,
             Track.MONZA,
-            Track.MUGELLO,
+            Track.MONTREAL,
+            Track.WATKINS_GLEN,
+            Track.ROAD_AMERICA,
+            Track.CHANG,
+            Track.SUZUKA
+    }),
+    SEASON_16(new Track[]{
+            Track.MELBOURNE,
+            Track.SEPANG,
             Track.SAKHIR,
-            Track.SAKHIR_OUTER
+            Track.KYALAMI,
+            Track.BARCELONA,
+            Track.MONTE_CARLO,
+            Track.SILVERSTONE,
+            Track.NURBURGRING,
+            Track.BRNO,
+            Track.SPA_FRANCORCHAMPS,
+            Track.MONZA,
+            Track.LE_MANS_BUGATTI,
+            Track.ALGARVE,
+            Track.MUGELLO,
+            Track.MONTREAL,
+            Track.WATKINS_GLEN,
+            Track.CHANG,
+            Track.SUZUKA,
+            Track.INTERLAGOS,
+            Track.MOST
+    }),
+    SEASON_17(new Track[]{
+            Track.MELBOURNE,
+            Track.SEPANG,
+            Track.SAKHIR,
+            Track.KYALAMI,
+            Track.MONTE_CARLO,
+            Track.SILVERSTONE,
+            Track.SPA_FRANCORCHAMPS,
+            Track.MONZA,
+            Track.MONTREAL,
+            Track.WATKINS_GLEN,
+            Track.ROAD_AMERICA,
+            Track.INTERLAGOS,
+            Track.CHANG,
+            Track.SUZUKA
     });
 
     private final Track[] tracks;
@@ -250,5 +259,4 @@ public enum Calendar {
     Calendar(Track[] tracks) {
         this.tracks = tracks;
     }
-
 }
