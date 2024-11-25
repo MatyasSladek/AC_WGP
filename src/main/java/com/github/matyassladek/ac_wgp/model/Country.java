@@ -5,7 +5,7 @@ import lombok.Getter;
 import org.eclipse.jdt.annotation.NonNullByDefault;
 
 /**
- * Flags downloaded from https://flagicons.lipis.dev/
+ * Flags downloaded from <a href="https://flagicons.lipis.dev/">...</a>
  */
 @AllArgsConstructor
 @NonNullByDefault
@@ -177,7 +177,7 @@ public enum Country {
     PAN("Panama", "PAN", "/country/pa.svg"),
     PER("Peru", "PER", "/country/pe.svg"),
     PYF("French Polynesia", "PYF", "/country/pf.svg"),
-    svg("Papua New Guinea", "svg", "/country/pg.svg"),
+    PNG("Papua New Guinea", "PNG", "/country/pg.svg"),
     PHL("Philippines", "PHL", "/country/ph.svg"),
     PAK("Pakistan", "PAK", "/country/pk.svg"),
     POL("Poland", "POL", "/country/pl.svg"),
