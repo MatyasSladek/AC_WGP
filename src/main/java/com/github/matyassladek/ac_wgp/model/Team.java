@@ -4,10 +4,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.eclipse.jdt.annotation.NonNullByDefault;
 
 @Getter
 @Setter
+@ToString
 @NonNullByDefault
 public class Team {
 

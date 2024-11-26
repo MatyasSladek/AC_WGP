@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.eclipse.jdt.annotation.NonNullByDefault;
 
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import java.util.List;
 
 @Setter
 @Getter
+@ToString
 @NonNullByDefault
 public class Championship {
 
@@ -49,6 +51,7 @@ public class Championship {
 
     @Setter
     @Getter
+    @ToString
     @NonNullByDefault
     public static class DriverSlot {
 
@@ -70,6 +73,7 @@ public class Championship {
 
     @Setter
     @Getter
+    @ToString
     @NonNullByDefault
     public static class TeamSlot {
 
