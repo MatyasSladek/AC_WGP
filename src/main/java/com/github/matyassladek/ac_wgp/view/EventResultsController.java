@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
+import java.util.logging.Logger;
 import java.io.IOException;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -16,6 +17,8 @@ import java.util.List;
 import java.util.Set;
 
 public class EventResultsController extends ViewController {
+
+    private static final Logger log = Logger.getLogger(EventResultsController.class.getName());
 
     @FXML private ChoiceBox<String> choiceBoxPosition1;
     @FXML private ChoiceBox<String> choiceBoxPosition2;
@@ -87,7 +90,7 @@ public class EventResultsController extends ViewController {
 
     @FXML
     private void onSubmitButtonClick() throws IOException {
-        System.out.println("Submit button clicked!");
+        log.info("EventResultsController submit button clicked");
 
         // Validate that no duplicate drivers are selected
         if (!validateDriverSelections()) {
@@ -95,6 +98,8 @@ public class EventResultsController extends ViewController {
             return;
         }
         addChampionshipPoints(game.getCurrentChampionship());
+        log.info(game.getCurrentChampionship().getDriversStandings().toString());
+        log.info(game.getCurrentChampionship().getConstructorsStandings().toString());
         showNextScreen();
     }
 
@@ -130,13 +135,15 @@ public class EventResultsController extends ViewController {
         for (int i = 0; i < 10; i++) {
             for (Championship.DriverSlot driverSlot : driversStandings) {
                 if (driverSlot.getDriver().getName().equals(raceResult.get(i))) {
-                    driverSlot.setPoints(currentChampionship.getScoring()[i]);
-                }
-                for (Championship.TeamSlot teamSlot : constructorsStandings) {
-                    if (teamSlot.getTeam().getDriver1() == driverSlot.getDriver()
-                            ^ teamSlot.getTeam().getDriver2() == driverSlot.getDriver()) {
-                        teamSlot.setPoints(currentChampionship.getScoring()[i]);
+                    driverSlot.setPoints(driverSlot.getPoints() + currentChampionship.getScoring()[i]);
+                    for (Championship.TeamSlot teamSlot : constructorsStandings) {
+                        if (teamSlot.getTeam().getDriver1() == driverSlot.getDriver()
+                                || teamSlot.getTeam().getDriver2() == driverSlot.getDriver()) {
+                            teamSlot.setPoints(teamSlot.getPoints() + currentChampionship.getScoring()[i]);
+                            break;
+                        }
                     }
+                    break;
                 }
             }
         }
