@@ -60,8 +60,6 @@ public class DriverStandingsController extends ViewController {
     @FXML
     private void onContinueButtonClick() throws IOException {
         System.out.println("Continue button clicked!");
-//        showNextScreen();
-        // Action to perform when the "Continue" button is clicked
-        // Example: Navigate to another scene or perform game logic
+        showNextScreen();
     }
 }
