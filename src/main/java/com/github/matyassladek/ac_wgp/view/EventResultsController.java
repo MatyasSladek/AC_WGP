@@ -126,11 +126,18 @@ public class EventResultsController extends ViewController {
 
     private List<Championship.DriverSlot> updateDriversChampionship(Championship currentChampionship) {
         List<Championship.DriverSlot> driversStandings = currentChampionship.getDriversStandings();
+        List<Championship.TeamSlot> constructorsStandings = currentChampionship.getConstructorsStandings();
         List<String> raceResult = getSelectedValues();
         for (int i = 0; i < 10; i++) {
             for (Championship.DriverSlot driverSlot : driversStandings) {
                 if (driverSlot.getDriver().getName().equals(raceResult.get(i))) {
                     driverSlot.setPoints(currentChampionship.getScoring()[i]);
+                }
+                for (Championship.TeamSlot teamSlot : constructorsStandings) {
+                    if (teamSlot.getTeam().getDriver1() == driverSlot.getDriver()
+                            ^ teamSlot.getTeam().getDriver2() == driverSlot.getDriver()) {
+                        teamSlot.setPoints(currentChampionship.getScoring()[i]);
+                    }
                 }
             }
         }
