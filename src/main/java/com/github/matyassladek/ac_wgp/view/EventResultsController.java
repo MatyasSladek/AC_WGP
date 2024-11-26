@@ -120,11 +120,10 @@ public class EventResultsController extends ViewController {
     }
 
     private void addChampionshipPoints(Championship currentChampionship) {
-        currentChampionship.setDriversStandings(updateDriversChampionship(currentChampionship));
-        setConstructorsChampionship(currentChampionship.getConstructorsStandings());
+        game.setCurrentChampionship(updateChampionship(currentChampionship));
     }
 
-    private List<Championship.DriverSlot> updateDriversChampionship(Championship currentChampionship) {
+    private Championship updateChampionship(Championship currentChampionship) {
         List<Championship.DriverSlot> driversStandings = currentChampionship.getDriversStandings();
         List<Championship.TeamSlot> constructorsStandings = currentChampionship.getConstructorsStandings();
         List<String> raceResult = getSelectedValues();
@@ -142,10 +141,9 @@ public class EventResultsController extends ViewController {
             }
         }
         driversStandings.sort(Comparator.comparingInt(Championship.DriverSlot::getPoints).reversed());
-        return driversStandings;
+        constructorsStandings.sort(Comparator.comparingInt(Championship.TeamSlot::getPoints).reversed());
+        return currentChampionship;
     }
-
-    private void setConstructorsChampionship(List<Championship.TeamSlot> constructorsStandings) { return; }
 
     private List<String> getSelectedValues() {
         return choiceBoxes.stream()
