@@ -97,7 +97,7 @@ public class EventResultsController extends ViewController {
             showAlert("Error", "Duplicate driver selected!", AlertType.ERROR);
             return;
         }
-        addChampionshipPoints(game.getCurrentChampionship());
+        game.setCurrentChampionship(updateChampionship(game.getCurrentChampionship()));
         log.info(game.getCurrentChampionship().getDriversStandings().toString());
         log.info(game.getCurrentChampionship().getConstructorsStandings().toString());
         showNextScreen();
@@ -122,10 +122,6 @@ public class EventResultsController extends ViewController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
-    }
-
-    private void addChampionshipPoints(Championship currentChampionship) {
-        game.setCurrentChampionship(updateChampionship(currentChampionship));
     }
 
     private Championship updateChampionship(Championship currentChampionship) {
