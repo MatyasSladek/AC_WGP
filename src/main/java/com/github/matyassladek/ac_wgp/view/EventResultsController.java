@@ -60,7 +60,6 @@ public class EventResultsController extends ViewController {
     }
 
     public void initialize() {
-        // Initialize choiceBoxes list
         choiceBoxes = List.of(
                 choiceBoxPosition1, choiceBoxPosition2, choiceBoxPosition3, choiceBoxPosition4,
                 choiceBoxPosition5, choiceBoxPosition6, choiceBoxPosition7, choiceBoxPosition8,
@@ -77,11 +76,9 @@ public class EventResultsController extends ViewController {
         for (int i = 0; i < choiceBoxes.size(); i++) {
             ChoiceBox<String> choiceBox = choiceBoxes.get(i);
             choiceBox.getItems().clear();
-            // Add driver names from the championship drivers
             for (Driver driver : drivers) {
                 choiceBox.getItems().add(driver.getName());
             }
-            // Set default value for each position (e.g., starting order of drivers in championship)
             if (i < drivers.size()) {
                 choiceBox.setValue(drivers.get(i).getName());
             }
@@ -91,8 +88,6 @@ public class EventResultsController extends ViewController {
     @FXML
     private void onSubmitButtonClick() throws IOException {
         log.info("EventResultsController submit button clicked");
-
-        // Validate that no duplicate drivers are selected
         if (!validateDriverSelections()) {
             showAlert("Error", "Duplicate driver selected!", AlertType.ERROR);
             return;
@@ -103,16 +98,15 @@ public class EventResultsController extends ViewController {
         showNextScreen();
     }
 
-    // Validates that no driver is selected more than once
     private boolean validateDriverSelections() {
         Set<String> selectedDrivers = new HashSet<>();
         for (ChoiceBox<String> choiceBox : choiceBoxes) {
             String driver = choiceBox.getValue();
             if (driver != null && !selectedDrivers.add(driver)) {
-                return false; // Duplicate found
+                return false;
             }
         }
-        return true; // No duplicates
+        return true;
     }
 
     // Helper method to show alerts
@@ -150,7 +144,7 @@ public class EventResultsController extends ViewController {
 
     private List<String> getSelectedValues() {
         return choiceBoxes.stream()
-                .map(ChoiceBox::getValue) // Get the selected value for each ChoiceBox
+                .map(ChoiceBox::getValue)
                 .toList();
     }
 
