@@ -40,9 +40,8 @@ public class NextEventController extends ViewController {
             circuitLabel.setText(nextTrack.getName());
             lapsLabel.setText("Laps: " + nextTrack.getLaps());
         } else {
-            circuitLabel.setText("Season Complete");
-            lapsLabel.setText("");
-            raceButton.setDisable(true);
+            game.setCurrentSeason(game.getCurrentSeason() + 1);
+            //TODO: add logic for new season
         }
     }
 
