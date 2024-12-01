@@ -21,7 +21,7 @@ public class Game {
 
 
     @JsonProperty("allSeasons")
-    private final Track[][] allSeasons;
+    private final List<List<Track>> allSeasons;
 
     @JsonProperty("player")
     private final Driver player;
@@ -44,14 +44,25 @@ public class Game {
     }
 
     @JsonIgnore
-    public Track[][] getAllSeasons() {
+    public List<List<Track>> getAllSeasons() {
         return allSeasons;
+    }
+
+    @JsonIgnore
+    public boolean newSeason() {
+        if (currentSeason < allSeasons.size()) {
+            setCurrentSeason(currentSeason + 1);
+            setCurrentChampionship(championshipInit());
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @JsonIgnore
     private Championship championshipInit() {
         ChampionshipFactory championshipFactory = new ChampionshipFactory();
-        return championshipFactory.createChampionship(teams, allSeasons[currentSeason]);
+        return championshipFactory.createChampionship(teams, allSeasons.get(currentSeason));
     }
 
     @JsonIgnore
@@ -61,7 +72,7 @@ public class Game {
     }
 
     @JsonIgnore
-    private Track[][] allSeasonsInit() {
+    private List<List<Track>> allSeasonsInit() {
         CalendarFactory calendarFactory = new CalendarFactory();
         return calendarFactory.createAllSeasons();
     }

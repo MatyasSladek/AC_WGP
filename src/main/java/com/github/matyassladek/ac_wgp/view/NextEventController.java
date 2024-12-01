@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
 import java.io.IOException;
+import java.util.List;
 
 public class NextEventController extends ViewController {
 
@@ -33,15 +34,28 @@ public class NextEventController extends ViewController {
         if (game == null) return;
 
         int currentRound = game.getCurrentChampionship().getCurrentRound();
-        Track[] calendar = game.getCurrentChampionship().getCalendar();
+        List<Track> calendar = game.getCurrentChampionship().getCalendar();
 
-        if (currentRound < calendar.length) {
-            Track nextTrack = calendar[currentRound];
+        if (currentRound < calendar.size()) {
+            Track nextTrack = calendar.get(currentRound);
             circuitLabel.setText(nextTrack.getName());
             lapsLabel.setText("Laps: " + nextTrack.getLaps());
         } else {
             game.setCurrentSeason(game.getCurrentSeason() + 1);
             //TODO: add logic for new season
+            currentRound = game.getCurrentChampionship().getCurrentRound();
+
+//        List<Track> calendar = game.getCurrentChampionship().getCalendar();
+//
+//        if (currentRound >= calendar.size()) {
+//            if (game.newSeason()) {
+//                currentRound = game.getCurrentChampionship().getCurrentRound();
+//                calendar = game.getCurrentChampionship().getCalendar();
+//            } else {
+//                circuitLabel.setText("Retirement");
+//                lapsLabel.setText("You have finished all seasons. " +
+//                        "Time to become TV commentator, youtuber or manager of some young talent!");
+//            }
         }
     }
 

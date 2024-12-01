@@ -18,14 +18,14 @@ public class Event {
     private final int round;
     private final int championshipLength;
     private final Track track;
-    private final int[] scoring;
+    private final List<Integer> scoring;
 
     public Event(Game game) {
         this.game = game;
         this.race = new Race();
         this.round = game.getCurrentChampionship().getCurrentRound();
-        this.championshipLength = game.getCurrentChampionship().getCalendar().length;
-        this.track = game.getCurrentChampionship().getCalendar()[this.round];
+        this.championshipLength = game.getCurrentChampionship().getCalendar().size();
+        this.track = game.getCurrentChampionship().getCalendar().get(this.round);
         this.scoring = game.getCurrentChampionship().getScoring();
     }
 
@@ -45,7 +45,7 @@ public class Event {
         for (int i = 0; i < 10; i++) {
             for (Championship.DriverSlot driver : driverStandings) {
                 if (driver.getDriver().equals(result.get(i))) {
-                    driver.setPoints(driver.getPoints() + scoring[i]);
+                    driver.setPoints(driver.getPoints() + scoring.get(i));
                     break;
                 }
             }
@@ -58,7 +58,7 @@ public class Event {
             game.getCurrentChampionship().setCurrentRound(round + 1);
             return true;
         }
-        if (game.getCurrentSeason() + 1 < game.getAllSeasons().length) {
+        if (game.getCurrentSeason() + 1 < game.getAllSeasons().size()) {
             game.setCurrentSeason(game.getCurrentSeason() + 1);
             return true;
         }

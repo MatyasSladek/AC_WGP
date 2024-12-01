@@ -9,7 +9,7 @@ import java.util.List;
 
 public class ChampionshipFactory {
 
-    public Championship createChampionship(List<Team> teams, Track[] season) {
+    public Championship createChampionship(List<Team> teams, List<Track> season) {
         Championship championship = new Championship(season);
         championship.setDriversStandings(createDriverStandings(teams));
         championship.setConstructorsStandings(createConstructorsStandings(teams));

@@ -17,10 +17,10 @@ import java.util.List;
 public class Championship {
 
     @JsonProperty("calendar")
-    private Track[] calendar;
+    private List<Track> calendar;
 
     @JsonProperty("scoring")
-    private final int[] scoring;
+    private final List<Integer> scoring;
 
     @JsonProperty("currentRound")
     private int currentRound;
@@ -34,9 +34,9 @@ public class Championship {
     @JsonProperty("results")
     private List<Race> results;
 
-    public Championship(Track[] calendar) {
+    public Championship(List<Track> calendar) {
         this.calendar = calendar;
-        this.scoring = new int[]{50, 30, 20, 15, 10, 5, 4, 3, 2, 1};
+        this.scoring = List.of(50, 30, 20, 15, 10, 5, 4, 3, 2, 1);
         this.currentRound = 0;
     }
 

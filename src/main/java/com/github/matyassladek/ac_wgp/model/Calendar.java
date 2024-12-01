@@ -1,12 +1,16 @@
 package com.github.matyassladek.ac_wgp.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.eclipse.jdt.annotation.NonNullByDefault;
 
+import java.util.List;
+
 @Getter
+@AllArgsConstructor
 @NonNullByDefault
 public enum Calendar {
-    SEASON_1(new Track[]{
+    SEASON_1(List.of(
             Track.IMOLA,
             Track.SILVERSTONE,
             Track.NURBURGRING,
@@ -14,16 +18,16 @@ public enum Calendar {
             Track.SPA_FRANCORCHAMPS,
             Track.MONZA,
             Track.MUGELLO
-    }),
-    SEASON_2(new Track[]{
+    )),
+    SEASON_2(List.of(
             Track.SILVERSTONE,
             Track.NURBURGRING,
             Track.MUGELLO,
             Track.LE_MANS_BUGATTI,
             Track.ROAD_AMERICA,
             Track.SUZUKA
-    }),
-    SEASON_3(new Track[]{
+    )),
+    SEASON_3(List.of(
             Track.MELBOURNE,
             Track.KYALAMI,
             Track.SILVERSTONE,
@@ -33,8 +37,8 @@ public enum Calendar {
             Track.ROAD_AMERICA,
             Track.INTERLAGOS,
             Track.SUZUKA
-    }),
-    SEASON_4(new Track[]{
+    )),
+    SEASON_4(List.of(
             Track.MELBOURNE,
             Track.KYALAMI,
             Track.SILVERSTONE,
@@ -45,8 +49,8 @@ public enum Calendar {
             Track.ROAD_AMERICA,
             Track.SUZUKA,
             Track.INTERLAGOS
-    }),
-    SEASON_5(new Track[]{
+    )),
+    SEASON_5(List.of(
             Track.MELBOURNE,
             Track.KYALAMI,
             Track.MONTE_CARLO,
@@ -57,8 +61,8 @@ public enum Calendar {
             Track.SUZUKA,
             Track.ROAD_AMERICA,
             Track.INTERLAGOS
-    }),
-    SEASON_6(new Track[]{
+    )),
+    SEASON_6(List.of(
             Track.MELBOURNE,
             Track.KYALAMI,
             Track.MONTE_CARLO,
@@ -69,8 +73,8 @@ public enum Calendar {
             Track.ROAD_AMERICA,
             Track.INTERLAGOS,
             Track.SUZUKA
-    }),
-    SEASON_7(new Track[]{
+    )),
+    SEASON_7(List.of(
             Track.MELBOURNE,
             Track.SEPANG,
             Track.KYALAMI,
@@ -83,8 +87,8 @@ public enum Calendar {
             Track.ROAD_AMERICA,
             Track.INTERLAGOS,
             Track.SUZUKA
-    }),
-    SEASON_8(new Track[]{
+    )),
+    SEASON_8(List.of(
             Track.MELBOURNE,
             Track.SEPANG,
             Track.KYALAMI,
@@ -96,8 +100,8 @@ public enum Calendar {
             Track.ROAD_AMERICA,
             Track.INTERLAGOS,
             Track.SUZUKA
-    }),
-    SEASON_9(new Track[]{
+    )),
+    SEASON_9(List.of(
             Track.MELBOURNE,
             Track.SEPANG,
             Track.SAKHIR,
@@ -111,8 +115,8 @@ public enum Calendar {
             Track.ROAD_AMERICA,
             Track.INTERLAGOS,
             Track.SUZUKA
-    }),
-    SEASON_10(new Track[]{
+    )),
+    SEASON_10(List.of(
             Track.MELBOURNE,
             Track.SEPANG,
             Track.SAKHIR,
@@ -126,8 +130,8 @@ public enum Calendar {
             Track.INDIANAPOLIS,
             Track.SUZUKA,
             Track.INTERLAGOS
-    }),
-    SEASON_11(new Track[]{
+    )),
+    SEASON_11(List.of(
             Track.MELBOURNE,
             Track.SEPANG,
             Track.SAKHIR,
@@ -143,8 +147,8 @@ public enum Calendar {
             Track.MONTREAL,
             Track.INTERLAGOS,
             Track.SUZUKA
-    }),
-    SEASON_12(new Track[]{
+    )),
+    SEASON_12(List.of(
             Track.MELBOURNE,
             Track.SEPANG,
             Track.SAKHIR,
@@ -160,8 +164,8 @@ public enum Calendar {
             Track.INDIANAPOLIS,
             Track.SUZUKA,
             Track.INTERLAGOS
-    }),
-    SEASON_13(new Track[]{
+    )),
+    SEASON_13(List.of(
             Track.MELBOURNE,
             Track.SEPANG,
             Track.SAKHIR,
@@ -178,8 +182,8 @@ public enum Calendar {
             Track.MONTREAL,
             Track.INTERLAGOS,
             Track.SUZUKA
-    }),
-    SEASON_14(new Track[]{
+    )),
+    SEASON_14(List.of(
             Track.MELBOURNE,
             Track.SEPANG,
             Track.KYALAMI,
@@ -196,8 +200,8 @@ public enum Calendar {
             Track.ROAD_AMERICA,
             Track.INTERLAGOS,
             Track.SUZUKA
-    }),
-    SEASON_15(new Track[]{
+    )),
+    SEASON_15(List.of(
             Track.INTERLAGOS,
             Track.KYALAMI,
             Track.MELBOURNE,
@@ -214,8 +218,8 @@ public enum Calendar {
             Track.ROAD_AMERICA,
             Track.CHANG,
             Track.SUZUKA
-    }),
-    SEASON_16(new Track[]{
+    )),
+    SEASON_16(List.of(
             Track.MELBOURNE,
             Track.SEPANG,
             Track.SAKHIR,
@@ -236,8 +240,8 @@ public enum Calendar {
             Track.SUZUKA,
             Track.INTERLAGOS,
             Track.MOST
-    }),
-    SEASON_17(new Track[]{
+    )),
+    SEASON_17(List.of(
             Track.MELBOURNE,
             Track.SEPANG,
             Track.SAKHIR,
@@ -252,11 +256,7 @@ public enum Calendar {
             Track.INTERLAGOS,
             Track.CHANG,
             Track.SUZUKA
-    });
+    ));
 
-    private final Track[] tracks;
-
-    Calendar(Track[] tracks) {
-        this.tracks = tracks;
-    }
+    private final List<Track> tracks;
 }

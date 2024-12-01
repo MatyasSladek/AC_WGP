@@ -125,11 +125,11 @@ public class EventResultsController extends ViewController {
         for (int i = 0; i < 10; i++) {
             for (Championship.DriverSlot driverSlot : driversStandings) {
                 if (driverSlot.getDriver().getName().equals(raceResult.get(i))) {
-                    driverSlot.setPoints(driverSlot.getPoints() + currentChampionship.getScoring()[i]);
+                    driverSlot.setPoints(driverSlot.getPoints() + currentChampionship.getScoring().get(i));
                     for (Championship.TeamSlot teamSlot : constructorsStandings) {
                         if (teamSlot.getTeam().getDriver1() == driverSlot.getDriver()
                                 || teamSlot.getTeam().getDriver2() == driverSlot.getDriver()) {
-                            teamSlot.setPoints(teamSlot.getPoints() + currentChampionship.getScoring()[i]);
+                            teamSlot.setPoints(teamSlot.getPoints() + currentChampionship.getScoring().get(i));
                             break;
                         }
                     }
