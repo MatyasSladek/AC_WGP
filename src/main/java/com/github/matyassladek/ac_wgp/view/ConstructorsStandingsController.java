@@ -1,6 +1,7 @@
 package com.github.matyassladek.ac_wgp.view;
 
 import com.github.matyassladek.ac_wgp.controller.Game;
+import com.github.matyassladek.ac_wgp.controller.GameManager;
 import com.github.matyassladek.ac_wgp.model.Championship;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -43,6 +44,7 @@ public class ConstructorsStandingsController extends ViewController {
     private void onSubmitButtonClick() throws IOException {
         System.out.println("Continue button clicked!");
         game.getCurrentChampionship().setCurrentRound((1 + game.getCurrentChampionship().getCurrentRound()));
+        GameManager.saveGame(game);
         showNextScreen();
     }
 
