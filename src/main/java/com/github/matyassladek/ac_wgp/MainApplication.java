@@ -37,37 +37,28 @@ public class MainApplication extends Application {
         stage.show();
     }
 
-    public void shN(String fxmlFile, Game game) throws IOException {
-        FXMLLoader loader = new FXMLLoader(MainApplication.class.getResource(fxmlFile));
-        Parent root = loader.load();
-        ViewController controller = loader.getController();
-        controller.setGame(game);
-        primaryStage.setScene(new Scene(root, primaryStage.getWidth(), primaryStage.getHeight()));
-        primaryStage.setFullScreen(true);
-        primaryStage.show();
-    }
-
     public void showNext(String fxmlFile, Game game) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource(fxmlFile));
-        Parent root = fxmlLoader.load();
-        ViewController controller = fxmlLoader.getController();
+        FXMLLoader loader = new FXMLLoader(MainApplication.class.getResource(fxmlFile));
+        Parent newRoot = loader.load();
+        ViewController controller = loader.getController();
         controller.setMainApplication(this);
         controller.setGame(game);
-        Scene newScene = new Scene(root, primaryStage.getWidth(), primaryStage.getHeight());
 
-        FadeTransition fadeOut = new FadeTransition(Duration.millis(500), primaryStage.getScene().getRoot());
+        Scene currentScene = primaryStage.getScene();
+        Parent currentRoot = currentScene.getRoot();
+
+        // Fade out the current root
+        FadeTransition fadeOut = new FadeTransition(Duration.millis(500), currentRoot);
         fadeOut.setFromValue(1.0);
         fadeOut.setToValue(0.0);
 
         fadeOut.setOnFinished(event -> {
-            // Po skončení fadeOut, přepneme scénu
-            primaryStage.setScene(newScene);
+            // Prepare the new root (hidden initially)
+            newRoot.setOpacity(0.0);
+            currentScene.setRoot(newRoot);
 
-            // Nastavte režim celé obrazovky znovu
-            primaryStage.setFullScreen(true);
-
-            // Vytvoření fadeIn efektu pro novou scénu
-            FadeTransition fadeIn = new FadeTransition(Duration.millis(500), newScene.getRoot());
+            // Fade in the new root
+            FadeTransition fadeIn = new FadeTransition(Duration.millis(500), newRoot);
             fadeIn.setFromValue(0.0);
             fadeIn.setToValue(1.0);
             fadeIn.play();
