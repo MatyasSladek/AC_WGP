@@ -7,7 +7,6 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -33,6 +32,7 @@ public class MainApplication extends Application {
         stage.setTitle("Assetto Corsa: World Grand Prix Championship Career");
         stage.setScene(scene);
         stage.setFullScreen(true);
+        stage.setFullScreenExitHint("");
         stage.setResizable(false);
         stage.show();
     }
