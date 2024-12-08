@@ -27,8 +27,30 @@ public class NavigationManager {
         controller.setNavigationManager(this);
         controller.setGame(game);
         controller.setGameManager(gameManager);
+        animate(newRoot);
+    }
 
-        // Scene transition logic
+    public void init() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource(FXMLFile.CREATE_DRIVER.getFileName()));
+        Parent root = fxmlLoader.load();
+        ViewController controller = fxmlLoader.getController();
+        controller.setNavigationManager(this);
+        controller.setGameManager(new GameManager());
+
+        sceneInit(root);
+    }
+
+    private void sceneInit(Parent root) {
+        Scene scene = new Scene(root);
+        primaryStage.setTitle("Assetto Corsa: World Grand Prix Championship Career");
+        primaryStage.setScene(scene);
+        primaryStage.setFullScreen(true);
+        primaryStage.setFullScreenExitHint("");
+        primaryStage.setResizable(false);
+        primaryStage.show();
+    }
+
+    private void animate(Parent newRoot) {
         Scene currentScene = primaryStage.getScene();
         Parent currentRoot = currentScene.getRoot();
 
@@ -46,21 +68,5 @@ public class NavigationManager {
         });
 
         fadeOut.play();
-    }
-
-    public void init() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource(FXMLFile.CREATE_DRIVER.getFileName()));
-        Parent root = fxmlLoader.load();
-        ViewController controller = fxmlLoader.getController();
-        controller.setNavigationManager(this);
-        controller.setGameManager(new GameManager());
-
-        Scene scene = new Scene(root, 1200, 800);
-        primaryStage.setTitle("Assetto Corsa: World Grand Prix Championship Career");
-        primaryStage.setScene(scene);
-        primaryStage.setFullScreen(true);
-        primaryStage.setFullScreenExitHint("");
-        primaryStage.setResizable(false);
-        primaryStage.show();
     }
 }
