@@ -1,6 +1,7 @@
-package com.github.matyassladek.ac_wgp.controller;
+package com.github.matyassladek.ac_wgp.management;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.matyassladek.ac_wgp.controller.Game;
 
 import java.io.File;
 import java.io.IOException;

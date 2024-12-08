@@ -1,7 +1,7 @@
 package com.github.matyassladek.ac_wgp.view;
 
 import com.github.matyassladek.ac_wgp.controller.Game;
-import com.github.matyassladek.ac_wgp.controller.GameManager;
+import com.github.matyassladek.ac_wgp.management.GameManager;
 import com.github.matyassladek.ac_wgp.model.Track;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;

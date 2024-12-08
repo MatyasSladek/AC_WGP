@@ -24,4 +24,6 @@ module com.github.matyassladek.ac_wgp {
     exports com.github.matyassladek.ac_wgp.model;
     opens com.github.matyassladek.ac_wgp.controller to com.fasterxml.jackson.databind;
     opens com.github.matyassladek.ac_wgp.model to com.fasterxml.jackson.databind;
+    exports com.github.matyassladek.ac_wgp.management;
+    opens com.github.matyassladek.ac_wgp.management to com.fasterxml.jackson.databind;
 }

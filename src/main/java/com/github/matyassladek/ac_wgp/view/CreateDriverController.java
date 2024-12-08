@@ -1,7 +1,7 @@
 package com.github.matyassladek.ac_wgp.view;
 
 import com.github.matyassladek.ac_wgp.controller.Game;
-import com.github.matyassladek.ac_wgp.controller.GameManager;
+import com.github.matyassladek.ac_wgp.management.GameManager;
 import com.github.matyassladek.ac_wgp.model.Country;
 import com.github.matyassladek.ac_wgp.model.Manufacture;
 import javafx.collections.FXCollections;

@@ -1,7 +1,7 @@
 package com.github.matyassladek.ac_wgp.view;
 
-import com.github.matyassladek.ac_wgp.MainApplication;
 import com.github.matyassladek.ac_wgp.controller.Game;
+import com.github.matyassladek.ac_wgp.management.NavigationManager;
 import lombok.Setter;
 
 import java.io.IOException;
@@ -11,7 +11,7 @@ public abstract class ViewController {
 
     protected final String nextScreen;
     protected Game game;
-    protected MainApplication mainApplication;
+    protected NavigationManager navigationManager;
 
     protected ViewController(String nextScreen) {
         this.nextScreen = nextScreen;
@@ -19,7 +19,7 @@ public abstract class ViewController {
 
     protected void showNextScreen() throws IOException {
         try {
-            mainApplication.showNext(nextScreen, game);
+            navigationManager.navigateTo(nextScreen, game);
         } catch (IOException e) {
             e.printStackTrace();
         }
