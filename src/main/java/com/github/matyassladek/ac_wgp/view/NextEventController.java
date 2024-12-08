@@ -3,7 +3,6 @@ package com.github.matyassladek.ac_wgp.view;
 import com.github.matyassladek.ac_wgp.controller.Game;
 import com.github.matyassladek.ac_wgp.model.Track;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
 import java.io.IOException;
