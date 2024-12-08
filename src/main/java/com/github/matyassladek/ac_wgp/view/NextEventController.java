@@ -17,9 +17,6 @@ public class NextEventController extends ViewController {
     @FXML
     private Label lapsLabel;
 
-    @FXML
-    private Button raceButton;
-
     public NextEventController() {
         super(FXMLFile.EVENT_RESULTS.getFileName());
     }
