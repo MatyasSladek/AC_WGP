@@ -5,10 +5,10 @@ import com.github.matyassladek.ac_wgp.model.Championship;
 import com.github.matyassladek.ac_wgp.model.Driver;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Button;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.io.IOException;
 import java.util.Comparator;
@@ -44,8 +44,6 @@ public class EventResultsController extends ViewController {
     @FXML private ChoiceBox<String> choiceBoxPosition22;
     @FXML private ChoiceBox<String> choiceBoxPosition23;
     @FXML private ChoiceBox<String> choiceBoxPosition24;
-
-    @FXML private Button submitButton;
 
     @Override
     public void setGame(Game game) {
@@ -89,12 +87,14 @@ public class EventResultsController extends ViewController {
     private void onSubmitButtonClick() throws IOException {
         log.info("EventResultsController submit button clicked");
         if (!validateDriverSelections()) {
-            showAlert("Error", "Duplicate driver selected!", AlertType.ERROR);
+            showAlert();
             return;
         }
         game.setCurrentChampionship(updateChampionship(game.getCurrentChampionship()));
-        log.info(game.getCurrentChampionship().getDriversStandings().toString());
-        log.info(game.getCurrentChampionship().getConstructorsStandings().toString());
+        if (log.isLoggable(Level.INFO)) {
+            log.info(() -> game.getCurrentChampionship().getDriversStandings().toString());
+            log.info(() -> game.getCurrentChampionship().getConstructorsStandings().toString());
+        }
         gameManager.saveGame(game);
         showNextScreen();
     }
@@ -111,11 +111,11 @@ public class EventResultsController extends ViewController {
     }
 
     // Helper method to show alerts
-    private void showAlert(String title, String message, AlertType alertType) {
-        Alert alert = new Alert(alertType);
-        alert.setTitle(title);
+    private void showAlert() {
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.setTitle("Error");
         alert.setHeaderText(null);
-        alert.setContentText(message);
+        alert.setContentText("Duplicate driver selected!");
         alert.showAndWait();
     }
 
@@ -123,24 +123,46 @@ public class EventResultsController extends ViewController {
         List<Championship.DriverSlot> driversStandings = currentChampionship.getDriversStandings();
         List<Championship.TeamSlot> constructorsStandings = currentChampionship.getConstructorsStandings();
         List<String> raceResult = getSelectedValues();
+
         for (int i = 0; i < 10; i++) {
-            for (Championship.DriverSlot driverSlot : driversStandings) {
-                if (driverSlot.getDriver().getName().equals(raceResult.get(i))) {
-                    driverSlot.setPoints(driverSlot.getPoints() + currentChampionship.getScoring().get(i));
-                    for (Championship.TeamSlot teamSlot : constructorsStandings) {
-                        if (teamSlot.getTeam().getDriver1() == driverSlot.getDriver()
-                                || teamSlot.getTeam().getDriver2() == driverSlot.getDriver()) {
-                            teamSlot.setPoints(teamSlot.getPoints() + currentChampionship.getScoring().get(i));
-                            break;
-                        }
-                    }
-                    break;
-                }
-            }
+            updateDriverAndConstructorPoints(raceResult.get(i), i, currentChampionship, driversStandings, constructorsStandings);
         }
+
         driversStandings.sort(Comparator.comparingInt(Championship.DriverSlot::getPoints).reversed());
         constructorsStandings.sort(Comparator.comparingInt(Championship.TeamSlot::getPoints).reversed());
+
         return currentChampionship;
+    }
+
+    private void updateDriverAndConstructorPoints(String driverName, int raceIndex, Championship currentChampionship,
+                                                  List<Championship.DriverSlot> driversStandings, List<Championship.TeamSlot> constructorsStandings) {
+        Championship.DriverSlot driverSlot = findDriverSlot(driverName, driversStandings);
+        if (driverSlot == null) return;
+
+        driverSlot.setPoints(driverSlot.getPoints() + currentChampionship.getScoring().get(raceIndex));
+
+        Championship.TeamSlot teamSlot = findTeamSlotForDriver(driverSlot, constructorsStandings);
+        if (teamSlot != null) {
+            teamSlot.setPoints(teamSlot.getPoints() + currentChampionship.getScoring().get(raceIndex));
+        }
+    }
+
+    private Championship.DriverSlot findDriverSlot(String driverName, List<Championship.DriverSlot> driversStandings) {
+        for (Championship.DriverSlot driverSlot : driversStandings) {
+            if (driverSlot.getDriver().getName().equals(driverName)) {
+                return driverSlot;
+            }
+        }
+        return null;
+    }
+
+    private Championship.TeamSlot findTeamSlotForDriver(Championship.DriverSlot driverSlot, List<Championship.TeamSlot> constructorsStandings) {
+        for (Championship.TeamSlot teamSlot : constructorsStandings) {
+            if (teamSlot.getTeam().getDriver1() == driverSlot.getDriver() || teamSlot.getTeam().getDriver2() == driverSlot.getDriver()) {
+                return teamSlot;
+            }
+        }
+        return null;
     }
 
     private List<String> getSelectedValues() {
