@@ -5,7 +5,6 @@ import com.github.matyassladek.ac_wgp.model.Country;
 import com.github.matyassladek.ac_wgp.model.Manufacture;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 
@@ -13,8 +12,8 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 public class CreateDriverController extends ViewController {
 
@@ -32,9 +31,6 @@ public class CreateDriverController extends ViewController {
     @FXML
     private ChoiceBox<String> teamChoiceBox;
 
-    @FXML
-    private Button submitButton;
-
     public CreateDriverController() {
         super(FXMLFile.NEXT_EVENT.getFileName());
     }
@@ -44,7 +40,7 @@ public class CreateDriverController extends ViewController {
         // Get country names from Country enum
         List<String> countryNames = Arrays.stream(Country.values())
                 .map(Country::getName)
-                .collect(Collectors.toList());
+                .toList();
 
         // Populate countryChoiceBox with the list of country names
         countryChoiceBox.setItems(FXCollections.observableArrayList(countryNames));
@@ -54,7 +50,7 @@ public class CreateDriverController extends ViewController {
 
         List<String> teamNames = Arrays.stream(Manufacture.values())
                 .map(Manufacture::getNameShort)
-                .collect(Collectors.toList());
+                .toList();
 
         teamChoiceBox.setItems(FXCollections.observableArrayList(teamNames));
 
@@ -95,6 +91,8 @@ public class CreateDriverController extends ViewController {
         gameManager.saveGame(game);
         showNextScreen();
 
-        log.info(game.getPlayer().toString());
+        if (log.isLoggable(Level.INFO)) {
+            log.info(game.getPlayer().toString());
+        }
     }
 }
