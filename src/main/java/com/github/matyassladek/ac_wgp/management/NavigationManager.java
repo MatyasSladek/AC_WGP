@@ -20,12 +20,13 @@ public class NavigationManager {
         this.primaryStage = primaryStage;
     }
 
-    public void navigateTo(String fxmlFile, Game game) throws IOException {
+    public void navigateTo(String fxmlFile, Game game, GameManager gameManager) throws IOException {
         FXMLLoader loader = new FXMLLoader(MainApplication.class.getResource(fxmlFile));
         Parent newRoot = loader.load();
         ViewController controller = loader.getController();
         controller.setNavigationManager(this);
         controller.setGame(game);
+        controller.setGameManager(gameManager);
 
         // Scene transition logic
         Scene currentScene = primaryStage.getScene();
@@ -52,6 +53,8 @@ public class NavigationManager {
         Parent root = fxmlLoader.load();
         ViewController controller = fxmlLoader.getController();
         controller.setNavigationManager(this);
+        controller.setGameManager(new GameManager());
+
         Scene scene = new Scene(root, 1200, 800);
         primaryStage.setTitle("Assetto Corsa: World Grand Prix Championship Career");
         primaryStage.setScene(scene);

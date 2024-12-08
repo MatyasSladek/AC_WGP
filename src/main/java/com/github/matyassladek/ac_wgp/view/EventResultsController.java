@@ -1,7 +1,6 @@
 package com.github.matyassladek.ac_wgp.view;
 
 import com.github.matyassladek.ac_wgp.controller.Game;
-import com.github.matyassladek.ac_wgp.management.GameManager;
 import com.github.matyassladek.ac_wgp.model.Championship;
 import com.github.matyassladek.ac_wgp.model.Driver;
 import javafx.fxml.FXML;
@@ -96,7 +95,7 @@ public class EventResultsController extends ViewController {
         game.setCurrentChampionship(updateChampionship(game.getCurrentChampionship()));
         log.info(game.getCurrentChampionship().getDriversStandings().toString());
         log.info(game.getCurrentChampionship().getConstructorsStandings().toString());
-        GameManager.saveGame(game);
+        gameManager.saveGame(game);
         showNextScreen();
     }
 

@@ -1,7 +1,6 @@
 package com.github.matyassladek.ac_wgp.view;
 
 import com.github.matyassladek.ac_wgp.controller.Game;
-import com.github.matyassladek.ac_wgp.management.GameManager;
 import com.github.matyassladek.ac_wgp.model.Track;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -56,7 +55,7 @@ public class NextEventController extends ViewController {
 
     @FXML
     private void onSubmitButtonClick() throws IOException {
-        GameManager.saveGame(game);
+        gameManager.saveGame(game);
         showNextScreen();
     }
 }

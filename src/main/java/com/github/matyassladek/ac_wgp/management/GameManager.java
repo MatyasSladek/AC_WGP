@@ -10,10 +10,10 @@ import java.util.logging.Logger;
 
 public class GameManager {
     private static final Logger log = Logger.getLogger(GameManager.class.getName());
-    private static final String SAVE_FILE_PATH = "src/main/resources/save/game_save.json";
+    private final String SAVE_FILE_PATH = "src/main/resources/save/game_save.json";
 
     // Save the game state to a JSON file
-    public static void saveGame(Game game) {
+    public void saveGame(Game game) {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             objectMapper.writeValue(Paths.get(SAVE_FILE_PATH).toFile(), game);
@@ -24,7 +24,7 @@ public class GameManager {
     }
 
     // Load the game state from a JSON file
-    public static Game loadGame() {
+    public Game loadGame() {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             return objectMapper.readValue(new File(SAVE_FILE_PATH), Game.class);

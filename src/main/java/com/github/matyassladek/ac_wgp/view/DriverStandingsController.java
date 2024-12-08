@@ -1,7 +1,6 @@
 package com.github.matyassladek.ac_wgp.view;
 
 import com.github.matyassladek.ac_wgp.controller.Game;
-import com.github.matyassladek.ac_wgp.management.GameManager;
 import com.github.matyassladek.ac_wgp.model.Championship.DriverSlot;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -61,7 +60,7 @@ public class DriverStandingsController extends ViewController {
     @FXML
     private void onContinueButtonClick() throws IOException {
         System.out.println("Continue button clicked!");
-        GameManager.saveGame(game);
+        gameManager.saveGame(game);
         showNextScreen();
     }
 }
