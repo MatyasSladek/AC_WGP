@@ -10,9 +10,7 @@ public class MainApplication extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        NavigationManager navigationManager;
-        navigationManager = new NavigationManager(stage);
-        navigationManager.init();
+        new NavigationManager(stage).init();
     }
 
     public static void main(String[] args) {
