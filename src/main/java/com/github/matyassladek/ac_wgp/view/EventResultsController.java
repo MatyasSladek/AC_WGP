@@ -54,7 +54,7 @@ public class EventResultsController extends ViewController {
     private List<ChoiceBox<String>> choiceBoxes;
 
     public EventResultsController() {
-        super(FXMLFile.DRIVERS_STANDINGS.getFileName());
+        super(FXMLFile.EVENT_RESULTS.getFileName() , FXMLFile.DRIVERS_STANDINGS.getFileName());
     }
 
     public void initialize() {
@@ -95,7 +95,6 @@ public class EventResultsController extends ViewController {
             log.info(() -> game.getCurrentChampionship().getDriversStandings().toString());
             log.info(() -> game.getCurrentChampionship().getConstructorsStandings().toString());
         }
-        gameManager.saveGame(game);
         showNextScreen();
     }
 

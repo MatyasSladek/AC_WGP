@@ -32,7 +32,7 @@ public class CreateDriverController extends ViewController {
     private ChoiceBox<String> teamChoiceBox;
 
     public CreateDriverController() {
-        super(FXMLFile.NEXT_EVENT.getFileName());
+        super(FXMLFile.CREATE_DRIVER.getFileName(), FXMLFile.NEXT_EVENT.getFileName());
     }
 
     @FXML
@@ -88,7 +88,7 @@ public class CreateDriverController extends ViewController {
         }
 
         game = new Game(firstName, lastName, country.get(), team.get());
-        gameManager.saveGame(game);
+
         showNextScreen();
 
         if (log.isLoggable(Level.INFO)) {

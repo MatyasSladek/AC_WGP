@@ -35,7 +35,7 @@ public class DriverStandingsController extends ViewController {
     }
 
     public DriverStandingsController() {
-        super(FXMLFile.CONSTRUCTORS_STANDINGS.getFileName());
+        super(FXMLFile.NEXT_EVENT.getFileName(), FXMLFile.CONSTRUCTORS_STANDINGS.getFileName());
     }
 
     public void initialize() {
@@ -60,7 +60,6 @@ public class DriverStandingsController extends ViewController {
     @FXML
     private void onContinueButtonClick() throws IOException {
         System.out.println("Continue button clicked!");
-        gameManager.saveGame(game);
         showNextScreen();
     }
 }

@@ -1,5 +1,6 @@
 package com.github.matyassladek.ac_wgp.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
@@ -13,16 +14,16 @@ import org.eclipse.jdt.annotation.NonNullByDefault;
 @Setter
 public class Driver {
 
-    @JsonProperty("firstName")
-    private String firstName;
+    private final String firstName;
+    private final String lastName;
+    private final Country country;
 
-    @JsonProperty("lastName")
-    private String lastName;
-
-    @JsonProperty("country")
-    private Country country;
-
-    public Driver(String firstName, String lastName, Country country) {
+    @JsonCreator
+    public Driver(
+            @JsonProperty("firstName") String firstName,
+            @JsonProperty("lastName") String lastName,
+            @JsonProperty("country") Country country
+    ) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.country = country;

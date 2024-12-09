@@ -12,12 +12,43 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.IOException;
+import java.util.logging.Logger;
 
 public class NavigationManager {
+
+    private static final Logger log = Logger.getLogger(NavigationManager.class.getName());
     private final Stage primaryStage;
+    private final GameManager gameManager;
 
     public NavigationManager(Stage primaryStage) {
         this.primaryStage = primaryStage;
+        this.gameManager = new GameManager();
+    }
+
+    public void init() throws IOException {
+        if (!gameManager.gameSaveExist()) {
+            initCreateDriver();
+            log.info("Game save not found. Starting a new game.");
+        } else {
+            initSavedGame();
+            log.info("Game save found. Loading saved game.");
+        }
+    }
+
+    private void initSavedGame() throws IOException {
+        Game game = gameManager.loadGame();
+        log.info(game::getFxmlScreen);
+        loadScene(game.getFxmlScreen(), game, gameManager);
+    }
+
+    public void loadScene(String fxmlFile, Game game, GameManager gameManager) throws IOException {
+        FXMLLoader loader = new FXMLLoader(MainApplication.class.getResource(fxmlFile));
+        Parent newRoot = loader.load();
+        ViewController controller = loader.getController();
+        controller.setNavigationManager(this);
+        controller.setGame(game);
+        controller.setGameManager(gameManager);
+        sceneInit(newRoot);
     }
 
     public void navigateTo(String fxmlFile, Game game, GameManager gameManager) throws IOException {
@@ -27,10 +58,11 @@ public class NavigationManager {
         controller.setNavigationManager(this);
         controller.setGame(game);
         controller.setGameManager(gameManager);
+
         animate(newRoot);
     }
 
-    public void init() throws IOException {
+    private void initCreateDriver() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource(FXMLFile.CREATE_DRIVER.getFileName()));
         Parent root = fxmlLoader.load();
         ViewController controller = fxmlLoader.getController();

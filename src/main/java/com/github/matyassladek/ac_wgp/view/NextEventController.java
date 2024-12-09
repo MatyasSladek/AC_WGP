@@ -17,7 +17,7 @@ public class NextEventController extends ViewController {
     private Label lapsLabel;
 
     public NextEventController() {
-        super(FXMLFile.EVENT_RESULTS.getFileName());
+        super(FXMLFile.NEXT_EVENT.getFileName(), FXMLFile.EVENT_RESULTS.getFileName());
     }
 
     @Override
@@ -51,7 +51,6 @@ public class NextEventController extends ViewController {
 
     @FXML
     private void onSubmitButtonClick() throws IOException {
-        gameManager.saveGame(game);
         showNextScreen();
     }
 }

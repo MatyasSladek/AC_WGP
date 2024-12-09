@@ -30,7 +30,7 @@ public class ConstructorsStandingsController extends ViewController {
     private Button continueButton;
 
     public ConstructorsStandingsController() {
-        super(FXMLFile.NEXT_EVENT.getFileName());
+        super(FXMLFile.CONSTRUCTORS_STANDINGS.getFileName(), FXMLFile.NEXT_EVENT.getFileName());
     }
 
     @Override
@@ -43,7 +43,6 @@ public class ConstructorsStandingsController extends ViewController {
     private void onSubmitButtonClick() throws IOException {
         System.out.println("Continue button clicked!");
         game.getCurrentChampionship().setCurrentRound((1 + game.getCurrentChampionship().getCurrentRound()));
-        gameManager.saveGame(game);
         showNextScreen();
     }
 

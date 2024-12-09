@@ -1,5 +1,6 @@
 package com.github.matyassladek.ac_wgp.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
@@ -34,7 +35,8 @@ public class Championship {
     @JsonProperty("results")
     private List<Race> results;
 
-    public Championship(List<Track> calendar) {
+    @JsonCreator
+    public Championship(@JsonProperty("calendar") List<Track> calendar) {
         this.calendar = calendar;
         this.scoring = List.of(50, 30, 20, 15, 10, 5, 4, 3, 2, 1);
         this.currentRound = 0;
@@ -64,7 +66,11 @@ public class Championship {
         @JsonProperty("points")
         private int points;
 
-        public DriverSlot(Driver driver, Team team) {
+        @JsonCreator
+        public DriverSlot(
+                @JsonProperty("driver") Driver driver,
+                @JsonProperty("team") Team team
+        ) {
             this.driver = driver;
             this.team = team;
             this.points = 0;
@@ -83,7 +89,8 @@ public class Championship {
         @JsonProperty("points")
         private int points;
 
-        public TeamSlot(Team team) {
+        @JsonCreator
+        public TeamSlot(@JsonProperty("team") Team team) {
             this.team = team;
             this.points = 0;
         }

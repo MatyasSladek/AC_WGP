@@ -1,5 +1,6 @@
 package com.github.matyassladek.ac_wgp.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
@@ -34,13 +35,20 @@ public class Team {
     @JsonProperty("driver2")
     private Driver driver2;
 
-    public Team(Manufacture manufacture, int garage, Driver driver1, Driver driver2) {
+    @JsonCreator
+    public Team(
+            @JsonProperty("manufacture") Manufacture manufacture,
+            @JsonProperty("garage") int garage,
+            @JsonProperty("driver1") Driver driver1,
+            @JsonProperty("driver2") Driver driver2
+    ) {
         this.manufacture = manufacture;
-        this.budget = 1_000_000;
-        this.engine = new Engine();
-        this.chassis = new Chassis();
+        this.budget = 1_000_000; // Default budget
+        this.engine = new Engine(); // Default engine
+        this.chassis = new Chassis(); // Default chassis
         this.garage = garage;
         this.driver1 = driver1;
         this.driver2 = driver2;
     }
 }
+
