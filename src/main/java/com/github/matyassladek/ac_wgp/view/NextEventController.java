@@ -17,7 +17,7 @@ public class NextEventController extends ViewController {
     private Label lapsLabel;
 
     public NextEventController() {
-        super(FXMLFile.NEXT_EVENT.getFileName(), FXMLFile.EVENT_RESULTS.getFileName());
+        super(FXMLFile.EVENT_RESULTS.getFileName());
     }
 
     @Override

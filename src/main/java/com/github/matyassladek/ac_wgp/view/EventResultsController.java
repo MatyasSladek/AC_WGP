@@ -54,7 +54,7 @@ public class EventResultsController extends ViewController {
     private List<ChoiceBox<String>> choiceBoxes;
 
     public EventResultsController() {
-        super(FXMLFile.EVENT_RESULTS.getFileName() , FXMLFile.DRIVERS_STANDINGS.getFileName());
+        super(FXMLFile.DRIVERS_STANDINGS.getFileName());
     }
 
     public void initialize() {

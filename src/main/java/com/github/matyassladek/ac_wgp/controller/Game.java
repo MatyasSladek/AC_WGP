@@ -7,6 +7,7 @@ import com.github.matyassladek.ac_wgp.factory.CalendarFactory;
 import com.github.matyassladek.ac_wgp.factory.ChampionshipFactory;
 import com.github.matyassladek.ac_wgp.factory.TeamFactory;
 import com.github.matyassladek.ac_wgp.model.*;
+import com.github.matyassladek.ac_wgp.view.FXMLFile;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -36,7 +37,7 @@ public class Game {
     private int currentSeason;
 
     @JsonProperty("fxmlScreen")
-    private String fxmlScreen;
+    private final String fxmlScreen;
 
     // Constructor used for game initialization
     public Game(String playerFirstName, String playerLastName, Country playerCountry, Manufacture playerTeam) {
@@ -45,6 +46,7 @@ public class Game {
         this.teams = teamsInit(playerTeam);
         this.currentChampionship = championshipInit();
         this.currentSeason = 0;
+        this.fxmlScreen = FXMLFile.DRIVERS_STANDINGS.getFileName();
     }
 
     // Constructor used by Jackson for deserialization

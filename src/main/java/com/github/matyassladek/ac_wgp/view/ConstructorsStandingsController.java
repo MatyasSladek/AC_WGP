@@ -30,7 +30,7 @@ public class ConstructorsStandingsController extends ViewController {
     private Button continueButton;
 
     public ConstructorsStandingsController() {
-        super(FXMLFile.CONSTRUCTORS_STANDINGS.getFileName(), FXMLFile.NEXT_EVENT.getFileName());
+        super(FXMLFile.NEXT_EVENT.getFileName());
     }
 
     @Override

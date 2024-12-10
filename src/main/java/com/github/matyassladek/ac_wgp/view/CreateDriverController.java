@@ -32,7 +32,7 @@ public class CreateDriverController extends ViewController {
     private ChoiceBox<String> teamChoiceBox;
 
     public CreateDriverController() {
-        super(FXMLFile.CREATE_DRIVER.getFileName(), FXMLFile.NEXT_EVENT.getFileName());
+        super(FXMLFile.NEXT_EVENT.getFileName());
     }
 
     @FXML
