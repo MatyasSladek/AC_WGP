@@ -8,6 +8,9 @@ import lombok.Setter;
 import lombok.ToString;
 import org.eclipse.jdt.annotation.NonNullByDefault;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Setter
 @ToString
@@ -35,6 +38,9 @@ public class Team {
     @JsonProperty("driver2")
     private Driver driver2;
 
+    @JsonProperty("championshipPoints")
+    private List<Integer> championshipPoints;
+
     @JsonCreator
     public Team(
             @JsonProperty("manufacture") Manufacture manufacture,
@@ -49,6 +55,14 @@ public class Team {
         this.garage = garage;
         this.driver1 = driver1;
         this.driver2 = driver2;
+        this.initializeChampionshipPoints();
+    }
+
+    private void initializeChampionshipPoints() {
+        this.championshipPoints = new ArrayList<>(14);
+        for (int i = 0; i < 14; i++) {
+            this.championshipPoints.add(0);
+        }
     }
 }
 
