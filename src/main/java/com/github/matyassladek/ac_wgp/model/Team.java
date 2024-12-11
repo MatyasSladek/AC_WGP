@@ -8,9 +8,6 @@ import lombok.Setter;
 import lombok.ToString;
 import org.eclipse.jdt.annotation.NonNullByDefault;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Getter
 @Setter
 @ToString
