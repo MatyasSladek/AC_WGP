@@ -15,7 +15,7 @@ import java.util.List;
 @Setter
 @ToString
 @NonNullByDefault
-public class Team {
+public class Team extends Competitor {
 
     @JsonProperty("manufacture")
     private Manufacture manufacture;
@@ -38,9 +38,6 @@ public class Team {
     @JsonProperty("driver2")
     private Driver driver2;
 
-    @JsonProperty("championshipPoints")
-    private List<Integer> championshipPoints;
-
     @JsonCreator
     public Team(
             @JsonProperty("manufacture") Manufacture manufacture,
@@ -48,6 +45,7 @@ public class Team {
             @JsonProperty("driver1") Driver driver1,
             @JsonProperty("driver2") Driver driver2
     ) {
+        super();
         this.manufacture = manufacture;
         this.budget = 1_000_000; // Default budget
         this.engine = new Engine(); // Default engine
@@ -55,14 +53,6 @@ public class Team {
         this.garage = garage;
         this.driver1 = driver1;
         this.driver2 = driver2;
-        this.initializeChampionshipPoints();
-    }
-
-    private void initializeChampionshipPoints() {
-        this.championshipPoints = new ArrayList<>(14);
-        for (int i = 0; i < 14; i++) {
-            this.championshipPoints.add(0);
-        }
     }
 }
 

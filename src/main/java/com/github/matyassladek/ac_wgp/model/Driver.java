@@ -12,7 +12,7 @@ import org.eclipse.jdt.annotation.NonNullByDefault;
 @ToString
 @Getter
 @Setter
-public class Driver {
+public class Driver extends Competitor {
 
     private final String firstName;
     private final String lastName;
@@ -24,6 +24,7 @@ public class Driver {
             @JsonProperty("lastName") String lastName,
             @JsonProperty("country") Country country
     ) {
+        super();
         this.firstName = firstName;
         this.lastName = lastName;
         this.country = country;
