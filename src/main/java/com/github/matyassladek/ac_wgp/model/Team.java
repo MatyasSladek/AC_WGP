@@ -13,6 +13,7 @@ import org.eclipse.jdt.annotation.NonNullByDefault;
 @ToString
 @NonNullByDefault
 public class Team extends Competitor {
+    private static final int INITIAL_BUDGET = 1_000_000;
 
     @JsonProperty("manufacture")
     private Manufacture manufacture;
@@ -44,9 +45,9 @@ public class Team extends Competitor {
     ) {
         super();
         this.manufacture = manufacture;
-        this.budget = 1_000_000; // Default budget
-        this.engine = new Engine(); // Default engine
-        this.chassis = new Chassis(); // Default chassis
+        this.budget = INITIAL_BUDGET;
+        this.engine = new Engine();
+        this.chassis = new Chassis();
         this.garage = garage;
         this.driver1 = driver1;
         this.driver2 = driver2;
