@@ -8,6 +8,9 @@ import lombok.Setter;
 import lombok.ToString;
 import org.eclipse.jdt.annotation.NonNullByDefault;
 
+import java.util.List;
+import java.util.Optional;
+
 @NonNullByDefault
 @ToString
 @Getter
@@ -17,6 +20,15 @@ public class Driver extends Competitor {
     private final String firstName;
     private final String lastName;
     private final Country country;
+    private List<Integer> results;
+    private int wins;
+    private int podiums;
+    private int top10;
+    private int points;
+    private int starts;
+    private double averagePoints;
+    private double averagePosition;
+    // private int poles;
 
     @JsonCreator
     public Driver(
