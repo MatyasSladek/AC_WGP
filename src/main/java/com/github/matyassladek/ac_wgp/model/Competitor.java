@@ -4,24 +4,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Setter
 @Getter
 public abstract class Competitor {
 
     @JsonProperty("championshipPoints")
-    private List<Integer> championshipPoints;
+    private List<Optional<List<Integer>>> championshipPoints;
 
-    protected Competitor() {
-        initializeChampionshipPoints();
-    }
-
-    protected void initializeChampionshipPoints() {
-        this.championshipPoints = new ArrayList<>(14);
-        for (int i = 0; i < 14; i++) {
-            this.championshipPoints.add(0);
-        }
-    }
+    protected Competitor() {}
 }
