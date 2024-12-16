@@ -10,7 +10,7 @@ import java.util.List;
 
 public class TeamFactory {
 
-    private List<Team> teams = new ArrayList<>();
+    private final List<Team> teams = new ArrayList<>();
     private int garage = 0;
 
     public List<Team> crateTeamList(Driver player, Manufacture playerTeam) {
