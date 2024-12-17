@@ -26,4 +26,6 @@ module com.github.matyassladek.ac_wgp {
     opens com.github.matyassladek.ac_wgp.model to com.fasterxml.jackson.databind;
     exports com.github.matyassladek.ac_wgp.management;
     opens com.github.matyassladek.ac_wgp.management to com.fasterxml.jackson.databind;
+    exports com.github.matyassladek.ac_wgp.enums;
+    opens com.github.matyassladek.ac_wgp.enums to javafx.fxml;
 }

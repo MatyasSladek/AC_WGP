@@ -1,22 +1,27 @@
 package com.github.matyassladek.ac_wgp.factory;
 
-import com.github.matyassladek.ac_wgp.model.Country;
+import com.github.matyassladek.ac_wgp.enums.DriverEnum;
 import com.github.matyassladek.ac_wgp.model.Driver;
 import com.github.matyassladek.ac_wgp.model.Manufacture;
 import com.github.matyassladek.ac_wgp.model.Team;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
 public class TeamFactory {
 
-    private final List<Team> teams = new ArrayList<>();
+    private List<Team> teams;
     private int garage = 0;
 
-    public List<Team> crateTeamList(Driver player, Manufacture playerTeam) {
+    public TeamFactory(Driver player, Manufacture playerTeam) {
+        this.teams = createTeamList(player, playerTeam);
+    }
 
-        basicTeamList();
-        for (Team team : this.teams) {
+    private List<Team> createTeamList(Driver player, Manufacture playerTeam) {
+        final List<Team> defaultTeams = teamInit();
+        for (Team team : defaultTeams) {
             if (team.getManufacture().equals(playerTeam)) {
                 team.setDriver2(player);
                 return this.teams;
@@ -25,54 +30,58 @@ public class TeamFactory {
         return this.teams;
     }
 
-    private void basicTeamList() {
+    private List<Team> teamInit() {
 
-        this.teams.add(new Team(Manufacture.FERRARI, ++garage,
-                new Driver("Romeo", "Morbidelli", Country.ITA),
-                new Driver("Ethan", "Simon", Country.BEL)));
+        final List<Team> defaultTeams = new ArrayList<>();
 
-        this.teams.add(new Team(Manufacture.MCLAREN, ++garage,
-                new Driver("Brent", "Harris", Country.AUS),
-                new Driver("Arthur", "Hardwick", Country.GBR)));
+        defaultTeams.add(new Team(Manufacture.FERRARI, ++garage,
+                DriverEnum.ROMEO_MORBIDELLI.getDriver(),
+                DriverEnum.ETHAN_SIMON.getDriver()));
 
-        this.teams.add(new Team(Manufacture.RENAULT, ++garage,
-                new Driver("Emilio", "Cevallos", Country.ESP),
-                new Driver("Antoine", "Lavoie", Country.FRA)));
+        defaultTeams.add(new Team(Manufacture.MCLAREN, ++garage,
+                DriverEnum.BRENT_HARRIS.getDriver(),
+                DriverEnum.ARTHUR_HARDWICK.getDriver()));
 
-        this.teams.add(new Team(Manufacture.MERCEDES, ++garage,
-                new Driver("Gerhard", "Drager",Country.DEU),
-                new Driver("Noah", "Tanner", Country.GBR)));
+        defaultTeams.add(new Team(Manufacture.RENAULT, ++garage,
+                DriverEnum.EMILIO_CEVALLOS.getDriver(),
+                DriverEnum.ANTOINE_LAVOIE.getDriver()));
 
-        this.teams.add(new Team(Manufacture.LOTUS, ++garage,
-                new Driver("Jack", "Campbell", Country.NZL),
-                new Driver("Arthur", "Ferreira", Country.BRA)));
+        defaultTeams.add(new Team(Manufacture.MERCEDES, ++garage,
+                DriverEnum.GERHARD_DRAGER.getDriver(),
+                DriverEnum.NOAH_TANNER.getDriver()));
 
-        this.teams.add(new Team(Manufacture.HONDA, ++garage,
-                new Driver("David", "Stark", Country.USA),
-                new Driver("Jozef", "Kloosterman", Country.NLD)));
+        defaultTeams.add(new Team(Manufacture.LOTUS, ++garage,
+                DriverEnum.JACK_CAMPBELL.getDriver(),
+                DriverEnum.ARTHUR_FERREIRA.getDriver()));
 
-        this.teams.add(new Team(Manufacture.ALFA_ROMEO, ++garage,
-                new Driver("Bruno", "Campioni", Country.ITA),
-                new Driver("Mikko", "Vanhala", Country.FIN)));
+        defaultTeams.add(new Team(Manufacture.HONDA, ++garage,
+                DriverEnum.DAVID_STARK.getDriver(),
+                DriverEnum.JOZEF_KLOOSTERMAN.getDriver()));
 
-        this.teams.add(new Team(Manufacture.CHEVROLET, ++garage,
-                new Driver("Felipe", "Pinto", Country.BRA),
-                new Driver("Naveen", "Daggubati", Country.IND)));
+        defaultTeams.add(new Team(Manufacture.ALFA_ROMEO, ++garage,
+                DriverEnum.BRUNO_CAMPIONI.getDriver(),
+                DriverEnum.MIKKO_VANHALA.getDriver()));
 
-        this.teams.add(new Team(Manufacture.JAGUAR, ++garage,
-                new Driver("Ruairi", "Ferriter", Country.IRL),
-                new Driver("Rick", "Swart", Country.ZAF)));
+        defaultTeams.add(new Team(Manufacture.CHEVROLET, ++garage,
+                DriverEnum.FELIPE_PINTO.getDriver(),
+                DriverEnum.NAVEEN_DAGGUBATI.getDriver()));
 
-        this.teams.add(new Team(Manufacture.PORSCHE, ++garage,
-                new Driver("Lucas", "Pereyra", Country.ARG),
-                new Driver("Jaime", "Oliveira", Country.PRT)));
+        defaultTeams.add(new Team(Manufacture.JAGUAR, ++garage,
+                DriverEnum.RUAIRI_FERRITER.getDriver(),
+                DriverEnum.RICK_SWART.getDriver()));
 
-        this.teams.add(new Team(Manufacture.TOYOTA, ++garage,
-                new Driver("Hiro", "Iwata", Country.JPN),
-                new Driver("Marcos", "Peralta", Country.MEX)));
+        defaultTeams.add(new Team(Manufacture.PORSCHE, ++garage,
+                DriverEnum.LUCAS_PEREYRA.getDriver(),
+                DriverEnum.JAIME_OLIVEIRA.getDriver()));
 
-        this.teams.add(new Team(Manufacture.BMW, ++garage,
-                new Driver("Sebastian", "Duda", Country.POL),
-                new Driver("Samuel", "Schmid", Country.AUT)));
+        defaultTeams.add(new Team(Manufacture.TOYOTA, ++garage,
+                DriverEnum.HIRO_IWATA.getDriver(),
+                DriverEnum.MARCOS_PERALTA.getDriver()));
+
+        defaultTeams.add(new Team(Manufacture.BMW, ++garage,
+                DriverEnum.SEBASTIAN_DUDA.getDriver(),
+                DriverEnum.SAMUEL_SCHMID.getDriver()));
+
+    return defaultTeams;
     }
 }

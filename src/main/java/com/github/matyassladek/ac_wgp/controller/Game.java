@@ -43,7 +43,7 @@ public class Game {
     public Game(String playerFirstName, String playerLastName, Country playerCountry, Manufacture playerTeam) {
         this.allSeasons = allSeasonsInit();
         this.player = new Driver(playerFirstName, playerLastName, playerCountry);
-        this.teams = teamsInit(playerTeam);
+        this.teams = new TeamFactory(player, playerTeam).getTeams();
         this.currentChampionship = championshipInit();
         this.currentSeason = 0;
         this.fxmlScreen = FXMLFile.DRIVERS_STANDINGS.getFileName();
@@ -81,12 +81,6 @@ public class Game {
     private Championship championshipInit() {
         ChampionshipFactory championshipFactory = new ChampionshipFactory();
         return championshipFactory.createChampionship(teams, allSeasons.get(currentSeason));
-    }
-
-    @JsonIgnore
-    private List<Team> teamsInit(Manufacture playerTeam) {
-        TeamFactory teamFactory = new TeamFactory();
-        return teamFactory.crateTeamList(player, playerTeam);
     }
 
     @JsonIgnore
