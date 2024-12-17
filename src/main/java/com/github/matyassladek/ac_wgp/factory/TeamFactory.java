@@ -12,7 +12,7 @@ import java.util.List;
 @Getter
 public class TeamFactory {
 
-    private List<Team> teams;
+    private final List<Team> teams;
     private int garage = 0;
 
     public TeamFactory(Driver player, Manufacture playerTeam) {
