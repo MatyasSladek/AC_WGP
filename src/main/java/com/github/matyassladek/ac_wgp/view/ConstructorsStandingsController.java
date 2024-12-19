@@ -2,6 +2,7 @@ package com.github.matyassladek.ac_wgp.view;
 
 import com.github.matyassladek.ac_wgp.controller.Game;
 import com.github.matyassladek.ac_wgp.model.Championship;
+import com.github.matyassladek.ac_wgp.model.Track;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -11,6 +12,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.io.IOException;
+import java.util.List;
 
 public class ConstructorsStandingsController extends ViewController {
 
@@ -43,6 +45,13 @@ public class ConstructorsStandingsController extends ViewController {
     private void onSubmitButtonClick() throws IOException {
         System.out.println("Continue button clicked!");
         game.getCurrentChampionship().setCurrentRound((1 + game.getCurrentChampionship().getCurrentRound()));
+        int currentRound = game.getCurrentChampionship().getCurrentRound();
+        List<Track> calendar = game.getCurrentChampionship().getCalendar();
+        if (currentRound >= calendar.size()) {
+            game.setCurrentSeason(game.getCurrentSeason() + 1);
+            setNextScreen(FXMLFile.CAREER_END.getFileName());
+//            this.nextScreen = FXMLFile.CAREER_END.getFileName();
+        }
         showNextScreen();
     }
 
@@ -58,7 +67,6 @@ public class ConstructorsStandingsController extends ViewController {
 
     private void loadConstructorsStandings() {
         if (game != null) {
-            // Get the driversStandings list from the Championship object
             ObservableList<Championship.TeamSlot> standings = FXCollections.observableArrayList(game.getCurrentChampionship().getConstructorsStandings());
             standingsTable.setItems(standings);
         }

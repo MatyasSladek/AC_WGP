@@ -11,7 +11,8 @@ public enum FXMLFile {
     NEXT_EVENT("view/next-event.fxml"),
     EVENT_RESULTS("view/event-results.fxml"),
     DRIVERS_STANDINGS("view/drivers-standings.fxml"),
-    CONSTRUCTORS_STANDINGS("view/constructors-standings.fxml");
+    CONSTRUCTORS_STANDINGS("view/constructors-standings.fxml"),
+    CAREER_END("view/career-end.fxml");
 
     private final String fileName;
 }

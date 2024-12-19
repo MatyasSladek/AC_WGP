@@ -10,7 +10,7 @@ import java.io.IOException;
 @Setter
 public abstract class ViewController {
 
-    protected final String nextScreen;
+    protected String nextScreen;
     protected Game game;
     protected GameManager gameManager;
     protected NavigationManager navigationManager;
