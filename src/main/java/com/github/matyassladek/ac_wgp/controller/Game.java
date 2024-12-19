@@ -43,7 +43,7 @@ public class Game {
     public Game(String playerFirstName, String playerLastName, Country playerCountry, Manufacture playerTeam) {
         this.allSeasons = allSeasonsInit();
         this.player = new Driver(playerFirstName, playerLastName, playerCountry);
-        this.teams = new TeamFactory(player, playerTeam).getTeams();
+        this.teams = new TeamFactory().createTeamList(player, playerTeam);
         this.currentChampionship = championshipInit();
         this.currentSeason = 0;
         this.fxmlScreen = FXMLFile.DRIVERS_STANDINGS.getFileName();

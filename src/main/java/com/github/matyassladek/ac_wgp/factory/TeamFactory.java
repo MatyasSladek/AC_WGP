@@ -5,34 +5,31 @@ import com.github.matyassladek.ac_wgp.model.Driver;
 import com.github.matyassladek.ac_wgp.model.Manufacture;
 import com.github.matyassladek.ac_wgp.model.Team;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
+@NoArgsConstructor
 public class TeamFactory {
 
-    private final List<Team> teams;
     private int garage = 0;
 
-    public TeamFactory(Driver player, Manufacture playerTeam) {
-        this.teams = createTeamList(player, playerTeam);
-    }
-
-    private List<Team> createTeamList(Driver player, Manufacture playerTeam) {
-        final List<Team> defaultTeams = teamInit();
-        for (Team team : defaultTeams) {
+    public List<Team> createTeamList(Driver player, Manufacture playerTeam) {
+        List<Team> teams = teamInit();
+        for (Team team : teams) {
             if (team.getManufacture().equals(playerTeam)) {
                 team.setDriver2(player);
-                return this.teams;
+                return teams;
             }
         }
-        return this.teams;
+        return teams;
     }
 
     private List<Team> teamInit() {
 
-        final List<Team> defaultTeams = new ArrayList<>();
+        List<Team> defaultTeams = new ArrayList<>();
 
         defaultTeams.add(new Team(Manufacture.FERRARI, ++garage,
                 DriverEnum.ROMEO_MORBIDELLI.getDriver(),
@@ -82,6 +79,6 @@ public class TeamFactory {
                 DriverEnum.SEBASTIAN_DUDA.getDriver(),
                 DriverEnum.SAMUEL_SCHMID.getDriver()));
 
-    return defaultTeams;
+        return defaultTeams;
     }
 }
