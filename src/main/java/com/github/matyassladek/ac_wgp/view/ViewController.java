@@ -22,7 +22,7 @@ public abstract class ViewController {
         this.nextScreen = nextScreen;
     }
 
-    protected void showNextScreen() throws IOException {
+    protected void showNextScreen() {
         try {
             gameManager.saveGame(game);
             navigationManager.navigateTo(nextScreen, game, gameManager);
