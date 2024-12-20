@@ -6,10 +6,13 @@ import com.github.matyassladek.ac_wgp.management.NavigationManager;
 import lombok.Setter;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Setter
 public abstract class ViewController {
 
+    private static final Logger log = Logger.getLogger(ViewController.class.getName());
     protected String nextScreen;
     protected Game game;
     protected GameManager gameManager;
@@ -24,7 +27,7 @@ public abstract class ViewController {
             gameManager.saveGame(game);
             navigationManager.navigateTo(nextScreen, game, gameManager);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE, "Failed to show next screen: ", e);
         }
     }
 }
