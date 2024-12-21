@@ -7,7 +7,6 @@ import javafx.scene.control.ChoiceBox;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class UIHelper {
 
@@ -33,7 +32,7 @@ public class UIHelper {
     public static List<String> getSelectedValues(List<ChoiceBox<String>> choiceBoxes) {
         return choiceBoxes.stream()
                 .map(ChoiceBox::getValue)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public static void showAlert(String title, String content) {
