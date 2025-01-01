@@ -7,6 +7,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum Manufacture {
 
+    // Car manufactures
     FERRARI("Scuderia Ferrari", "Ferrari", Country.ITA),
     MCLAREN("Gulf McLaren GP Team", "McLaren", Country.GBR),
     RENAULT("NewMan Team Renault Elf", "Renault", Country.FRA),
@@ -18,7 +19,21 @@ public enum Manufacture {
     JAGUAR("Castrol Jaguar Racing", "Jaguar", Country.GBR),
     PORSCHE("Warsteiner Porsche", "Porsche", Country.DEU),
     TOYOTA("Jägermeister Toyota Racing", "Toyota", Country.JPN),
-    BMW("BMW Martini Racing", "BMW", Country.DEU);
+    BMW("BMW Martini Racing", "BMW", Country.DEU),
+
+    // Brands
+    BWT("BWT Racing", "BWT", Country.AUT),
+    CASTROL("Castrol Racing", "Castrol", Country.GBR),
+    EM("Edl Motorsport", "EM", Country.CZE),
+    FALKEN("Falken Tyres Racing", "Falken", Country.JPN),
+    GULF("Gulf Oil Motorsports", "Gulf", Country.USA),
+    JETBRAINS("JetBrains Racing", "JetBrains", Country.CZE),
+    JPS("Team John Player Special", "JPS", Country.GBR),
+    MARTINI("Martini Racing", "Martini", Country.ITA),
+    MOBIL1("Mobil 1 Racing", "Mobil 1", Country.USA),
+    RBR("Oracle Red Bull Racing", "Red Bull", Country.AUT),
+    TARGET("Target Racing", "Target", Country.USA),
+    VODAFONE("Vodafone Racing", "Vodafone", Country.GBR);
 
     private final String nameLong;
     private final String nameShort;

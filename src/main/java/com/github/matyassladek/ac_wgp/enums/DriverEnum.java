@@ -16,18 +16,23 @@ public enum DriverEnum {
     BRUNO_CAMPIONI(new Driver("Bruno", "Campioni", Country.ITA)),
 
     DAVID_STARK(new Driver("David", "Stark", Country.USA)),
+    DIMA_MELNIK(new Driver("Dima", "Melnik", Country.UKR)),
 
     EMILIO_CEVALLOS(new Driver("Emilio", "Cevallos", Country.ESP)),
     ETHAN_SIMON(new Driver("Ethan", "Simon", Country.BEL)),
 
     FELIPE_PINTO(new Driver("Felipe", "Pinto", Country.BRA)),
+    FREDERIC_GASCOIGNE(new Driver("Frederic", "Gascoigne", Country.CAN)),
 
     GERHARD_DRAGER(new Driver("Gerhard", "Drager", Country.DEU)),
 
+    HAKARU_KOJIMA(new Driver("Hakaru", "Kojima", Country.JPN)),
     HIRO_IWATA(new Driver("Hiro", "Iwata", Country.JPN)),
 
     JACK_CAMPBELL(new Driver("Jack", "Campbell", Country.NZL)),
     JAIME_OLIVEIRA(new Driver("Jaime", "Oliveira", Country.PRT)),
+    JAN_VALENTA(new Driver("Jan", "Valenta", Country.CZE)),
+    JOHNATHAN_KAANDORP(new Driver("Johnathan", "Kaandorp", Country.NLD)),
     JOZEF_KLOOSTERMAN(new Driver("Jozef", "Kloosterman", Country.NLD)),
 
     LUCAS_PEREYRA(new Driver("Lucas", "Pereyra", Country.ARG)),
@@ -40,10 +45,13 @@ public enum DriverEnum {
 
     RICK_SWART(new Driver("Rick", "Swart", Country.ZAF)),
     ROMEO_MORBIDELLI(new Driver("Romeo", "Morbidelli", Country.ITA)),
+    RYAN_DAYSON(new Driver("Ryan", "Dayson", Country.USA)),
     RUAIRI_FERRITER(new Driver("Ruairi", "Ferriter", Country.IRL)),
 
     SAMUEL_SCHMID(new Driver("Samuel", "Schmid", Country.AUT)),
-    SEBASTIAN_DUDA(new Driver("Sebastian", "Duda", Country.POL));
+    SEBASTIAN_DUDA(new Driver("Sebastian", "Duda", Country.POL)),
+
+    ZDENKO_ONDO(new Driver("Zdenko", "Ondo", Country.SVK));
 
     private final Driver driver;
 }

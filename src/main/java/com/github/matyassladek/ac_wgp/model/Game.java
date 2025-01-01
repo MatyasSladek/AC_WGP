@@ -5,9 +5,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.matyassladek.ac_wgp.enums.Country;
 import com.github.matyassladek.ac_wgp.enums.Manufacture;
+import com.github.matyassladek.ac_wgp.factory.BrandsTeamFactory;
 import com.github.matyassladek.ac_wgp.factory.CalendarFactory;
 import com.github.matyassladek.ac_wgp.factory.ChampionshipFactory;
-import com.github.matyassladek.ac_wgp.factory.TeamFactory;
 import com.github.matyassladek.ac_wgp.enums.FXMLFile;
 import com.github.matyassladek.ac_wgp.enums.Track;
 import lombok.Getter;
@@ -45,7 +45,7 @@ public class Game {
     public Game(String playerFirstName, String playerLastName, Country playerCountry, Manufacture playerTeam) {
         this.allSeasons = allSeasonsInit();
         this.player = new Driver(playerFirstName, playerLastName, playerCountry);
-        this.teams = new TeamFactory().createTeamList(player, playerTeam);
+        this.teams = new BrandsTeamFactory().createTeamList(player, playerTeam);
         this.currentChampionship = championshipInit();
         this.currentSeason = 0;
         this.fxmlScreen = FXMLFile.DRIVERS_STANDINGS.getFileName();
