@@ -1,4 +1,4 @@
-package com.github.matyassladek.ac_wgp.model;
+package com.github.matyassladek.ac_wgp.constants;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

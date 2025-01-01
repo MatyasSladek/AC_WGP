@@ -1,6 +1,5 @@
-package com.github.matyassladek.ac_wgp.enums;
+package com.github.matyassladek.ac_wgp.constants;
 
-import com.github.matyassladek.ac_wgp.model.Country;
 import com.github.matyassladek.ac_wgp.model.Driver;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
