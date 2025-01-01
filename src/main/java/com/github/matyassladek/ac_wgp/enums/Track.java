@@ -1,4 +1,4 @@
-package com.github.matyassladek.ac_wgp.constants;
+package com.github.matyassladek.ac_wgp.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

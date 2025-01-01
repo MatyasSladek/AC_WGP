@@ -2,7 +2,7 @@ package com.github.matyassladek.ac_wgp.factory;
 
 import com.github.matyassladek.ac_wgp.enums.DriverEnum;
 import com.github.matyassladek.ac_wgp.model.Driver;
-import com.github.matyassladek.ac_wgp.model.Manufacture;
+import com.github.matyassladek.ac_wgp.enums.Manufacture;
 import com.github.matyassladek.ac_wgp.model.Team;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

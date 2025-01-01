@@ -1,13 +1,15 @@
-package com.github.matyassladek.ac_wgp.controller;
+package com.github.matyassladek.ac_wgp.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.github.matyassladek.ac_wgp.enums.Country;
+import com.github.matyassladek.ac_wgp.enums.Manufacture;
 import com.github.matyassladek.ac_wgp.factory.CalendarFactory;
 import com.github.matyassladek.ac_wgp.factory.ChampionshipFactory;
 import com.github.matyassladek.ac_wgp.factory.TeamFactory;
-import com.github.matyassladek.ac_wgp.model.*;
-import com.github.matyassladek.ac_wgp.view.FXMLFile;
+import com.github.matyassladek.ac_wgp.enums.FXMLFile;
+import com.github.matyassladek.ac_wgp.enums.Track;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

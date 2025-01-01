@@ -3,6 +3,7 @@ package com.github.matyassladek.ac_wgp.model;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.github.matyassladek.ac_wgp.enums.Country;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

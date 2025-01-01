@@ -1,8 +1,9 @@
-package com.github.matyassladek.ac_wgp.view;
+package com.github.matyassladek.ac_wgp.controllers;
 
-import com.github.matyassladek.ac_wgp.controller.Game;
+import com.github.matyassladek.ac_wgp.enums.FXMLFile;
+import com.github.matyassladek.ac_wgp.model.Game;
 import com.github.matyassladek.ac_wgp.model.Championship;
-import com.github.matyassladek.ac_wgp.model.Track;
+import com.github.matyassladek.ac_wgp.enums.Track;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;

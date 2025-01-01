@@ -1,4 +1,4 @@
-package com.github.matyassladek.ac_wgp.constants;
+package com.github.matyassladek.ac_wgp.enums;
 
 import com.github.matyassladek.ac_wgp.model.Driver;
 import lombok.AllArgsConstructor;

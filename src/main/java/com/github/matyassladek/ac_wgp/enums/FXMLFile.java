@@ -1,4 +1,4 @@
-package com.github.matyassladek.ac_wgp.view;
+package com.github.matyassladek.ac_wgp.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

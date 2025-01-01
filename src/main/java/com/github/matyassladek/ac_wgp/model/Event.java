@@ -1,9 +1,6 @@
-package com.github.matyassladek.ac_wgp.controller;
+package com.github.matyassladek.ac_wgp.model;
 
-import com.github.matyassladek.ac_wgp.model.Championship;
-import com.github.matyassladek.ac_wgp.model.Driver;
-import com.github.matyassladek.ac_wgp.model.Race;
-import com.github.matyassladek.ac_wgp.model.Track;
+import com.github.matyassladek.ac_wgp.enums.Track;
 import lombok.Getter;
 import org.eclipse.jdt.annotation.NonNullByDefault;
 

@@ -1,7 +1,7 @@
 package com.github.matyassladek.ac_wgp.factory;
 
-import com.github.matyassladek.ac_wgp.model.Calendar;
-import com.github.matyassladek.ac_wgp.model.Track;
+import com.github.matyassladek.ac_wgp.enums.Calendar;
+import com.github.matyassladek.ac_wgp.enums.Track;
 
 import java.util.List;
 

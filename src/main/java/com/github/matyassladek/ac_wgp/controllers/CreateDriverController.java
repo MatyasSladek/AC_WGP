@@ -1,8 +1,9 @@
-package com.github.matyassladek.ac_wgp.view;
+package com.github.matyassladek.ac_wgp.controllers;
 
-import com.github.matyassladek.ac_wgp.controller.Game;
-import com.github.matyassladek.ac_wgp.model.Country;
-import com.github.matyassladek.ac_wgp.model.Manufacture;
+import com.github.matyassladek.ac_wgp.enums.FXMLFile;
+import com.github.matyassladek.ac_wgp.model.Game;
+import com.github.matyassladek.ac_wgp.enums.Country;
+import com.github.matyassladek.ac_wgp.enums.Manufacture;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;

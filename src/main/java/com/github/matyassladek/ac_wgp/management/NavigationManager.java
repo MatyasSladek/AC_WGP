@@ -1,9 +1,9 @@
 package com.github.matyassladek.ac_wgp.management;
 
 import com.github.matyassladek.ac_wgp.MainApplication;
-import com.github.matyassladek.ac_wgp.controller.Game;
-import com.github.matyassladek.ac_wgp.view.FXMLFile;
-import com.github.matyassladek.ac_wgp.view.ViewController;
+import com.github.matyassladek.ac_wgp.model.Game;
+import com.github.matyassladek.ac_wgp.enums.FXMLFile;
+import com.github.matyassladek.ac_wgp.controllers.ViewController;
 import javafx.animation.FadeTransition;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

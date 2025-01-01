@@ -17,15 +17,14 @@ module com.github.matyassladek.ac_wgp {
 
     opens com.github.matyassladek.ac_wgp to javafx.fxml;
     exports com.github.matyassladek.ac_wgp;
-    exports com.github.matyassladek.ac_wgp.view;
     opens com.github.matyassladek.ac_wgp.view to javafx.fxml;
 
-    exports com.github.matyassladek.ac_wgp.controller;
+    exports com.github.matyassladek.ac_wgp.controllers;
     exports com.github.matyassladek.ac_wgp.model;
-    opens com.github.matyassladek.ac_wgp.controller to com.fasterxml.jackson.databind;
     opens com.github.matyassladek.ac_wgp.model to com.fasterxml.jackson.databind;
     exports com.github.matyassladek.ac_wgp.management;
     opens com.github.matyassladek.ac_wgp.management to com.fasterxml.jackson.databind;
     exports com.github.matyassladek.ac_wgp.enums;
-    opens com.github.matyassladek.ac_wgp.enums to javafx.fxml;
+    opens com.github.matyassladek.ac_wgp.enums to com.fasterxml.jackson.databind, javafx.fxml;
+    opens com.github.matyassladek.ac_wgp.controllers to com.fasterxml.jackson.databind, javafx.fxml;
 }

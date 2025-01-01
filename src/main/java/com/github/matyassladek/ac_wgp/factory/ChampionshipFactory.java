@@ -2,7 +2,7 @@ package com.github.matyassladek.ac_wgp.factory;
 
 import com.github.matyassladek.ac_wgp.model.Championship;
 import com.github.matyassladek.ac_wgp.model.Team;
-import com.github.matyassladek.ac_wgp.model.Track;
+import com.github.matyassladek.ac_wgp.enums.Track;
 
 import java.util.ArrayList;
 import java.util.List;
