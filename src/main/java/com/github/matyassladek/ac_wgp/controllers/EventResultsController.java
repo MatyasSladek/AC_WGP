@@ -10,6 +10,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.TransferMode;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
@@ -21,7 +22,8 @@ public class EventResultsController extends ViewController {
 
     private static final Logger log = Logger.getLogger(EventResultsController.class.getName());
 
-    @FXML private VBox driversList;
+    @FXML
+    private GridPane driversList;
 
     @FXML private Label dropTargetPosition1;
     @FXML private Label dropTargetPosition2;
@@ -66,6 +68,9 @@ public class EventResultsController extends ViewController {
     private void populateDriversList() {
         List<Driver> drivers = game.getCurrentChampionship().getDrivers();
 
+        int row = 0;
+        int col = 0;
+
         for (Driver driver : drivers) {
             Label driverLabel = new Label(driver.getName());
             driverLabel.setStyle("-fx-border-color: black; -fx-background-color: lightgray; -fx-padding: 5px;");
@@ -75,7 +80,15 @@ public class EventResultsController extends ViewController {
                 driverLabel.startDragAndDrop(TransferMode.MOVE).setContent(content);
                 event.consume();
             });
-            driversList.getChildren().add(driverLabel);
+
+            // Add the label to the GridPane at the current column and row
+            driversList.add(driverLabel, col, row);
+
+            // Update column and row to maintain two columns
+            if (++row == 12) { // After 12 drivers, switch to the next column
+                row = 0;
+                col++;
+            }
         }
     }
 
