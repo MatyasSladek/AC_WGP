@@ -16,7 +16,6 @@ public enum DriverEnum {
     BRUNO_CAMPIONI(new Driver("Bruno", "Campioni", Country.ITA)),
 
     DAVID_STARK(new Driver("David", "Stark", Country.USA)),
-    DIMA_MELNIK(new Driver("Dima", "Melnik", Country.UKR)),
 
     EMILIO_CEVALLOS(new Driver("Emilio", "Cevallos", Country.ESP)),
     ETHAN_SIMON(new Driver("Ethan", "Simon", Country.BEL)),
@@ -49,9 +48,7 @@ public enum DriverEnum {
     RUAIRI_FERRITER(new Driver("Ruairi", "Ferriter", Country.IRL)),
 
     SAMUEL_SCHMID(new Driver("Samuel", "Schmid", Country.AUT)),
-    SEBASTIAN_DUDA(new Driver("Sebastian", "Duda", Country.POL)),
-
-    ZDENKO_ONDO(new Driver("Zdenko", "Ondo", Country.SVK));
+    SEBASTIAN_DUDA(new Driver("Sebastian", "Duda", Country.POL));
 
     private final Driver driver;
 }

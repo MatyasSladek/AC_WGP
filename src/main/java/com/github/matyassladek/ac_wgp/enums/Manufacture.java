@@ -27,7 +27,6 @@ public enum Manufacture {
     EM("Edl Motorsport", "EM", Country.CZE),
     FALKEN("Falken Tyres Racing", "Falken", Country.JPN),
     GULF("Gulf Oil Motorsports", "Gulf", Country.USA),
-    JETBRAINS("JetBrains Racing", "JetBrains", Country.CZE),
     JPS("Team John Player Special", "JPS", Country.GBR),
     MARTINI("Martini Racing", "Martini", Country.ITA),
     MOBIL1("Mobil 1 Racing", "Mobil 1", Country.USA),
