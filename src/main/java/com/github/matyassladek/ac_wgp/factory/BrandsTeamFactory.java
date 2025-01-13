@@ -36,10 +36,6 @@ public class BrandsTeamFactory extends TeamFactory {
                 DriverEnum.LUCAS_PEREYRA.getDriver(),
                 DriverEnum.DAVID_STARK.getDriver()));
 
-        defaultTeams.add(new Team(Manufacture.JETBRAINS, ++garage,
-                DriverEnum.ZDENKO_ONDO.getDriver(),
-                DriverEnum.DIMA_MELNIK.getDriver()));
-
         defaultTeams.add(new Team(Manufacture.JPS, ++garage,
                 DriverEnum.RUAIRI_FERRITER.getDriver(),
                 DriverEnum.ANTOINE_LAVOIE.getDriver()));
