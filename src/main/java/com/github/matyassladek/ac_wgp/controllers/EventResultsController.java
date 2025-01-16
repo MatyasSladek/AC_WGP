@@ -9,8 +9,11 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
@@ -47,8 +50,6 @@ public class EventResultsController extends ViewController {
     @FXML private Label dropTargetPosition20;
     @FXML private Label dropTargetPosition21;
     @FXML private Label dropTargetPosition22;
-    @FXML private Label dropTargetPosition23;
-    @FXML private Label dropTargetPosition24;
 
     private List<Label> dropTargets;
     private ChampionshipService championshipService;
@@ -65,33 +66,6 @@ public class EventResultsController extends ViewController {
         initializeDropTargets();
     }
 
-    private void populateDriversList() {
-        List<Driver> drivers = game.getCurrentChampionship().getDrivers();
-
-        int row = 0;
-        int col = 0;
-
-        for (Driver driver : drivers) {
-            Label driverLabel = new Label(driver.getName());
-            driverLabel.setStyle("-fx-border-color: black; -fx-background-color: lightgray; -fx-padding: 5px;");
-            driverLabel.setOnDragDetected(event -> {
-                ClipboardContent content = new ClipboardContent();
-                content.putString(driverLabel.getText());
-                driverLabel.startDragAndDrop(TransferMode.MOVE).setContent(content);
-                event.consume();
-            });
-
-            // Add the label to the GridPane at the current column and row
-            driversList.add(driverLabel, col, row);
-
-            // Update column and row to maintain two columns
-            if (++row == 12) { // After 12 drivers, switch to the next column
-                row = 0;
-                col++;
-            }
-        }
-    }
-
     private void initializeDropTargets() {
         dropTargets = List.of(
                 dropTargetPosition1, dropTargetPosition2, dropTargetPosition3, dropTargetPosition4,
@@ -99,7 +73,7 @@ public class EventResultsController extends ViewController {
                 dropTargetPosition9, dropTargetPosition10, dropTargetPosition11, dropTargetPosition12,
                 dropTargetPosition13, dropTargetPosition14, dropTargetPosition15, dropTargetPosition16,
                 dropTargetPosition17, dropTargetPosition18, dropTargetPosition19, dropTargetPosition20,
-                dropTargetPosition21, dropTargetPosition22, dropTargetPosition23, dropTargetPosition24
+                dropTargetPosition21, dropTargetPosition22
         );
 
         for (Label dropTarget : dropTargets) {
@@ -119,11 +93,12 @@ public class EventResultsController extends ViewController {
                         addDriverToPool(dropTarget.getText());
                     }
 
+                    // Assign the new driver to the drop target
+                    dropTarget.setText(driverName);
+
                     // Remove the driver from the pool
                     removeDriverFromPool(driverName);
 
-                    // Assign the new driver to the drop target
-                    dropTarget.setText(driverName);
                     event.setDropCompleted(true);
                 } else {
                     event.setDropCompleted(false);
@@ -151,9 +126,83 @@ public class EventResultsController extends ViewController {
         }
     }
 
-    private void addDriverToPool(String driverName) {
+
+    private void populateDriversList() {
+        // Clear previous content
+        driversList.getChildren().clear();
+        driversList.getRowConstraints().clear();
+        driversList.getColumnConstraints().clear();
+
+        List<Driver> drivers = game.getCurrentChampionship().getDrivers();
+
+        int maxRowsPerColumn = 12; // Maximum rows before a new column starts
+        int row = 0;
+        int col = 0;
+
+        for (Driver driver : drivers) {
+            // Create a label for each driver
+            Label driverLabel = new Label(driver.getName());
+            driverLabel.setId("driver-" + driver.getName()); // Unique ID
+            driverLabel.setStyle("-fx-border-color: black; -fx-background-color: lightgray; -fx-padding: 5px;");
+
+            // Enable drag-and-drop functionality
+            driverLabel.setOnDragDetected(event -> {
+                Dragboard dragboard = driverLabel.startDragAndDrop(TransferMode.MOVE);
+                ClipboardContent content = new ClipboardContent();
+                content.putString(driverLabel.getText());
+                dragboard.setContent(content);
+                event.consume();
+            });
+
+            driverLabel.setOnDragDone(event -> {
+                if (event.getTransferMode() == TransferMode.MOVE) {
+                    driversList.getChildren().remove(driverLabel); // Remove from old position
+                }
+            });
+
+            // Add the label to the grid
+            driversList.add(driverLabel, col, row);
+
+            // Increment row/column
+            row++;
+            if (row >= maxRowsPerColumn) {
+                row = 0;
+                col++;
+            }
+        }
+
+        // Dynamically add row constraints for spacing
+        for (int i = 0; i < maxRowsPerColumn; i++) {
+            RowConstraints rowConstraint = new RowConstraints();
+            rowConstraint.setPrefHeight(30); // Adjust height as needed
+            driversList.getRowConstraints().add(rowConstraint);
+        }
+
+        // Dynamically add column constraints for spacing
+        for (int i = 0; i <= col; i++) {
+            ColumnConstraints columnConstraint = new ColumnConstraints();
+            columnConstraint.setPrefWidth(150); // Adjust width as needed
+            driversList.getColumnConstraints().add(columnConstraint);
+        }
+    }
+
+    private void addDriverToGridPane(String driverName) {
+        // Ensure the driver is not already present in the pool
+        for (Node node : driversList.getChildren()) {
+            if (node instanceof Label) {
+                Label existingLabel = (Label) node;
+                if (existingLabel.getText().equals(driverName)) {
+                    return; // Driver already exists, no need to add
+                }
+            }
+        }
+
+        // Create a new label for the driver
         Label driverLabel = new Label(driverName);
+        driverLabel.setId("driver-" + driverName); // Assign a unique ID
         driverLabel.setStyle("-fx-border-color: black; -fx-background-color: lightgray; -fx-padding: 5px;");
+
+        // Enable drag functionality for the new label
         driverLabel.setOnDragDetected(event -> {
             ClipboardContent content = new ClipboardContent();
             content.putString(driverLabel.getText());
@@ -161,16 +210,58 @@ public class EventResultsController extends ViewController {
             event.consume();
         });
 
-        driversList.getChildren().add(driverLabel);
+        driverLabel.setOnDragDone(event -> {
+            if (event.getTransferMode() == TransferMode.MOVE) {
+                driversList.getChildren().remove(driverLabel); // Remove from old position
+            }
+        });
+
+        // Find the next available empty cell in the GridPane
+        int maxRowsPerColumn = 12;
+        int rows = driversList.getRowConstraints().size();
+        int cols = driversList.getColumnConstraints().size();
+
+        for (int row = 0; row < rows; row++) {
+            for (int col = 0; col < cols; col++) {
+                boolean isCellOccupied = false;
+
+                // Check if the cell is occupied
+                for (Node node : driversList.getChildren()) {
+                    Integer nodeRow = GridPane.getRowIndex(node);
+                    Integer nodeCol = GridPane.getColumnIndex(node);
+
+                    if (nodeRow != null && nodeCol != null && nodeRow == row && nodeCol == col) {
+                        isCellOccupied = true;
+                        break;
+                    }
+                }
+
+                // If an empty cell is found, place the driver label here
+                if (!isCellOccupied) {
+                    driversList.add(driverLabel, col, row);
+                    return;
+                }
+            }
+        }
+
+        // Add row and column constraints dynamically if needed
+        if (rows < maxRowsPerColumn) {
+            RowConstraints newRowConstraint = new RowConstraints(30); // Adjust height
+            driversList.getRowConstraints().add(newRowConstraint);
+        } else {
+            ColumnConstraints newColumnConstraint = new ColumnConstraints(150); // Adjust width
+            driversList.getColumnConstraints().add(newColumnConstraint);
+        }
+    }
+
+
+    private void addDriverToPool(String driverName) {
+        addDriverToGridPane(driverName); // Use the new method
     }
 
     private void removeDriverFromPool(String driverName) {
-        for (Node node : driversList.getChildren()) {
-            if (node instanceof Label && ((Label) node).getText().equals(driverName)) {
-                driversList.getChildren().remove(node);
-                break;
-            }
-        }
+        // Remove the driver label with the matching text
+        driversList.getChildren().removeIf(node -> node instanceof Label && ((Label) node).getText().equals(driverName));
     }
 
     @FXML
