@@ -45,10 +45,7 @@ public class ConstructorsStandingsController extends ViewController {
     @FXML
     private void onSubmitButtonClick() throws IOException {
         System.out.println("Continue button clicked!");
-        game.getCurrentChampionship().setCurrentRound((1 + game.getCurrentChampionship().getCurrentRound()));
-        int currentRound = game.getCurrentChampionship().getCurrentRound();
-        List<Track> calendar = game.getCurrentChampionship().getCalendar();
-        if (currentRound >= calendar.size()) {
+        if (game.getCurrentChampionship().getCurrentRound() >= game.getCurrentChampionship().getCalendar().size()) {
             game.setCurrentSeason(game.getCurrentSeason() + 1);
             setNextScreen(FXMLFile.CAREER_END.getFileName());
 //            this.nextScreen = FXMLFile.CAREER_END.getFileName();

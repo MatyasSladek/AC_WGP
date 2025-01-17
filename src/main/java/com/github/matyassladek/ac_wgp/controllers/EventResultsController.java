@@ -14,7 +14,6 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
-import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -278,7 +277,7 @@ public class EventResultsController extends ViewController {
         }
 
         championshipService.updateChampionshipPoints(raceResult);
-
+        game.getCurrentChampionship().setCurrentRound((1 + game.getCurrentChampionship().getCurrentRound()));
         log.info(() -> championshipService.getChampionship().getDriversStandings().toString());
         log.info(() -> championshipService.getChampionship().getConstructorsStandings().toString());
 
