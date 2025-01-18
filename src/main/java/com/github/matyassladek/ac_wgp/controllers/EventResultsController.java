@@ -134,7 +134,7 @@ public class EventResultsController extends ViewController {
 
         List<Driver> drivers = game.getCurrentChampionship().getDrivers();
 
-        int maxRowsPerColumn = 12; // Maximum rows before a new column starts
+        int maxRowsPerColumn = 11; // Maximum rows before a new column starts
         int row = 0;
         int col = 0;
 
@@ -216,7 +216,7 @@ public class EventResultsController extends ViewController {
         });
 
         // Find the next available empty cell in the GridPane
-        int maxRowsPerColumn = 12;
+        int maxRowsPerColumn = 11;
         int rows = driversList.getRowConstraints().size();
         int cols = driversList.getColumnConstraints().size();
 
@@ -248,7 +248,7 @@ public class EventResultsController extends ViewController {
             RowConstraints newRowConstraint = new RowConstraints(30); // Adjust height
             driversList.getRowConstraints().add(newRowConstraint);
         } else {
-            ColumnConstraints newColumnConstraint = new ColumnConstraints(150); // Adjust width
+            ColumnConstraints newColumnConstraint = new ColumnConstraints(200); // Adjust width
             driversList.getColumnConstraints().add(newColumnConstraint);
         }
     }

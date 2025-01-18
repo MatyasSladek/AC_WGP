@@ -126,7 +126,7 @@
 
         <!-- Drivers list on the right -->
         <VBox alignment="TOP_CENTER" spacing="10.0">
-            <GridPane fx:id="driversList" alignment="TOP_CENTER" hgap="10.0" vgap="5.0" style="-fx-border-color: gray; -fx-background-color: #f0f0f0;" prefHeight="500.0" prefWidth="200.0">
+            <GridPane fx:id="driversList" alignment="TOP_CENTER" hgap="10.0" vgap="5.0" style="-fx-border-color: gray; -fx-background-color: #f0f0f0;" prefHeight="500.0" prefWidth="400.0">
                 <!-- Drivers will be added dynamically into two columns -->
             </GridPane>
         </VBox>
