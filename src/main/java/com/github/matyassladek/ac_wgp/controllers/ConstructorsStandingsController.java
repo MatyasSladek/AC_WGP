@@ -3,7 +3,6 @@ package com.github.matyassladek.ac_wgp.controllers;
 import com.github.matyassladek.ac_wgp.enums.FXMLFile;
 import com.github.matyassladek.ac_wgp.model.Game;
 import com.github.matyassladek.ac_wgp.model.Championship;
-import com.github.matyassladek.ac_wgp.enums.Track;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -13,7 +12,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.io.IOException;
-import java.util.List;
 
 public class ConstructorsStandingsController extends ViewController {
 

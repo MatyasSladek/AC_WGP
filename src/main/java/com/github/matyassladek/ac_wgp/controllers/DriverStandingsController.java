@@ -40,7 +40,6 @@ public class DriverStandingsController extends ViewController {
     }
 
     public void initialize() {
-        // Set up column bindings
         positionColumn.setCellValueFactory(data -> {
             int position = standingsTable.getItems().indexOf(data.getValue()) + 1;
             return new javafx.beans.property.SimpleIntegerProperty(position).asObject();
@@ -52,7 +51,6 @@ public class DriverStandingsController extends ViewController {
 
     private void loadDriverStandings() {
         if (game != null) {
-            // Get the driversStandings list from the Championship object
             ObservableList<DriverSlot> standings = FXCollections.observableArrayList(game.getCurrentChampionship().getDriversStandings());
             standingsTable.setItems(standings);
         }

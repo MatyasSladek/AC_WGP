@@ -38,15 +38,11 @@ public class CreateDriverController extends ViewController {
 
     @FXML
     public void initialize() {
-        // Get country names from Country enum
         List<String> countryNames = Arrays.stream(Country.values())
                 .map(Country::getName)
                 .toList();
 
-        // Populate countryChoiceBox with the list of country names
         countryChoiceBox.setItems(FXCollections.observableArrayList(countryNames));
-
-        // Optional: Set default selection for the ChoiceBox
         countryChoiceBox.setValue("");
 
         List<String> teamNames = Arrays.stream(Manufacture.values())
@@ -54,7 +50,6 @@ public class CreateDriverController extends ViewController {
                 .toList();
 
         teamChoiceBox.setItems(FXCollections.observableArrayList(teamNames));
-
         teamChoiceBox.setValue("");
     }
 
@@ -63,7 +58,7 @@ public class CreateDriverController extends ViewController {
         String firstName = firstNameField.getText();
         String lastName = lastNameField.getText();
         String countryName = countryChoiceBox.getValue();
-        String teamName = teamChoiceBox.getValue(); // This will be null if teamChoiceBox is empty
+        String teamName = teamChoiceBox.getValue();
 
         Optional<Country> country = Arrays.stream(Country.values())
                 .filter(c -> c.getName().equals(countryName))
