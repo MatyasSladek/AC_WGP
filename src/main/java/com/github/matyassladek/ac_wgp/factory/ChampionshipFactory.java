@@ -1,5 +1,6 @@
 package com.github.matyassladek.ac_wgp.factory;
 
+import com.github.matyassladek.ac_wgp.enums.Scoring;
 import com.github.matyassladek.ac_wgp.model.Championship;
 import com.github.matyassladek.ac_wgp.model.Team;
 import com.github.matyassladek.ac_wgp.enums.Track;
@@ -10,7 +11,7 @@ import java.util.List;
 public class ChampionshipFactory {
 
     public Championship createChampionship(List<Team> teams, List<Track> season) {
-        Championship championship = new Championship(season);
+        Championship championship = new Championship(season, Scoring.TOP8.getPoints());
         championship.setDriversStandings(createDriverStandings(teams));
         championship.setConstructorsStandings(createConstructorsStandings(teams));
         return championship;

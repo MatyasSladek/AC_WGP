@@ -37,9 +37,9 @@ public class Championship {
     private List<Race> results;
 
     @JsonCreator
-    public Championship(@JsonProperty("calendar") List<Track> calendar) {
+    public Championship(@JsonProperty("calendar") List<Track> calendar, @JsonProperty("scoring") List<Integer> scoring) {
         this.calendar = calendar;
-        this.scoring = List.of(50, 30, 20, 15, 10, 5, 4, 3, 2, 1);
+        this.scoring = scoring;
         this.currentRound = 0;
     }
 
