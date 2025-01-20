@@ -6,14 +6,16 @@ import com.github.matyassladek.ac_wgp.model.Championship;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.io.IOException;
+import java.util.logging.Logger;
 
 public class ConstructorsStandingsController extends ViewController {
+
+    private static final Logger log = Logger.getLogger(ConstructorsStandingsController.class.getName());
 
     @FXML
     private TableView<Championship.TeamSlot> standingsTable;
@@ -27,9 +29,6 @@ public class ConstructorsStandingsController extends ViewController {
     @FXML
     private TableColumn<Championship.TeamSlot, Integer> pointsColumn;
 
-    @FXML
-    private Button continueButton;
-
     public ConstructorsStandingsController() {
         super(FXMLFile.NEXT_EVENT.getFileName());
     }
@@ -42,11 +41,10 @@ public class ConstructorsStandingsController extends ViewController {
 
     @FXML
     private void onSubmitButtonClick() throws IOException {
-        System.out.println("Continue button clicked!");
+        log.info("Continue button clicked!");
         if (game.getCurrentChampionship().getCurrentRound() >= game.getCurrentChampionship().getCalendar().size()) {
             game.setCurrentSeason(game.getCurrentSeason() + 1);
             setNextScreen(FXMLFile.CAREER_END.getFileName());
-//            this.nextScreen = FXMLFile.CAREER_END.getFileName();
         }
         showNextScreen();
     }
