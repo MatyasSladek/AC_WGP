@@ -11,8 +11,11 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.io.IOException;
+import java.util.logging.Logger;
 
 public class DriverStandingsController extends ViewController {
+
+    private static final Logger log = Logger.getLogger(DriverStandingsController.class.getName());
 
     @FXML
     private TableView<DriverSlot> standingsTable;
@@ -58,7 +61,7 @@ public class DriverStandingsController extends ViewController {
 
     @FXML
     private void onContinueButtonClick() throws IOException {
-        System.out.println("Continue button clicked!");
+        log.info("Continue button clicked!");
         showNextScreen();
     }
 }
