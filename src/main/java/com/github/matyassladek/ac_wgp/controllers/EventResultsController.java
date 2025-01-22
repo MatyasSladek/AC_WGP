@@ -1,6 +1,7 @@
 package com.github.matyassladek.ac_wgp.controllers;
 
 import com.github.matyassladek.ac_wgp.enums.FXMLFile;
+import com.github.matyassladek.ac_wgp.enums.Track;
 import com.github.matyassladek.ac_wgp.model.Game;
 import com.github.matyassladek.ac_wgp.helpers.UIHelper;
 import com.github.matyassladek.ac_wgp.model.Driver;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+// TODO: refactor this awful spaghetti code
 public class EventResultsController extends ViewController {
 
     private static final Logger log = Logger.getLogger(EventResultsController.class.getName());
@@ -253,7 +255,17 @@ public class EventResultsController extends ViewController {
         }
 
         championshipService.updateChampionshipPoints(raceResult);
-        game.getCurrentChampionship().setCurrentRound((1 + game.getCurrentChampionship().getCurrentRound()));
+
+        int currentRound = game.getCurrentChampionship().getCurrentRound();
+        List<Track> calendar = game.getCurrentChampionship().getCalendar();
+
+        game.getCurrentChampionship().setCurrentRound((currentRound++));
+        if (currentRound >= calendar.size()) {
+            if (game.getCurrentSeason() < game.getAllSeasons().size() - 1) {
+                game.setCurrentSeason(game.getCurrentSeason() + 1);
+            }
+        }
+
         log.info(() -> championshipService.getChampionship().getDriversStandings().toString());
         log.info(() -> championshipService.getChampionship().getConstructorsStandings().toString());
 

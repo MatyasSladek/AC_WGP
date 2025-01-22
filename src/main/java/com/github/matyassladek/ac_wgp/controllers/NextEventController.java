@@ -33,21 +33,9 @@ public class NextEventController extends ViewController {
         int currentRound = game.getCurrentChampionship().getCurrentRound();
         List<Track> calendar = game.getCurrentChampionship().getCalendar();
 
-        if (currentRound < calendar.size()) {
-            Track nextTrack = calendar.get(currentRound);
-            circuitLabel.setText(nextTrack.getName());
-            lapsLabel.setText("Laps: " + nextTrack.getLaps());
-        } else {
-            if (game.getCurrentSeason() < game.getAllSeasons().size() - 1) {
-                game.setCurrentSeason(game.getCurrentSeason() + 1);
-            } else {
-                circuitLabel.setText("Retirement");
-                lapsLabel.setText("You have finished all seasons. " +
-                        "Time to become TV commentator, youtuber or manager of some young talent!");
-                //TODO: add logic for new season
-                // nextScreen = FXMLFile.RETIRE
-            }
-        }
+        Track nextTrack = calendar.get(currentRound);
+        circuitLabel.setText(nextTrack.getName());
+        lapsLabel.setText("Laps: " + nextTrack.getLaps());
     }
 
     @FXML
