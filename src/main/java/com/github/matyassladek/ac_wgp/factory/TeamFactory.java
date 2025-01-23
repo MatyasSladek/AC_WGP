@@ -8,6 +8,8 @@ import java.util.List;
 
 public abstract class TeamFactory {
 
+    protected int garage = 0;
+
     public List<Team> createTeamList(Driver player, Manufacture playerTeam) {
         List<Team> teams = teamInit();
         for (Team team : teams) {

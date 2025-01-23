@@ -9,8 +9,6 @@ import java.util.List;
 
 public class BrandsTeamFactory extends TeamFactory {
 
-    private int garage = 0;
-
     @Override
     protected List<Team> teamInit() {
 
