@@ -248,7 +248,7 @@ public class EventResultsController extends ViewController {
         List<String> raceResult = new ArrayList<>();
         for (Label dropTarget : dropTargets) {
             if (dropTarget.getText().equals("Drop Here")) {
-                UIHelper.showAlert("Error", "All positions must be filled!");
+                UIHelper.showAlert("Error", "All positions must be filled!", dropTarget.getScene().getWindow());
                 return;
             }
             raceResult.add(dropTarget.getText());

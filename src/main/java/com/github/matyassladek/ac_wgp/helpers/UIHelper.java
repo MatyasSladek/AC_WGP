@@ -3,6 +3,7 @@ package com.github.matyassladek.ac_wgp.helpers;
 import com.github.matyassladek.ac_wgp.model.Driver;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
+import javafx.stage.Window;
 
 import java.util.HashSet;
 import java.util.List;
@@ -35,11 +36,16 @@ public class UIHelper {
                 .toList();
     }
 
-    public static void showAlert(String title, String content) {
+    public static void showAlert(String title, String message, Window owner) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
         alert.setHeaderText(null);
-        alert.setContentText(content);
+        alert.setContentText(message);
+
+        if (owner != null) {
+            alert.initOwner(owner);
+        }
+
         alert.showAndWait();
     }
 }
