@@ -9,6 +9,7 @@ import lombok.Setter;
 import lombok.ToString;
 import org.eclipse.jdt.annotation.NonNullByDefault;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,8 +23,8 @@ public class Driver extends Competitor {
     private final String lastName;
     private final Country country;
 
-    private List<Optional<Team>> teams;
-    private List<Optional<Integer>> results;
+    private final List<Optional<Team>> teams;
+    private final List<List<Optional<Integer>>> results;
     private int wins;
     private int podiums;
     private int top10;
@@ -40,6 +41,8 @@ public class Driver extends Competitor {
         this.firstName = firstName;
         this.lastName = lastName;
         this.country = country;
+        this.teams = new ArrayList<>();
+        this.results = new ArrayList<>(new ArrayList<>());
         this.wins = 0;
         this.podiums = 0;
         this.top10 = 0;
