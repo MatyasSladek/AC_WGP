@@ -16,6 +16,7 @@ public enum DriverEnum {
     BRUNO_CAMPIONI(new Driver("Bruno", "Campioni", Country.ITA)),
 
     DAVID_STARK(new Driver("David", "Stark", Country.USA)),
+    DIEGO_CABRERA(new Driver("Diego", "Cabrera", Country.COL)),
 
     EMILIO_CEVALLOS(new Driver("Emilio", "Cevallos", Country.ESP)),
     ETHAN_SIMON(new Driver("Ethan", "Simon", Country.BEL)),
@@ -44,7 +45,6 @@ public enum DriverEnum {
 
     RICK_SWART(new Driver("Rick", "Swart", Country.ZAF)),
     ROMEO_MORBIDELLI(new Driver("Romeo", "Morbidelli", Country.ITA)),
-    RYAN_DAYSON(new Driver("Ryan", "Dayson", Country.USA)),
     RUAIRI_FERRITER(new Driver("Ruairi", "Ferriter", Country.IRL)),
 
     SAMUEL_SCHMID(new Driver("Samuel", "Schmid", Country.AUT)),

@@ -66,7 +66,7 @@ public class TeamFactory {
                 DriverEnum.BRENT_HARRIS.getDriver()));
 
         defaultTeams.add(new Team(Manufacture.TARGET, ++garage,
-                DriverEnum.RYAN_DAYSON.getDriver(),
+                DriverEnum.DIEGO_CABRERA.getDriver(),
                 DriverEnum.JACK_CAMPBELL.getDriver()));
 
         defaultTeams.add(new Team(Manufacture.VODAFONE, ++garage,
