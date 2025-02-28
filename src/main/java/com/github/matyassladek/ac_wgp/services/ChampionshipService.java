@@ -20,7 +20,7 @@ public class ChampionshipService {
         List<Championship.DriverSlot> driversStandings = championship.getDriversStandings();
         List<Championship.TeamSlot> constructorsStandings = championship.getConstructorsStandings();
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 8; i++) {
             updateDriverAndConstructorPoints(raceResult.get(i), i, driversStandings, constructorsStandings);
         }
 
