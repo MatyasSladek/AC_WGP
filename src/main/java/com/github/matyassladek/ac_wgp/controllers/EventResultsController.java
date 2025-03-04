@@ -259,7 +259,7 @@ public class EventResultsController extends ViewController {
         int currentRound = game.getCurrentChampionship().getCurrentRound();
         List<Track> calendar = game.getCurrentChampionship().getCalendar();
 
-        game.getCurrentChampionship().setCurrentRound((currentRound++));
+        game.getCurrentChampionship().setCurrentRound(currentRound + 1);
         if (currentRound >= calendar.size()) {
             if (game.getCurrentSeason() < game.getAllSeasons().size() - 1) {
                 game.setCurrentSeason(game.getCurrentSeason() + 1);
