@@ -32,10 +32,11 @@ public class ChampionshipService {
                                                   List<Championship.DriverSlot> driversStandings,
                                                   List<Championship.TeamSlot> constructorsStandings) {
         Championship.DriverSlot driverSlot = findDriverSlot(driverName, driversStandings);
-        if (driverSlot == null) return;
+        if (driverSlot != null) {
+            driverSlot.setPoints(driverSlot.getPoints() + championship.getScoring().get(raceIndex));
+        }
 
-        driverSlot.setPoints(driverSlot.getPoints() + championship.getScoring().get(raceIndex));
-        Championship.TeamSlot teamSlot = findTeamSlotForDriver(driverSlot, constructorsStandings);
+        Championship.TeamSlot teamSlot = findTeamSlotForDriver(driverName, constructorsStandings);
         if (teamSlot != null) {
             teamSlot.setPoints(teamSlot.getPoints() + championship.getScoring().get(raceIndex));
         }
@@ -48,11 +49,11 @@ public class ChampionshipService {
                 .orElse(null);
     }
 
-    private Championship.TeamSlot findTeamSlotForDriver(Championship.DriverSlot driverSlot,
+    private Championship.TeamSlot findTeamSlotForDriver(String driverName,
                                                         List<Championship.TeamSlot> constructorsStandings) {
         return constructorsStandings.stream()
-                .filter(team -> team.getTeam().getDriver1() == driverSlot.getDriver() ||
-                        team.getTeam().getDriver2() == driverSlot.getDriver())
+                .filter(team -> team.getTeam().getDriver1().getName().equals(driverName) ||
+                        team.getTeam().getDriver2().getName().equals(driverName))
                 .findFirst()
                 .orElse(null);
     }
