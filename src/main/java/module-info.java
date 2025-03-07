@@ -14,6 +14,10 @@ module com.github.matyassladek.ac_wgp {
     requires org.eclipse.jdt.annotation;
     requires java.logging;
     requires com.fasterxml.jackson.databind;
+    requires batik.transcoder;
+    requires batik.awt.util;
+    requires batik.util;
+    requires xmlgraphics.commons;
 
     opens com.github.matyassladek.ac_wgp to javafx.fxml;
     exports com.github.matyassladek.ac_wgp;

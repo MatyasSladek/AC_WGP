@@ -23,6 +23,8 @@
         </columnResizePolicy>
         <columns>
             <TableColumn fx:id="positionColumn" prefWidth="75.0" text="Position" />
+            <TableColumn fx:id="flagColumn" prefWidth="50.0" text="Flag" />
+
             <TableColumn fx:id="driverColumn" prefWidth="75.0" text="Driver" />
             <TableColumn fx:id="teamColumn" prefWidth="75.0" text="Team" />
             <TableColumn fx:id="pointsColumn" prefWidth="75.0" text="Points" />
