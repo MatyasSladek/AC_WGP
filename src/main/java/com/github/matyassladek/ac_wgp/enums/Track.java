@@ -11,10 +11,13 @@ public enum Track {
     ALGARVE("Algarve International Circuit", Country.PRT, calculateLaps(4653)),
     BARCELONA("Circuit de Barcelona-Catalunya", Country.ESP, calculateLaps(4675)),
     BRNO("Brno Circuit", Country.CZE, calculateLaps(5403)),
+    BUDDH("Buddh International Circuit", Country.IND, calculateLaps(5073)),
     CHANG("Chang International Circuit", Country.THA, calculateLaps(4554)),
+    IMOLA("Autodromo Enzo e Dino Ferrari", Country.ITA, calculateLaps(4909)),
     INTERLAGOS("Autódromo José Carlos Pace", Country.BRA, calculateLaps(4309)),
     KYALAMI("Kyalami Grand Prix Circuit", Country.ZAF, calculateLaps(4529)),
     MELBOURNE("Albert Park Circuit", Country.AUS, calculateLaps(5303)),
+    MONT_TREMBLANT("Circuit Mont-Tremblant", Country.CAN, calculateLaps(4266)),
     MONTREAL("Circuit Gilles Villeneuve", Country.CAN, calculateLaps(4361)),
     MONZA("Autodromo Nazionale Monza", Country.ITA, calculateLaps(5793)),
     MUGELLO("Mugello Circuit", Country.ITA, calculateLaps(5245)),
@@ -24,9 +27,12 @@ public enum Track {
     SILVERSTONE("Silverstone Circuit", Country.GBR, calculateLaps(5891)),
     SPA_FRANCORCHAMPS("Circuit de Spa-Francorchamps", Country.BEL, calculateLaps(7004)),
     SEPANG("Sepang International Circuit", Country.MYS, calculateLaps(5543)),
+    SOKOL("Sokol International Racetrack", Country.KAZ, calculateLaps(4765)),
     SPIELBERG("Spielberg Circuit", Country.AUT, calculateLaps(	4326)),
     SUZUKA("Suzuka International Racing Course", Country.JPN, calculateLaps(5807)),
-    WATKINS_GLEN("Watkins Glen International", Country.USA, calculateLaps(5472));
+    SVEG("Sveg Raceway", Country.SWE, calculateLaps(4700)),
+    WATKINS_GLEN("Watkins Glen International", Country.USA, calculateLaps(5472)),
+    ZANDVOORT("Circuit Zandvoort", Country.NLD, calculateLaps(4259));
 
     private final String name;
     private final Country country;

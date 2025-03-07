@@ -10,6 +10,30 @@ import java.util.List;
 @AllArgsConstructor
 @NonNullByDefault
 public enum Calendar {
+    AC_SEASON(List.of(
+            Track.IMOLA,
+            Track.SILVERSTONE,
+            Track.SPA_FRANCORCHAMPS,
+            Track.ZANDVOORT,
+            Track.MONZA,
+            Track.NURBURGRING,
+            Track.MUGELLO
+    )),
+    DEFAULT_SEASON(List.of(
+            Track.MELBOURNE,
+            Track.SEPANG,
+            Track.SAKHIR,
+            Track.KYALAMI,
+            Track.SILVERSTONE,
+            Track.BRNO,
+            Track.SPA_FRANCORCHAMPS,
+            Track.MONZA,
+            Track.SOKOL,
+            Track.BUDDH,
+            Track.SUZUKA,
+            Track.MONT_TREMBLANT,
+            Track.INTERLAGOS
+    )),
     SEASON_1(List.of(
             Track.MELBOURNE,
             Track.KYALAMI,
