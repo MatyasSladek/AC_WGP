@@ -49,8 +49,6 @@ public class EventResultsController extends ViewController {
     @FXML private Label dropTargetPosition18;
     @FXML private Label dropTargetPosition19;
     @FXML private Label dropTargetPosition20;
-    @FXML private Label dropTargetPosition21;
-    @FXML private Label dropTargetPosition22;
 
     private List<Label> dropTargets;
     private ChampionshipService championshipService;
@@ -73,8 +71,7 @@ public class EventResultsController extends ViewController {
                 dropTargetPosition5, dropTargetPosition6, dropTargetPosition7, dropTargetPosition8,
                 dropTargetPosition9, dropTargetPosition10, dropTargetPosition11, dropTargetPosition12,
                 dropTargetPosition13, dropTargetPosition14, dropTargetPosition15, dropTargetPosition16,
-                dropTargetPosition17, dropTargetPosition18, dropTargetPosition19, dropTargetPosition20,
-                dropTargetPosition21, dropTargetPosition22
+                dropTargetPosition17, dropTargetPosition18, dropTargetPosition19, dropTargetPosition20
         );
 
         for (Label dropTarget : dropTargets) {
