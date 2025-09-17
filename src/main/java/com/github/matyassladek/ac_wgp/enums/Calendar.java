@@ -10,6 +10,10 @@ import java.util.List;
 @AllArgsConstructor
 @NonNullByDefault
 public enum Calendar {
+    TEST(List.of(
+            Track.SPA_FRANCORCHAMPS,
+            Track.MONZA
+    )),
     AC_SEASON(List.of(
             Track.IMOLA,
             Track.SILVERSTONE,

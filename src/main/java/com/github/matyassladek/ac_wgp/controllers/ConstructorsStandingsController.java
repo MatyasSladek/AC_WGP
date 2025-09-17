@@ -43,8 +43,11 @@ public class ConstructorsStandingsController extends ViewController {
     private void onSubmitButtonClick() throws IOException {
         log.info("Continue button clicked!");
         if (game.getCurrentChampionship().getCurrentRound() >= game.getCurrentChampionship().getCalendar().size()) {
-            game.setCurrentSeason(game.getCurrentSeason() + 1);
-            setNextScreen(FXMLFile.CAREER_END.getFileName());
+            if (game.newSeason()) {
+                log.info("New season started");
+            } else {
+                setNextScreen(FXMLFile.CAREER_END.getFileName());
+            }
         }
         showNextScreen();
     }

@@ -9,19 +9,8 @@ public class CalendarFactory {
 
     public List<List<Track>> createAllSeasons() {
         return List.of(
-                Calendar.DEFAULT_SEASON.getTracks(),
-                Calendar.DEFAULT_SEASON.getTracks(),
-                Calendar.DEFAULT_SEASON.getTracks(),
-                Calendar.DEFAULT_SEASON.getTracks(),
-                Calendar.DEFAULT_SEASON.getTracks(),
-                Calendar.DEFAULT_SEASON.getTracks(),
-                Calendar.DEFAULT_SEASON.getTracks(),
-                Calendar.DEFAULT_SEASON.getTracks(),
-                Calendar.DEFAULT_SEASON.getTracks(),
-                Calendar.DEFAULT_SEASON.getTracks(),
-                Calendar.DEFAULT_SEASON.getTracks(),
-                Calendar.DEFAULT_SEASON.getTracks(),
-                Calendar.DEFAULT_SEASON.getTracks()
+                Calendar.TEST.getTracks(),
+                Calendar.TEST.getTracks()
         );
     }
 }
