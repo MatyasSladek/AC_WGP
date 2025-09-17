@@ -16,12 +16,16 @@ import lombok.ToString;
 import org.eclipse.jdt.annotation.NonNullByDefault;
 
 import java.util.List;
+import java.util.Random;
 
 @NonNullByDefault
 @Setter
 @Getter
 @ToString
 public class Game {
+
+    @JsonIgnore
+    private static final Random random = new Random();
 
     @JsonProperty("allSeasons")
     private final List<List<Track>> allSeasons;
@@ -72,6 +76,25 @@ public class Game {
     public boolean newSeason() {
         if (currentSeason < allSeasons.size()) {
             setCurrentSeason(currentSeason + 1);
+
+            this.currentChampionship.getConstructorsStandings().sort(
+                    (teamSlot1, teamSlot2) -> Integer.compare(teamSlot2.getPoints(), teamSlot1.getPoints())
+            );
+
+            int garage = 0;
+            for (Championship.TeamSlot teamSlot : this.currentChampionship.getConstructorsStandings()) {
+                Team team = teamSlot.getTeam();
+                team.setGarage(garage);
+                garage++;
+
+                team.getEngine().upgrade(team.getFactoryLevel(), currentSeason, random);
+                team.getChassis().upgrade(team.getFactoryLevel(), currentSeason, random);
+
+                if (random.nextInt(5) == 0) {
+                    team.setFactoryLevel(team.getFactoryLevel() + 1);
+                }
+            }
+
             setCurrentChampionship(championshipInit());
             return true;
         } else {
