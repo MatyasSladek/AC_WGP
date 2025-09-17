@@ -14,13 +14,9 @@ import org.eclipse.jdt.annotation.NonNullByDefault;
 @ToString
 @NonNullByDefault
 public class Team extends Competitor {
-    private static final int INITIAL_BUDGET = 1_000_000;
 
     @JsonProperty("manufacture")
     private Manufacture manufacture;
-
-    @JsonProperty("budget")
-    private int budget;
 
     @JsonIgnore
     private Engine engine;
@@ -37,21 +33,25 @@ public class Team extends Competitor {
     @JsonProperty("driver2")
     private Driver driver2;
 
+    @JsonProperty("factoryLevel")
+    private int factoryLevel;
+
     @JsonCreator
     public Team(
             @JsonProperty("manufacture") Manufacture manufacture,
             @JsonProperty("garage") int garage,
             @JsonProperty("driver1") Driver driver1,
-            @JsonProperty("driver2") Driver driver2
+            @JsonProperty("driver2") Driver driver2,
+            @JsonProperty("factoryLevel") int factoryLevel
     ) {
         super();
         this.manufacture = manufacture;
-        this.budget = INITIAL_BUDGET;
         this.engine = new Engine();
         this.chassis = new Chassis();
         this.garage = garage;
         this.driver1 = driver1;
         this.driver2 = driver2;
+        this.factoryLevel = factoryLevel;
     }
 }
 

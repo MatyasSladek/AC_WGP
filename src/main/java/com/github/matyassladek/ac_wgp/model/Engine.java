@@ -8,8 +8,6 @@ import java.util.List;
 public class Engine extends VehiclePart {
 
     public Engine() {
-        super(List.of(7, 8, 9, 10, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1), 1, 10_000);
-        this.performance = 100;
-        this.upgradeCost = 1_000_000;
+        super(List.of(100, 66, 44, 28, 16, 7, 0), 1);
     }
 }

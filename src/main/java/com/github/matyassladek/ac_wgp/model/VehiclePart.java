@@ -1,26 +1,27 @@
 package com.github.matyassladek.ac_wgp.model;
 
+import lombok.Getter;
 import org.eclipse.jdt.annotation.NonNullByDefault;
 
 import java.util.List;
+import java.util.Random;
 
+@Getter
 @NonNullByDefault
 public abstract class VehiclePart {
 
-    protected final List<Integer> upgradeSpeed;
+    protected final List<Integer> developmentLimits;
     protected final int upgradeValue;
-    protected final int upgradeCostIncrease;
     protected int performance;
-    protected int upgradeCost;
 
-    protected VehiclePart(List<Integer> upgradeSpeed, int upgradeValue, int upgradeCostIncrease) {
-        this.upgradeSpeed = upgradeSpeed;
+    protected VehiclePart(List<Integer> developmentLimits, int upgradeValue) {
+        this.developmentLimits = developmentLimits;
         this.upgradeValue = upgradeValue;
-        this.upgradeCostIncrease = upgradeCostIncrease;
+        this.performance = developmentLimits.getFirst();
     }
 
-    public void upgrade() {
-        this.performance -= this.upgradeValue;
-        this.upgradeCost += this.upgradeCostIncrease;
+    public void upgrade(int factoryLevel, int season, Random rand) {
+        int range = performance - developmentLimits.get(season) - factoryLevel;
+        this.performance = (performance - factoryLevel - rand.nextInt(range)) * upgradeValue;
     }
 }

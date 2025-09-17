@@ -29,45 +29,55 @@ public class TeamFactory {
 
         List<Team> defaultTeams = new ArrayList<>();
 
-        defaultTeams.add(new Team(Manufacture.BWT, ++garage,
-                DriverEnum.SAMUEL_SCHMID.getDriver(),
-                DriverEnum.MARCOS_PERALTA.getDriver()));
-
-        defaultTeams.add(new Team(Manufacture.CASTROL, ++garage,
-                DriverEnum.FREDERIC_GASCOIGNE.getDriver(),
-                DriverEnum.BRUNO_CAMPIONI.getDriver()));
-
-        defaultTeams.add(new Team(Manufacture.EM, ++garage,
-                DriverEnum.FELIPE_PINTO.getDriver(),
-                DriverEnum.JAN_VALENTA.getDriver()));
-
-        defaultTeams.add(new Team(Manufacture.GULF, ++garage,
-                DriverEnum.LUCAS_PEREYRA.getDriver(),
-                DriverEnum.DAVID_STARK.getDriver()));
-
         defaultTeams.add(new Team(Manufacture.JPS, ++garage,
                 DriverEnum.RICK_SWART.getDriver(),
-                DriverEnum.ANTOINE_LAVOIE.getDriver()));
-
-        defaultTeams.add(new Team(Manufacture.MARTINI, ++garage,
-                DriverEnum.JOERI_KAANDORP.getDriver(),
-                DriverEnum.MIKKO_VANHALA.getDriver()));
+                DriverEnum.ANTOINE_LAVOIE.getDriver(),
+                2));
 
         defaultTeams.add(new Team(Manufacture.NEWMAN, ++garage,
                 DriverEnum.HAKARU_KOJIMA.getDriver(),
-                DriverEnum.EMILIO_CEVALLOS.getDriver()));
+                DriverEnum.EMILIO_CEVALLOS.getDriver(),
+                1));
+
+        defaultTeams.add(new Team(Manufacture.MARTINI, ++garage,
+                DriverEnum.JOERI_KAANDORP.getDriver(),
+                DriverEnum.MIKKO_VANHALA.getDriver(),
+                2));
 
         defaultTeams.add(new Team(Manufacture.RBR, ++garage,
                 DriverEnum.FRANZ_HERMANN.getDriver(),
-                DriverEnum.BRENT_HARRIS.getDriver()));
+                DriverEnum.BRENT_HARRIS.getDriver(),
+                3));
 
-        defaultTeams.add(new Team(Manufacture.TARGET, ++garage,
-                DriverEnum.DIEGO_CABRERA.getDriver(),
-                DriverEnum.JACK_CAMPBELL.getDriver()));
+        defaultTeams.add(new Team(Manufacture.GULF, ++garage,
+                DriverEnum.LUCAS_PEREYRA.getDriver(),
+                DriverEnum.DAVID_STARK.getDriver(),
+                3));
+
+        defaultTeams.add(new Team(Manufacture.CASTROL, ++garage,
+                DriverEnum.FREDERIC_GASCOIGNE.getDriver(),
+                DriverEnum.BRUNO_CAMPIONI.getDriver(),
+                2));
+
+        defaultTeams.add(new Team(Manufacture.EM, ++garage,
+                DriverEnum.FELIPE_PINTO.getDriver(),
+                DriverEnum.JAN_VALENTA.getDriver(),
+                1));
+
+        defaultTeams.add(new Team(Manufacture.BWT, ++garage,
+                DriverEnum.SAMUEL_SCHMID.getDriver(),
+                DriverEnum.MARCOS_PERALTA.getDriver(),
+                1));
 
         defaultTeams.add(new Team(Manufacture.VODAFONE, ++garage,
                 DriverEnum.JAIME_OLIVEIRA.getDriver(),
-                DriverEnum.NOAH_TANNER.getDriver()));
+                DriverEnum.NOAH_TANNER.getDriver(),
+                2));
+
+        defaultTeams.add(new Team(Manufacture.TARGET, ++garage,
+                DriverEnum.DIEGO_CABRERA.getDriver(),
+                DriverEnum.JACK_CAMPBELL.getDriver(),
+                2));
 
         return defaultTeams;
     }
