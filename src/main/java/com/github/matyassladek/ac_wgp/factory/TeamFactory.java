@@ -38,7 +38,7 @@ public class TeamFactory {
                 DriverEnum.BRUNO_CAMPIONI.getDriver()));
 
         defaultTeams.add(new Team(Manufacture.EM, ++garage,
-                DriverEnum.JOERI_KAANDORP.getDriver(),
+                DriverEnum.FELIPE_PINTO.getDriver(),
                 DriverEnum.JAN_VALENTA.getDriver()));
 
         defaultTeams.add(new Team(Manufacture.GULF, ++garage,
@@ -50,7 +50,7 @@ public class TeamFactory {
                 DriverEnum.ANTOINE_LAVOIE.getDriver()));
 
         defaultTeams.add(new Team(Manufacture.MARTINI, ++garage,
-                DriverEnum.FELIPE_PINTO.getDriver(),
+                DriverEnum.JOERI_KAANDORP.getDriver(),
                 DriverEnum.MIKKO_VANHALA.getDriver()));
 
         defaultTeams.add(new Team(Manufacture.NEWMAN, ++garage,
