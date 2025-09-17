@@ -10,6 +10,11 @@ public class CalendarFactory {
     public List<List<Track>> createAllSeasons() {
         return List.of(
                 Calendar.TEST.getTracks(),
+                Calendar.TEST.getTracks(),
+                Calendar.TEST.getTracks(),
+                Calendar.TEST.getTracks(),
+                Calendar.TEST.getTracks(),
+                Calendar.TEST.getTracks(),
                 Calendar.TEST.getTracks()
         );
     }

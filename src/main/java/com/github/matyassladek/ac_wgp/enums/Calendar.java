@@ -11,8 +11,7 @@ import java.util.List;
 @NonNullByDefault
 public enum Calendar {
     TEST(List.of(
-            Track.SPA_FRANCORCHAMPS,
-            Track.MONZA
+            Track.SPA_FRANCORCHAMPS
     )),
     AC_SEASON(List.of(
             Track.IMOLA,
