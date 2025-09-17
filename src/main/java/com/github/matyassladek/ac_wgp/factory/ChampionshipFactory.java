@@ -11,7 +11,7 @@ import java.util.List;
 public class ChampionshipFactory {
 
     public Championship createChampionship(List<Team> teams, List<Track> season) {
-        Championship championship = new Championship(season, Scoring.TOP15.getPoints());
+        Championship championship = new Championship(season, Scoring.TOP15_B.getPoints());
         championship.setDriversStandings(createDriverStandings(teams));
         championship.setConstructorsStandings(createConstructorsStandings(teams));
         return championship;
