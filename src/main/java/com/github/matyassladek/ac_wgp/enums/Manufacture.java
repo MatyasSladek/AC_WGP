@@ -13,7 +13,7 @@ public enum Manufacture {
     GULF("Gulf Oil Motorsports", "Gulf", Country.USA),
     JPS("Team John Player Special", "JPS", Country.GBR),
     MARTINI("Martini Racing", "Martini", Country.ITA),
-    NEWMAN("Mobil 1 Racing", "Newman", Country.USA),
+    NEWMAN("Newman Motorsport", "Newman", Country.USA),
     RBR("Oracle Red Bull Racing", "Red Bull", Country.AUT),
     TARGET("Target Racing", "Target", Country.USA),
     VODAFONE("Vodafone Racing", "Vodafone", Country.GBR);
