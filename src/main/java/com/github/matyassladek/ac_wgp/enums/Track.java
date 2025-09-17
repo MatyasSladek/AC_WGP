@@ -38,9 +38,9 @@ public enum Track {
     private final Country country;
     private final int laps;
 
-    private static final int RACE_DISTANCE = 140000;
+    private static final int RACE_DISTANCE = 170000;
 
     private static int calculateLaps(int lapLength) {
-        return RACE_DISTANCE / lapLength;
+        return RACE_DISTANCE / lapLength + 1;
     }
 }
