@@ -22,6 +22,7 @@ public enum DriverEnum {
     ETHAN_SIMON(new Driver("Ethan", "Simon", Country.BEL)),
 
     FELIPE_PINTO(new Driver("Felipe", "Pinto", Country.BRA)),
+    FRANZ_HERMANN(new Driver("Franz", "Hermann", Country.DEU)),
     FREDERIC_GASCOIGNE(new Driver("Frederic", "Gascoigne", Country.CAN)),
 
     GERHARD_DRAGER(new Driver("Gerhard", "Drager", Country.DEU)),
@@ -32,7 +33,7 @@ public enum DriverEnum {
     JACK_CAMPBELL(new Driver("Jack", "Campbell", Country.NZL)),
     JAIME_OLIVEIRA(new Driver("Jaime", "Oliveira", Country.PRT)),
     JAN_VALENTA(new Driver("Jan", "Valenta", Country.CZE)),
-    JOHNATHAN_KAANDORP(new Driver("Johnathan", "Kaandorp", Country.NLD)),
+    JOERI_KAANDORP(new Driver("Joeri", "Kaandorp", Country.NLD)),
     JOZEF_KLOOSTERMAN(new Driver("Jozef", "Kloosterman", Country.NLD)),
 
     LUCAS_PEREYRA(new Driver("Lucas", "Pereyra", Country.ARG)),
