@@ -19,6 +19,15 @@
             <Font size="48.0" />
         </font>
     </Label>
+
+    <!-- Action buttons -->
+    <HBox alignment="CENTER" spacing="20.0">
+        <Button mnemonicParsing="false" onAction="#onLoadFromJsonButtonClick" text="LOAD FROM JSON"
+                style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold;" />
+        <Button mnemonicParsing="false" onAction="#onClearResultsButtonClick" text="CLEAR RESULTS"
+                style="-fx-background-color: #f44336; -fx-text-fill: white; -fx-font-weight: bold;" />
+    </HBox>
+
     <HBox alignment="CENTER" spacing="40.0">
         <!-- Positions on the left -->
         <GridPane>
@@ -125,5 +134,6 @@
             </GridPane>
         </VBox>
     </HBox>
-    <Button mnemonicParsing="false" onAction="#onSubmitButtonClick" text="SUBMIT" />
+    <Button mnemonicParsing="false" onAction="#onSubmitButtonClick" text="SUBMIT"
+            style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 16px;" />
 </VBox>
