@@ -18,10 +18,10 @@ public class Team extends Competitor {
     @JsonProperty("manufacture")
     private Manufacture manufacture;
 
-    @JsonIgnore
+    @JsonProperty("engine")
     private Engine engine;
 
-    @JsonIgnore
+    @JsonProperty("chassis")
     private Chassis chassis;
 
     @JsonProperty("garage")
