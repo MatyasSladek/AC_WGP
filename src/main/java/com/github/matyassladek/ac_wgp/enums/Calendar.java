@@ -13,6 +13,13 @@ public enum Calendar {
     TEST(List.of(
             Track.SPA_FRANCORCHAMPS
     )),
+    AC_SEASON_SHORT(List.of(
+            Track.IMOLA,
+            Track.NURBURGRING,
+            Track.SILVERSTONE,
+            Track.MONZA,
+            Track.SPA_FRANCORCHAMPS
+    )),
     AC_SEASON(List.of(
             Track.IMOLA,
             Track.SILVERSTONE,
