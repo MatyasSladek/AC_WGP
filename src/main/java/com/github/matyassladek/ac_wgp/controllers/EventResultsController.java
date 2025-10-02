@@ -7,6 +7,7 @@ import com.github.matyassladek.ac_wgp.enums.Track;
 import com.github.matyassladek.ac_wgp.model.Game;
 import com.github.matyassladek.ac_wgp.helpers.UIHelper;
 import com.github.matyassladek.ac_wgp.model.Driver;
+import com.github.matyassladek.ac_wgp.services.AssettoCorsaIntegrationService;
 import com.github.matyassladek.ac_wgp.services.ChampionshipService;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -62,13 +63,13 @@ public class EventResultsController extends ViewController {
         super(FXMLFile.DRIVERS_STANDINGS.getFileName());
     }
 
-    @Override
-    public void setGame(Game game) {
-        this.game = game;
-        this.championshipService = new ChampionshipService(game.getCurrentChampionship());
-        populateDriversList();
-        initializeDropTargets();
-    }
+//    @Override
+//    public void setGame(Game game) {
+//        this.game = game;
+//        this.championshipService = new ChampionshipService(game.getCurrentChampionship());
+//        populateDriversList();
+//        initializeDropTargets();
+//    }
 
     private void initializeDropTargets() {
         dropTargets = List.of(
@@ -241,30 +242,30 @@ public class EventResultsController extends ViewController {
         driversList.getChildren().removeIf(node -> node instanceof Label && ((Label) node).getText().equals(driverName));
     }
 
-    @FXML
-    private void onLoadFromJsonButtonClick() {
-        log.info("Load from JSON button clicked");
-
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Select race_out.json file");
-        fileChooser.getExtensionFilters().add(
-                new FileChooser.ExtensionFilter("JSON files (*.json)", "*.json")
-        );
-
-        File selectedFile = fileChooser.showOpenDialog(dropTargetPosition1.getScene().getWindow());
-
-        if (selectedFile != null) {
-            try {
-                loadResultsFromJson(selectedFile);
-                UIHelper.showAlert("Success", "Race results loaded successfully from JSON file!",
-                        dropTargetPosition1.getScene().getWindow());
-            } catch (Exception e) {
-                log.log(Level.SEVERE, "Failed to load results from JSON", e);
-                UIHelper.showAlert("Error", "Failed to load results from JSON file: " + e.getMessage(),
-                        dropTargetPosition1.getScene().getWindow());
-            }
-        }
-    }
+//    @FXML
+//    private void onLoadFromJsonButtonClick() {
+//        log.info("Load from JSON button clicked");
+//
+//        FileChooser fileChooser = new FileChooser();
+//        fileChooser.setTitle("Select race_out.json file");
+//        fileChooser.getExtensionFilters().add(
+//                new FileChooser.ExtensionFilter("JSON files (*.json)", "*.json")
+//        );
+//
+//        File selectedFile = fileChooser.showOpenDialog(dropTargetPosition1.getScene().getWindow());
+//
+//        if (selectedFile != null) {
+//            try {
+//                loadResultsFromJson(selectedFile);
+//                UIHelper.showAlert("Success", "Race results loaded successfully from JSON file!",
+//                        dropTargetPosition1.getScene().getWindow());
+//            } catch (Exception e) {
+//                log.log(Level.SEVERE, "Failed to load results from JSON", e);
+//                UIHelper.showAlert("Error", "Failed to load results from JSON file: " + e.getMessage(),
+//                        dropTargetPosition1.getScene().getWindow());
+//            }
+//        }
+//    }
 
     private void loadResultsFromJson(File jsonFile) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -423,5 +424,129 @@ public class EventResultsController extends ViewController {
         log.info(() -> championshipService.getChampionship().getConstructorsStandings().toString());
 
         showNextScreen();
+    }
+
+    // Add these methods to the existing EventResultsController class
+
+    @FXML
+    private void onLoadFromJsonButtonClick() {
+        log.info("Load from JSON button clicked");
+
+        // Use the stored JSON path from game configuration
+        String jsonPath = game.getJsonResultsPath(); // You'll need to add this to Game class
+
+        if (jsonPath == null || jsonPath.isEmpty()) {
+            // Fallback to file chooser if no path is configured
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Select race_out.json file");
+            fileChooser.getExtensionFilters().add(
+                    new FileChooser.ExtensionFilter("JSON files (*.json)", "*.json")
+            );
+
+            File selectedFile = fileChooser.showOpenDialog(dropTargetPosition1.getScene().getWindow());
+            if (selectedFile != null) {
+                jsonPath = selectedFile.getAbsolutePath();
+            } else {
+                return; // User cancelled
+            }
+        }
+
+        File jsonFile = new File(jsonPath);
+        if (!jsonFile.exists()) {
+            UIHelper.showAlert("File Not Found",
+                    "The configured JSON file was not found: " + jsonPath +
+                            "\nPlease check that the race results have been generated.",
+                    dropTargetPosition1.getScene().getWindow());
+            return;
+        }
+
+        try {
+            loadResultsFromJson(jsonFile);
+            UIHelper.showAlert("Success", "Race results loaded successfully from JSON file!",
+                    dropTargetPosition1.getScene().getWindow());
+        } catch (Exception e) {
+            log.log(Level.SEVERE, "Failed to load results from JSON", e);
+            UIHelper.showAlert("Error", "Failed to load results from JSON file: " + e.getMessage(),
+                    dropTargetPosition1.getScene().getWindow());
+        }
+    }
+
+    /**
+     * Apply AC-specific UI styling based on the game's UI flags
+     */
+    private void applyAcUiStyling() {
+        if (game.getAcGamePath() != null) {
+            try {
+                AssettoCorsaIntegrationService acService = new AssettoCorsaIntegrationService(game.getAcGamePath());
+                Map<String, String> uiFlags = acService.getUIFlags();
+
+                // Apply styling based on AC settings
+                // For example, adjust colors, fonts, or layout based on AC's UI settings
+                if ("1".equals(uiFlags.get("fullscreen"))) {
+                    // Apply fullscreen-optimized styling
+                    log.info("Applying fullscreen UI optimizations");
+                }
+
+                // You could modify CSS classes or inline styles based on AC settings
+                // This is just an example - implement based on your specific needs
+
+            } catch (Exception e) {
+                log.log(Level.WARNING, "Could not apply AC UI styling", e);
+            }
+        }
+    }
+
+    @Override
+    public void setGame(Game game) {
+        this.game = game;
+        this.championshipService = new ChampionshipService(game.getCurrentChampionship());
+        populateDriversList();
+        initializeDropTargets();
+
+        // Apply AC-specific UI styling
+        applyAcUiStyling();
+
+        // Validate that configured tracks are available
+        validateAvailableTracks();
+    }
+
+    /**
+     * Check if the tracks in the championship calendar are available in the AC installation
+     */
+    private void validateAvailableTracks() {
+        if (game.getAcGamePath() == null) {
+            return; // No AC path configured
+        }
+
+        try {
+            AssettoCorsaIntegrationService acService = new AssettoCorsaIntegrationService(game.getAcGamePath());
+
+            // Check each track in the championship calendar
+            List<Track> calendar = game.getCurrentChampionship().getCalendar();
+            List<String> missingTracks = new ArrayList<>();
+
+            for (Track track : calendar) {
+                // You'll need to add a method to get the AC track ID from Track enum
+                String trackId = track.getAcTrackId(); // This method needs to be added to Track enum
+                if (!acService.isTrackAvailable(trackId)) {
+                    missingTracks.add(track.getName());
+                }
+            }
+
+            if (!missingTracks.isEmpty()) {
+                log.warning("Some championship tracks are not available in AC installation: " +
+                        String.join(", ", missingTracks));
+
+                // Optionally show a warning to the user
+                UIHelper.showAlert("Missing Tracks",
+                        "The following tracks from the championship calendar are not available in your AC installation:\n\n" +
+                                String.join("\n", missingTracks) +
+                                "\n\nYou may need to install these tracks or the results loading may not work correctly.",
+                        dropTargetPosition1.getScene().getWindow());
+            }
+
+        } catch (Exception e) {
+            log.log(Level.WARNING, "Error validating available tracks", e);
+        }
     }
 }
