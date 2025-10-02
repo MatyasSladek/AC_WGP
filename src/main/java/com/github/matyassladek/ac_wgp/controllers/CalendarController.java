@@ -157,6 +157,12 @@ public class CalendarController extends ViewController {
             List<Track> calendar = new ArrayList<>(selectedTracks);
             game.setCustomCalendar(calendar);
 
+            // Reinitialize the championship with the new calendar
+            game.setCurrentChampionship(
+                    new com.github.matyassladek.ac_wgp.factory.ChampionshipFactory()
+                            .createChampionship(game.getTeams(), calendar)
+            );
+
             log.log(Level.INFO, "Calendar created with {0} races", selectedTracks.size());
             showNextScreen();
         } else {
