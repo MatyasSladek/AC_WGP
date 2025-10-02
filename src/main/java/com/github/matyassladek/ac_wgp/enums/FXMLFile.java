@@ -12,7 +12,9 @@ public enum FXMLFile {
     EVENT_RESULTS("view/event-results.fxml"),
     DRIVERS_STANDINGS("view/drivers-standings.fxml"),
     CONSTRUCTORS_STANDINGS("view/constructors-standings.fxml"),
-    CAREER_END("view/career-end.fxml");
+    CAREER_END("view/career-end.fxml"),
+    CREATE_CALENDAR("view/create-calendar.fxml"),
+    PRE_SEASON("view/pre-season.fxml");
 
     private final String fileName;
 }

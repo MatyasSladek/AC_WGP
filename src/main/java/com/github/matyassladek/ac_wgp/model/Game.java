@@ -16,6 +16,7 @@ import lombok.Setter;
 import lombok.ToString;
 import org.eclipse.jdt.annotation.NonNullByDefault;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -51,7 +52,7 @@ public class Game {
 
     // Constructor used for game initialization
     public Game(String playerFirstName, String playerLastName, Country playerCountry, Manufacture playerTeam) {
-        this.allSeasons = allSeasonsInit();
+        this.allSeasons = new ArrayList<>(allSeasonsInit());
         this.player = new Driver(playerFirstName, playerLastName, playerCountry);
         this.teams = new TeamFactory().createTeamList(player, playerTeam);
         this.currentChampionship = championshipInit();
@@ -84,6 +85,15 @@ public class Game {
         this.currentSeason = currentSeason;
         this.fxmlScreen = fxmlScreen;
         this.configuration = configuration != null ? configuration : new GameConfiguration();
+    }
+
+    @JsonIgnore
+    public void setCustomCalendar(List<Track> calendar) {
+        if (currentSeason < allSeasons.size()) {
+            allSeasons.set(currentSeason, new ArrayList<>(calendar));
+        } else {
+            allSeasons.add(new ArrayList<>(calendar));
+        }
     }
 
     @JsonIgnore

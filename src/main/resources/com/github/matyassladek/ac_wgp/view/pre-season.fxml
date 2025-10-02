@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.github.matyassladek.ac_wgp.controllers.PreSeasonController"
+            >
+
+    <top>
+        <VBox spacing="15" styleClass="header-section">
+            <padding>
+                <Insets top="25" right="25" bottom="25" left="25"/>
+            </padding>
+
+            <Label fx:id="seasonLabel" text="Season X - Team Development" styleClass="title">
+                <font>
+                    <Font name="System Bold" size="32"/>
+                </font>
+            </Label>
+
+            <Label text="Teams have been working hard during the off-season to improve their cars."
+                   styleClass="subtitle" wrapText="true">
+                <font>
+                    <Font size="16"/>
+                </font>
+            </Label>
+
+            <Label fx:id="playerTeamLabel" text="Your Team: ---" styleClass="player-info">
+                <font>
+                    <Font name="System Bold" size="18"/>
+                </font>
+                <padding>
+                    <Insets top="10"/>
+                </padding>
+            </Label>
+        </VBox>
+    </top>
+
+    <center>
+        <VBox spacing="15" style="-fx-padding: 25;">
+
+            <Label text="Team Performance Overview" styleClass="section-label">
+                <font>
+                    <Font name="System Bold" size="20"/>
+                </font>
+            </Label>
+
+            <TableView fx:id="upgradesTable" VBox.vgrow="ALWAYS"
+                       style="-fx-font-size: 14px;">
+                <columns>
+                    <TableColumn fx:id="teamColumn" text="Team"
+                                 prefWidth="200" minWidth="150"/>
+                    <TableColumn fx:id="engineColumn" text="Engine Performance"
+                                 prefWidth="150" minWidth="120"
+                                 style="-fx-alignment: CENTER;"/>
+                    <TableColumn fx:id="chassisColumn" text="Chassis Performance"
+                                 prefWidth="150" minWidth="120"
+                                 style="-fx-alignment: CENTER;"/>
+                    <TableColumn fx:id="factoryColumn" text="Factory"
+                                 prefWidth="120" minWidth="100"
+                                 style="-fx-alignment: CENTER;"/>
+                    <TableColumn fx:id="totalPerfColumn" text="Total Performance"
+                                 prefWidth="150" minWidth="120"
+                                 style="-fx-alignment: CENTER;"/>
+                </columns>
+            </TableView>
+
+            <HBox spacing="15" alignment="CENTER_LEFT">
+                <Label text="💡 Tip:" styleClass="tip-label">
+                    <font>
+                        <Font name="System Bold" size="14"/>
+                    </font>
+                </Label>
+                <Label text="Higher performance values mean faster cars. Teams with higher factory levels develop faster."
+                       wrapText="true" HBox.hgrow="ALWAYS">
+                    <font>
+                        <Font size="14"/>
+                    </font>
+                </Label>
+            </HBox>
+        </VBox>
+    </center>
+
+    <bottom>
+        <HBox alignment="CENTER_RIGHT" spacing="15" style="-fx-padding: 25;">
+            <Label text="Ready to create your race calendar?" styleClass="info-label">
+                <font>
+                    <Font size="15"/>
+                </font>
+            </Label>
+            <Button fx:id="continueButton" text="Continue to Calendar"
+                    onAction="#handleContinue"
+                    prefWidth="180"
+                    prefHeight="40"
+                    styleClass="confirm-button">
+                <font>
+                    <Font name="System Bold" size="16"/>
+                </font>
+            </Button>
+        </HBox>
+    </bottom>
+
+</BorderPane>

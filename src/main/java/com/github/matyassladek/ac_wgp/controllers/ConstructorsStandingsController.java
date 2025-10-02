@@ -44,6 +44,7 @@ public class ConstructorsStandingsController extends ViewController {
         log.info("Continue button clicked!");
         if (game.getCurrentChampionship().getCurrentRound() >= game.getCurrentChampionship().getCalendar().size()) {
             if (game.newSeason()) {
+                setNextScreen(FXMLFile.PRE_SEASON.getFileName());
                 log.info("New season started");
             } else {
                 setNextScreen(FXMLFile.CAREER_END.getFileName());

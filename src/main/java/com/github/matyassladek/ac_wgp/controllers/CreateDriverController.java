@@ -56,7 +56,7 @@ public class CreateDriverController extends ViewController {
     private String selectedAcGamePath;
 
     public CreateDriverController() {
-        super(FXMLFile.NEXT_EVENT.getFileName());
+        super(FXMLFile.PRE_SEASON.getFileName());
     }
 
     @FXML
@@ -239,13 +239,8 @@ public class CreateDriverController extends ViewController {
         }
 
         // Create game with paths
-        game = new Game(firstName, lastName, country.get(), team.get());
+        game = new Game(firstName, lastName, country.get(), team.get(), selectedJsonPath, selectedAcGamePath);
 
-        // Store the paths in the game object (you'll need to add these fields to Game class)
-        // game.setJsonResultsPath(selectedJsonPath);
-        // game.setAcGamePath(selectedAcGamePath);
-
-        // For now, log the paths until Game class is updated
         log.info("JSON Results Path: " + selectedJsonPath);
         log.info("AC Game Path: " + selectedAcGamePath);
 

@@ -1,18 +1,40 @@
 package com.github.matyassladek.ac_wgp.helpers;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * Configuration class to store paths and settings for AC integration
  */
 public class GameConfiguration {
 
+    @JsonProperty("jsonResultsPath")
     private String jsonResultsPath;
+
+    @JsonProperty("acGamePath")
     private String acGamePath;
+
+    @JsonProperty("autoLoadResults")
     private boolean autoLoadResults;
+
+    @JsonProperty("validateTracks")
     private boolean validateTracks;
 
     public GameConfiguration() {
         this.autoLoadResults = true;
         this.validateTracks = true;
+    }
+
+    @JsonCreator
+    public GameConfiguration(
+            @JsonProperty("jsonResultsPath") String jsonResultsPath,
+            @JsonProperty("acGamePath") String acGamePath,
+            @JsonProperty("autoLoadResults") Boolean autoLoadResults,
+            @JsonProperty("validateTracks") Boolean validateTracks) {
+        this.jsonResultsPath = jsonResultsPath;
+        this.acGamePath = acGamePath;
+        this.autoLoadResults = autoLoadResults != null ? autoLoadResults : true;
+        this.validateTracks = validateTracks != null ? validateTracks : true;
     }
 
     public GameConfiguration(String jsonResultsPath, String acGamePath) {
