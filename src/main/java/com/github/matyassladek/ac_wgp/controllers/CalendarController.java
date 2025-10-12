@@ -17,8 +17,8 @@ import java.util.logging.Logger;
 public class CalendarController extends ViewController {
 
     private static final Logger log = Logger.getLogger(CalendarController.class.getName());
-    private static final int MIN_RACES = 8;
-    private static final int MAX_RACES = 25;
+    private static final int MIN_RACES = 1;
+    private static final int MAX_RACES = 50;
 
     @FXML
     private ListView<Track> availableTracksList;
