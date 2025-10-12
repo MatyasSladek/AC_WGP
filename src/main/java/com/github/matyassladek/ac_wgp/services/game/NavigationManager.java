@@ -1,4 +1,4 @@
-package com.github.matyassladek.ac_wgp.management;
+package com.github.matyassladek.ac_wgp.services.game;
 
 import com.github.matyassladek.ac_wgp.MainApplication;
 import com.github.matyassladek.ac_wgp.model.Game;

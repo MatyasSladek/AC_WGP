@@ -1,8 +1,8 @@
 package com.github.matyassladek.ac_wgp.controllers;
 
 import com.github.matyassladek.ac_wgp.model.Game;
-import com.github.matyassladek.ac_wgp.management.GameManager;
-import com.github.matyassladek.ac_wgp.management.NavigationManager;
+import com.github.matyassladek.ac_wgp.services.game.GameManager;
+import com.github.matyassladek.ac_wgp.services.game.NavigationManager;
 import lombok.Setter;
 
 import java.io.IOException;

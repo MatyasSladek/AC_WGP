@@ -1,6 +1,6 @@
 package com.github.matyassladek.ac_wgp;
 
-import com.github.matyassladek.ac_wgp.management.NavigationManager;
+import com.github.matyassladek.ac_wgp.services.game.NavigationManager;
 import javafx.application.Application;
 import javafx.stage.Stage;
 

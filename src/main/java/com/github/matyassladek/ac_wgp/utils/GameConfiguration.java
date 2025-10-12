@@ -1,4 +1,4 @@
-package com.github.matyassladek.ac_wgp.helpers;
+package com.github.matyassladek.ac_wgp.utils;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

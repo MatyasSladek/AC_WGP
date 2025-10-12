@@ -1,4 +1,4 @@
-package com.github.matyassladek.ac_wgp.services;
+package com.github.matyassladek.ac_wgp.services.ac;
 
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;

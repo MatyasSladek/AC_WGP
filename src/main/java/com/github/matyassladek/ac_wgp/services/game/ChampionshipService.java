@@ -1,4 +1,4 @@
-package com.github.matyassladek.ac_wgp.services;
+package com.github.matyassladek.ac_wgp.services.game;
 
 import com.github.matyassladek.ac_wgp.model.Championship;
 

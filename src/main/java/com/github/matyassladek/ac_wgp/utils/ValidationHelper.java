@@ -1,4 +1,4 @@
-package com.github.matyassladek.ac_wgp.helpers;
+package com.github.matyassladek.ac_wgp.utils;
 
 import javafx.scene.control.ChoiceBox;
 

@@ -1,4 +1,4 @@
-package com.github.matyassladek.ac_wgp.services;
+package com.github.matyassladek.ac_wgp.services.ac;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.matyassladek.ac_wgp.model.Track;

@@ -3,7 +3,7 @@ package com.github.matyassladek.ac_wgp.controllers;
 import com.github.matyassladek.ac_wgp.enums.FXMLFile;
 import com.github.matyassladek.ac_wgp.model.Game;
 import com.github.matyassladek.ac_wgp.model.Track;
-import com.github.matyassladek.ac_wgp.services.TrackLoader;
+import com.github.matyassladek.ac_wgp.services.ac.TrackLoader;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.collections.FXCollections;

@@ -1,6 +1,6 @@
-package com.github.matyassladek.ac_wgp.services;
+package com.github.matyassladek.ac_wgp.services.validators;
 
-import com.github.matyassladek.ac_wgp.helpers.UIHelper;
+import com.github.matyassladek.ac_wgp.utils.UIHelper;
 import com.github.matyassladek.ac_wgp.model.DriverFormData;
 import javafx.stage.Window;
 
