@@ -1,4 +1,4 @@
-package com.github.matyassladek.ac_wgp.services.validators;
+package com.github.matyassladek.ac_wgp.services.validation;
 
 import com.github.matyassladek.ac_wgp.utils.UIHelper;
 import com.github.matyassladek.ac_wgp.model.DriverFormData;

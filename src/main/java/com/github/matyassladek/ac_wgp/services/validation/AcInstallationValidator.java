@@ -1,4 +1,4 @@
-package com.github.matyassladek.ac_wgp.services.validators;
+package com.github.matyassladek.ac_wgp.services.validation;
 
 import java.io.File;
 import java.io.IOException;

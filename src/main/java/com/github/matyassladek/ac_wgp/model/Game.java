@@ -5,8 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.matyassladek.ac_wgp.enums.Country;
 import com.github.matyassladek.ac_wgp.enums.Manufacture;
-import com.github.matyassladek.ac_wgp.factory.ChampionshipFactory;
 import com.github.matyassladek.ac_wgp.enums.FXMLFile;
+import com.github.matyassladek.ac_wgp.factory.TeamFactory;
 import com.github.matyassladek.ac_wgp.utils.GameConfiguration;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,16 +15,17 @@ import org.eclipse.jdt.annotation.NonNullByDefault;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
+/**
+ * Pure domain model representing the game state.
+ * Contains only data and simple getters/setters.
+ * Business logic has been moved to service classes.
+ */
 @NonNullByDefault
 @Setter
 @Getter
 @ToString
 public class Game {
-
-    @JsonIgnore
-    private static final Random random = new Random();
 
     @JsonProperty("allSeasons")
     private final List<List<Track>> allSeasons;
@@ -42,32 +43,20 @@ public class Game {
     private int currentSeason;
 
     @JsonProperty("fxmlScreen")
-    private final String fxmlScreen;
+    private String fxmlScreen;
 
     @JsonProperty("configuration")
     private GameConfiguration configuration;
 
-    // Constructor used for game initialization
-    public Game(String playerFirstName, String playerLastName, Country playerCountry, Manufacture playerTeam) {
+    // Private constructor - use GameFactory to create instances
+    private Game(Driver player, List<Team> teams, GameConfiguration configuration) {
         this.allSeasons = new ArrayList<>();
-        this.player = new Driver(playerFirstName, playerLastName, playerCountry);
-        this.teams = new com.github.matyassladek.ac_wgp.factory.TeamFactory().createTeamList(player, playerTeam);
-        this.currentChampionship = null; // Will be initialized after calendar is set
+        this.player = player;
+        this.teams = teams;
+        this.currentChampionship = null;
         this.currentSeason = 0;
         this.fxmlScreen = FXMLFile.DRIVERS_STANDINGS.getFileName();
-        this.configuration = new GameConfiguration();
-    }
-
-    // Constructor with AC paths
-    public Game(String playerFirstName, String playerLastName, Country playerCountry, Manufacture playerTeam,
-                String jsonResultsPath, String acGamePath) {
-        this.allSeasons = new ArrayList<>();
-        this.player = new Driver(playerFirstName, playerLastName, playerCountry);
-        this.teams = new com.github.matyassladek.ac_wgp.factory.TeamFactory().createTeamList(player, playerTeam);
-        this.currentChampionship = null; // Will be initialized after calendar is set
-        this.currentSeason = 0;
-        this.fxmlScreen = FXMLFile.DRIVERS_STANDINGS.getFileName();
-        this.configuration = new GameConfiguration(jsonResultsPath, acGamePath);
+        this.configuration = configuration;
     }
 
     // Constructor used by Jackson for deserialization
@@ -89,137 +78,93 @@ public class Game {
         this.configuration = configuration != null ? configuration : new GameConfiguration();
     }
 
-    /**
-     * Set the custom calendar for the current season
-     * This replaces the enum-based calendar with Track objects loaded from AC
-     *
-     * @param calendar List of Track objects for the season
-     */
-    @JsonIgnore
-    public void setCustomCalendar(List<Track> calendar) {
-        if (calendar == null || calendar.isEmpty()) {
-            throw new IllegalArgumentException("Calendar cannot be null or empty");
-        }
+    // Factory method for creating new games
+    public static Game create(String playerFirstName, String playerLastName,
+                              Country playerCountry, Manufacture playerTeam,
+                              String jsonResultsPath, String acGamePath,
+                              TeamFactory teamFactory) {
+        Driver player = new Driver(playerFirstName, playerLastName, playerCountry);
+        List<Team> teams = teamFactory.createTeamList(player, playerTeam);
+        GameConfiguration configuration = new GameConfiguration(jsonResultsPath, acGamePath);
 
-        if (currentSeason < allSeasons.size()) {
-            allSeasons.set(currentSeason, new ArrayList<>(calendar));
-        } else {
-            allSeasons.add(new ArrayList<>(calendar));
-        }
+        return new Game(player, teams, configuration);
     }
 
     /**
-     * Get the calendar for the current season
+     * Get the calendar for the current season.
      *
      * @return List of Track objects for current season, or empty list if not set
      */
     @JsonIgnore
     public List<Track> getCurrentCalendar() {
         if (currentSeason >= 0 && currentSeason < allSeasons.size()) {
-            return allSeasons.get(currentSeason);
+            return new ArrayList<>(allSeasons.get(currentSeason));
         }
         return new ArrayList<>();
     }
 
     /**
-     * Advance to a new season
-     * Upgrades team components, sorts standings, and initializes new championship
+     * Get the calendar for a specific season.
      *
-     * @return true if advanced to new season, false if no more seasons available
+     * @param seasonIndex The season index
+     * @return List of Track objects for the season, or empty list if invalid
      */
     @JsonIgnore
-    public boolean newSeason() {
-        if (currentSeason < allSeasons.size() - 1) {
-            setCurrentSeason(currentSeason + 1);
-
-            // Sort constructor standings by points
-            this.currentChampionship.getConstructorsStandings().sort(
-                    (teamSlot1, teamSlot2) -> Integer.compare(teamSlot2.getPoints(), teamSlot1.getPoints())
-            );
-
-            // Update team garages and upgrade components
-            int garage = 0;
-            for (Championship.TeamSlot teamSlot : this.currentChampionship.getConstructorsStandings()) {
-                Team team = teamSlot.getTeam();
-                team.setGarage(garage);
-                garage++;
-
-                team.getEngine().upgrade(team.getFactoryLevel(), currentSeason, random);
-                team.getChassis().upgrade(team.getFactoryLevel(), currentSeason, random);
-
-                // Random chance to upgrade factory level
-                if (random.nextInt(5) == 0) {
-                    team.setFactoryLevel(team.getFactoryLevel() + 1);
-                }
-            }
-
-            // Initialize championship for new season
-            setCurrentChampionship(championshipInit());
-            return true;
-        } else {
-            return false;
+    public List<Track> getSeasonCalendar(int seasonIndex) {
+        if (seasonIndex >= 0 && seasonIndex < allSeasons.size()) {
+            return new ArrayList<>(allSeasons.get(seasonIndex));
         }
+        return new ArrayList<>();
     }
 
     /**
-     * Initialize championship with the current season's calendar
+     * Set the calendar for a specific season.
      *
-     * @return Championship object or null if calendar not set
+     * @param seasonIndex The season index
+     * @param calendar List of Track objects
      */
-    @JsonIgnore
-    private Championship championshipInit() {
-        if (currentSeason >= allSeasons.size() || allSeasons.get(currentSeason).isEmpty()) {
-            return null;
+    public void setSeasonCalendar(int seasonIndex, List<Track> calendar) {
+        if (calendar == null || calendar.isEmpty()) {
+            throw new IllegalArgumentException("Calendar cannot be null or empty");
         }
 
-        ChampionshipFactory championshipFactory = new ChampionshipFactory();
-        return championshipFactory.createChampionship(teams, allSeasons.get(currentSeason));
+        while (allSeasons.size() <= seasonIndex) {
+            allSeasons.add(new ArrayList<>());
+        }
+
+        allSeasons.set(seasonIndex, new ArrayList<>(calendar));
     }
 
     /**
-     * Get the current race from the championship
-     *
-     * @return Current Track or null if no championship or invalid race index
-     */
-    @JsonIgnore
-    public Track getCurrentRace() {
-        if (currentChampionship == null) {
-            return null;
-        }
-
-        List<Track> calendar = getCurrentCalendar();
-        int raceIndex = currentChampionship.getCurrentRaceIndex();
-
-        if (raceIndex >= 0 && raceIndex < calendar.size()) {
-            return calendar.get(raceIndex);
-        }
-
-        return null;
-    }
-
-    /**
-     * Check if there are more races in the current season
-     *
-     * @return true if more races available
-     */
-    @JsonIgnore
-    public boolean hasMoreRaces() {
-        if (currentChampionship == null) {
-            return false;
-        }
-
-        List<Track> calendar = getCurrentCalendar();
-        return currentChampionship.getCurrentRaceIndex() < calendar.size() - 1;
-    }
-
-    /**
-     * Check if the current season's calendar is set
+     * Check if a calendar exists for the current season.
      *
      * @return true if calendar exists and is not empty
      */
     @JsonIgnore
-    public boolean hasCalendar() {
-        return currentSeason < allSeasons.size() && !allSeasons.get(currentSeason).isEmpty();
+    public boolean hasCurrentCalendar() {
+        return currentSeason < allSeasons.size()
+                && allSeasons.get(currentSeason) != null
+                && !allSeasons.get(currentSeason).isEmpty();
+    }
+
+    /**
+     * Check if more seasons are available.
+     *
+     * @return true if there are more seasons
+     */
+    @JsonIgnore
+    public boolean hasMoreSeasons() {
+        return currentSeason < allSeasons.size() - 1;
+    }
+
+    /**
+     * Get the total number of seasons.
+     *
+     * @return number of seasons
+     */
+    @JsonIgnore
+    public int getTotalSeasons() {
+        return allSeasons.size();
     }
 
     // Convenience methods for configuration access

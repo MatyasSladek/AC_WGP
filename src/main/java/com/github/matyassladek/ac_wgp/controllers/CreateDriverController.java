@@ -1,14 +1,14 @@
 package com.github.matyassladek.ac_wgp.controllers;
 
 import com.github.matyassladek.ac_wgp.enums.FXMLFile;
-import com.github.matyassladek.ac_wgp.model.DriverFormData;
-import com.github.matyassladek.ac_wgp.model.Game;
 import com.github.matyassladek.ac_wgp.enums.Country;
 import com.github.matyassladek.ac_wgp.enums.Manufacture;
+import com.github.matyassladek.ac_wgp.factory.GameFactory;
+import com.github.matyassladek.ac_wgp.model.DriverFormData;
 import com.github.matyassladek.ac_wgp.utils.UIHelper;
-import com.github.matyassladek.ac_wgp.services.validators.AcInstallationValidator;
+import com.github.matyassladek.ac_wgp.services.validation.AcInstallationValidator;
 import com.github.matyassladek.ac_wgp.services.ac.FilePathSelector;
-import com.github.matyassladek.ac_wgp.services.validators.FormValidator;
+import com.github.matyassladek.ac_wgp.services.validation.FormValidator;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
@@ -42,22 +42,26 @@ public class CreateDriverController extends ViewController {
     private final FilePathSelector filePathSelector;
     private final AcInstallationValidator acValidator;
     private final FormValidator formValidator;
+    private final GameFactory gameFactory;
 
     private String selectedJsonPath;
     private String selectedAcGamePath;
 
     public CreateDriverController() {
-        this(new FilePathSelector(), new AcInstallationValidator(), new FormValidator());
+        this(new FilePathSelector(), new AcInstallationValidator(),
+                new FormValidator(), new GameFactory());
     }
 
     // Constructor injection for testing
     CreateDriverController(FilePathSelector filePathSelector,
                            AcInstallationValidator acValidator,
-                           FormValidator formValidator) {
+                           FormValidator formValidator,
+                           GameFactory gameFactory) {
         super(FXMLFile.PRE_SEASON.getFileName());
         this.filePathSelector = filePathSelector;
         this.acValidator = acValidator;
         this.formValidator = formValidator;
+        this.gameFactory = gameFactory;
     }
 
     @FXML
@@ -154,7 +158,7 @@ public class CreateDriverController extends ViewController {
         Manufacture team = findTeamByName(formData.getTeamName())
                 .orElseThrow(() -> new IllegalStateException("Team not found: " + formData.getTeamName()));
 
-        game = new Game(
+        game = gameFactory.createGame(
                 formData.getFirstName(),
                 formData.getLastName(),
                 country,
@@ -163,8 +167,7 @@ public class CreateDriverController extends ViewController {
                 formData.getAcGamePath()
         );
 
-        log.info("JSON Results Path: " + formData.getJsonPath());
-        log.info("AC Game Path: " + formData.getAcGamePath());
+        log.info("Game created - JSON Path: " + formData.getJsonPath() + ", AC Path: " + formData.getAcGamePath());
     }
 
     private Optional<Country> findCountryByName(String name) {

@@ -25,7 +25,7 @@ public abstract class ViewController {
     protected void showNextScreen() {
         try {
             gameManager.saveGame(game);
-            navigationManager.navigateTo(nextScreen, game, gameManager);
+            navigationManager.navigateTo(nextScreen, game);
         } catch (IOException e) {
             log.log(Level.SEVERE, "Failed to show next screen: ", e);
         }

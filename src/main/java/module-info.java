@@ -34,8 +34,8 @@ module com.github.matyassladek.ac_wgp {
     opens com.github.matyassladek.ac_wgp.utils to com.fasterxml.jackson.databind;
     exports com.github.matyassladek.ac_wgp.utils;
     exports com.github.matyassladek.ac_wgp.factory;
-    exports com.github.matyassladek.ac_wgp.services.validators;
-    opens com.github.matyassladek.ac_wgp.services.validators to com.fasterxml.jackson.databind;
+    exports com.github.matyassladek.ac_wgp.services.validation;
+    opens com.github.matyassladek.ac_wgp.services.validation to com.fasterxml.jackson.databind;
     exports com.github.matyassladek.ac_wgp.services.ac;
     opens com.github.matyassladek.ac_wgp.services.ac to com.fasterxml.jackson.databind;
     exports com.github.matyassladek.ac_wgp.services.game;

@@ -4,150 +4,78 @@ import com.github.matyassladek.ac_wgp.enums.FXMLFile;
 import com.github.matyassladek.ac_wgp.model.Game;
 import com.github.matyassladek.ac_wgp.model.Track;
 import com.github.matyassladek.ac_wgp.services.ac.TrackLoader;
+import com.github.matyassladek.ac_wgp.services.calendar.CalendarValidationService;
+import com.github.matyassladek.ac_wgp.services.calendar.TrackListManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Controller for the calendar creation screen.
+ * Allows users to select tracks for the season and arrange them in order.
+ */
 public class CalendarController extends ViewController {
 
     private static final Logger log = Logger.getLogger(CalendarController.class.getName());
-    private static final int MIN_RACES = 1;
-    private static final int MAX_RACES = 50;
 
-    @FXML
-    private ListView<Track> availableTracksList;
-
-    @FXML
-    private ListView<Track> selectedTracksList;
-
-    @FXML
-    private Button addTrackButton;
-
-    @FXML
-    private Button removeTrackButton;
-
-    @FXML
-    private Button moveUpButton;
-
-    @FXML
-    private Button moveDownButton;
-
-    @FXML
-    private Button confirmButton;
-
-    @FXML
-    private Label raceCountLabel;
-
-    @FXML
-    private Label statusLabel;
-
-    @FXML
-    private Label trackCountLabel;
+    @FXML private ListView<Track> availableTracksList;
+    @FXML private ListView<Track> selectedTracksList;
+    @FXML private Button addTrackButton;
+    @FXML private Button removeTrackButton;
+    @FXML private Button moveUpButton;
+    @FXML private Button moveDownButton;
+    @FXML private Button confirmButton;
+    @FXML private Label raceCountLabel;
+    @FXML private Label statusLabel;
+    @FXML private Label trackCountLabel;
 
     private ObservableList<Track> availableTracks;
     private ObservableList<Track> selectedTracks;
-    private TrackLoader trackLoader;
+
+    private final TrackLoader trackLoader;
+    private final TrackListManager trackListManager;
+    private final CalendarValidationService validationService;
 
     public CalendarController() {
+        this(new TrackLoader(), new TrackListManager(), new CalendarValidationService());
+    }
+
+    CalendarController(TrackLoader trackLoader, TrackListManager trackListManager,
+                       CalendarValidationService validationService) {
         super(FXMLFile.NEXT_EVENT.getFileName());
-        this.trackLoader = new TrackLoader();
+        this.trackLoader = trackLoader;
+        this.trackListManager = trackListManager;
+        this.validationService = validationService;
     }
 
     @FXML
     public void initialize() {
-        selectedTracks = FXCollections.observableArrayList();
-        availableTracks = FXCollections.observableArrayList();
-
-        availableTracksList.setItems(availableTracks);
-        selectedTracksList.setItems(selectedTracks);
-
-        // Custom cell factory to display track name and country
-        availableTracksList.setCellFactory(lv -> new ListCell<Track>() {
-            @Override
-            protected void updateItem(Track track, boolean empty) {
-                super.updateItem(track, empty);
-                if (empty || track == null) {
-                    setText(null);
-                } else {
-                    setText(track.getDisplayName() + " (" + track.getCountry() + ")");
-                }
-            }
-        });
-
-        selectedTracksList.setCellFactory(lv -> new ListCell<Track>() {
-            @Override
-            protected void updateItem(Track track, boolean empty) {
-                super.updateItem(track, empty);
-                if (empty || track == null) {
-                    setText(null);
-                } else {
-                    setText((getIndex() + 1) + ". " + track.getDisplayName());
-                }
-            }
-        });
-
-        updateRaceCount();
-        updateButtons();
-
-        // Add listeners for selection changes
-        availableTracksList.getSelectionModel().selectedItemProperty().addListener(
-                (obs, oldVal, newVal) -> updateButtons()
-        );
-        selectedTracksList.getSelectionModel().selectedItemProperty().addListener(
-                (obs, oldVal, newVal) -> updateButtons()
-        );
+        initializeObservableLists();
+        setupCellFactories();
+        setupSelectionListeners();
+        updateUI();
     }
 
     @Override
     public void setGame(Game game) {
         this.game = game;
-        // Now that we have the game instance, load the tracks
         loadTracksFromAC();
-        updateRaceCount();
-        updateButtons();
-    }
-
-    private void loadTracksFromAC() {
-        if (game == null || game.getAcGamePath() == null) {
-            log.severe("Game or AC path not initialized");
-            statusLabel.setText("Error: AC game path not found!");
-            statusLabel.setStyle("-fx-text-fill: red;");
-            return;
-        }
-
-        try {
-            List<Track> tracks = trackLoader.loadTracks(game.getAcGamePath());
-            availableTracks.addAll(tracks);
-
-            // Sort tracks by name
-            availableTracks.sort((t1, t2) -> t1.getDisplayName().compareToIgnoreCase(t2.getDisplayName()));
-
-            if (trackCountLabel != null) {
-                trackCountLabel.setText("Available tracks: " + tracks.size());
-            }
-
-            log.info("Loaded " + tracks.size() + " tracks from AC installation");
-        } catch (Exception e) {
-            log.log(Level.SEVERE, "Failed to load tracks from AC", e);
-            statusLabel.setText("Error loading tracks from AC!");
-            statusLabel.setStyle("-fx-text-fill: red;");
-        }
+        updateUI();
     }
 
     @FXML
     private void handleAddTrack() {
         Track selected = availableTracksList.getSelectionModel().getSelectedItem();
-        if (selected != null && selectedTracks.size() < MAX_RACES) {
-            selectedTracks.add(selected);
-            availableTracks.remove(selected);
-            updateRaceCount();
-            updateButtons();
+        if (selected != null) {
+            trackListManager.addTrack(selected, selectedTracks, availableTracks);
+            updateUI();
         }
     }
 
@@ -156,26 +84,16 @@ public class CalendarController extends ViewController {
         Track selected = selectedTracksList.getSelectionModel().getSelectedItem();
         if (selected != null) {
             int index = selectedTracksList.getSelectionModel().getSelectedIndex();
-            selectedTracks.remove(selected);
-            availableTracks.add(selected);
-            availableTracks.sort((t1, t2) -> t1.getDisplayName().compareToIgnoreCase(t2.getDisplayName()));
-            updateRaceCount();
-            updateButtons();
-
-            // Maintain selection
-            if (!selectedTracks.isEmpty()) {
-                int newIndex = Math.min(index, selectedTracks.size() - 1);
-                selectedTracksList.getSelectionModel().select(newIndex);
-            }
+            trackListManager.removeTrack(selected, selectedTracks, availableTracks);
+            updateUI();
+            maintainSelection(index);
         }
     }
 
     @FXML
     private void handleMoveUp() {
         int index = selectedTracksList.getSelectionModel().getSelectedIndex();
-        if (index > 0) {
-            Track track = selectedTracks.remove(index);
-            selectedTracks.add(index - 1, track);
+        if (trackListManager.moveTrackUp(index, selectedTracks)) {
             selectedTracksList.getSelectionModel().select(index - 1);
             selectedTracksList.refresh();
         }
@@ -184,57 +102,100 @@ public class CalendarController extends ViewController {
     @FXML
     private void handleMoveDown() {
         int index = selectedTracksList.getSelectionModel().getSelectedIndex();
-        if (index >= 0 && index < selectedTracks.size() - 1) {
-            Track track = selectedTracks.remove(index);
-            selectedTracks.add(index + 1, track);
+        if (trackListManager.moveTrackDown(index, selectedTracks)) {
             selectedTracksList.getSelectionModel().select(index + 1);
             selectedTracksList.refresh();
         }
     }
 
     @FXML
-    private void handleConfirm() {
-        if (selectedTracks.size() >= MIN_RACES) {
-            // Store the calendar in the game object
-            List<Track> calendar = new ArrayList<>(selectedTracks);
-            game.setCustomCalendar(calendar);
+    private void handleConfirm() throws IOException {
+        List<Track> calendar = new ArrayList<>(selectedTracks);
 
-            // Reinitialize the championship with the new calendar
-            game.setCurrentChampionship(
-                    new com.github.matyassladek.ac_wgp.factory.ChampionshipFactory()
-                            .createChampionship(game.getTeams(), calendar)
-            );
+        if (!validationService.isValidCalendar(calendar)) {
+            showValidationError();
+            return;
+        }
 
-            log.log(Level.INFO, "Calendar created with {0} races", selectedTracks.size());
+        // Use GameManager to set calendar and initialize championship
+        boolean success = gameManager.setCurrentSeasonCalendar(game, calendar);
+
+        if (success) {
+            log.info("Calendar created with " + calendar.size() + " races");
             showNextScreen();
         } else {
-            statusLabel.setText("Please select at least " + MIN_RACES + " races!");
-            statusLabel.setStyle("-fx-text-fill: red;");
+            showError("Failed to initialize championship with the selected calendar.");
         }
     }
 
     @FXML
     private void handleRefreshTracks() {
-        // Reload tracks from AC installation
         availableTracks.clear();
         selectedTracks.clear();
         loadTracksFromAC();
+        updateUI();
+    }
+
+    private void initializeObservableLists() {
+        selectedTracks = FXCollections.observableArrayList();
+        availableTracks = FXCollections.observableArrayList();
+        availableTracksList.setItems(availableTracks);
+        selectedTracksList.setItems(selectedTracks);
+    }
+
+    private void setupCellFactories() {
+        availableTracksList.setCellFactory(lv -> new TrackCell(true));
+        selectedTracksList.setCellFactory(lv -> new TrackCell(false));
+    }
+
+    private void setupSelectionListeners() {
+        availableTracksList.getSelectionModel().selectedItemProperty()
+                .addListener((obs, oldVal, newVal) -> updateButtons());
+        selectedTracksList.getSelectionModel().selectedItemProperty()
+                .addListener((obs, oldVal, newVal) -> updateButtons());
+    }
+
+    private void loadTracksFromAC() {
+        if (game == null || game.getAcGamePath() == null) {
+            log.severe("Game or AC path not initialized");
+            showError("AC game path not found!");
+            return;
+        }
+
+        try {
+            List<Track> tracks = trackLoader.loadTracks(game.getAcGamePath());
+            availableTracks.addAll(tracks);
+            availableTracks.sort((t1, t2) ->
+                    t1.getDisplayName().compareToIgnoreCase(t2.getDisplayName()));
+
+            if (trackCountLabel != null) {
+                trackCountLabel.setText("Available tracks: " + tracks.size());
+            }
+
+            log.info("Loaded " + tracks.size() + " tracks from AC installation");
+        } catch (Exception e) {
+            log.log(Level.SEVERE, "Failed to load tracks from AC", e);
+            showError("Error loading tracks from AC!");
+        }
+    }
+
+    private void updateUI() {
         updateRaceCount();
         updateButtons();
     }
 
     private void updateRaceCount() {
         int count = selectedTracks.size();
-        raceCountLabel.setText("Races: " + count + "/" + MAX_RACES);
+        raceCountLabel.setText("Races: " + count + "/" +
+                CalendarValidationService.MAX_RACES);
 
-        if (count >= MIN_RACES && count <= MAX_RACES) {
+        if (validationService.isValidCalendar(new ArrayList<>(selectedTracks))) {
+            setStatusSuccess("Calendar ready!");
             raceCountLabel.setStyle("-fx-text-fill: green;");
-            statusLabel.setText("Calendar ready!");
-            statusLabel.setStyle("-fx-text-fill: green;");
-        } else if (count < MIN_RACES) {
+        } else if (count < CalendarValidationService.MIN_RACES) {
+            setStatusWarning("Add " + (CalendarValidationService.MIN_RACES - count) +
+                    " more race(s) to continue");
             raceCountLabel.setStyle("-fx-text-fill: orange;");
-            statusLabel.setText("Add " + (MIN_RACES - count) + " more race(s) to continue");
-            statusLabel.setStyle("-fx-text-fill: orange;");
         }
     }
 
@@ -243,10 +204,70 @@ public class CalendarController extends ViewController {
         Track selectedTrack = selectedTracksList.getSelectionModel().getSelectedItem();
         int selectedIndex = selectedTracksList.getSelectionModel().getSelectedIndex();
 
-        addTrackButton.setDisable(availableSelected == null || selectedTracks.size() >= MAX_RACES);
+        addTrackButton.setDisable(availableSelected == null ||
+                selectedTracks.size() >= CalendarValidationService.MAX_RACES);
         removeTrackButton.setDisable(selectedTrack == null);
         moveUpButton.setDisable(selectedTrack == null || selectedIndex <= 0);
-        moveDownButton.setDisable(selectedTrack == null || selectedIndex >= selectedTracks.size() - 1);
-        confirmButton.setDisable(selectedTracks.size() < MIN_RACES);
+        moveDownButton.setDisable(selectedTrack == null ||
+                selectedIndex >= selectedTracks.size() - 1);
+        confirmButton.setDisable(!validationService.isValidCalendar(
+                new ArrayList<>(selectedTracks)));
+    }
+
+    private void maintainSelection(int previousIndex) {
+        if (!selectedTracks.isEmpty()) {
+            int newIndex = Math.min(previousIndex, selectedTracks.size() - 1);
+            selectedTracksList.getSelectionModel().select(newIndex);
+        }
+    }
+
+    private void showValidationError() {
+        setStatusError("Please select at least " +
+                CalendarValidationService.MIN_RACES + " races!");
+    }
+
+    private void showError(String message) {
+        statusLabel.setText(message);
+        statusLabel.setStyle("-fx-text-fill: red;");
+    }
+
+    private void setStatusSuccess(String message) {
+        statusLabel.setText(message);
+        statusLabel.setStyle("-fx-text-fill: green;");
+    }
+
+    private void setStatusWarning(String message) {
+        statusLabel.setText(message);
+        statusLabel.setStyle("-fx-text-fill: orange;");
+    }
+
+    private void setStatusError(String message) {
+        statusLabel.setText(message);
+        statusLabel.setStyle("-fx-text-fill: red;");
+    }
+
+    /**
+     * Custom cell for displaying tracks in list views.
+     */
+    private static class TrackCell extends ListCell<Track> {
+        private final boolean showCountry;
+
+        TrackCell(boolean showCountry) {
+            this.showCountry = showCountry;
+        }
+
+        @Override
+        protected void updateItem(Track track, boolean empty) {
+            super.updateItem(track, empty);
+            if (empty || track == null) {
+                setText(null);
+            } else {
+                if (showCountry) {
+                    setText(track.getDisplayName() + " (" + track.getCountry() + ")");
+                } else {
+                    setText((getIndex() + 1) + ". " + track.getDisplayName());
+                }
+            }
+        }
     }
 }
