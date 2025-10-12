@@ -3,7 +3,6 @@ package com.github.matyassladek.ac_wgp.model;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.github.matyassladek.ac_wgp.enums.Track;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -37,10 +36,13 @@ public class Championship {
     private List<Race> results;
 
     @JsonCreator
-    public Championship(@JsonProperty("calendar") List<Track> calendar, @JsonProperty("scoring") List<Integer> scoring) {
+    public Championship(
+            @JsonProperty("calendar") List<Track> calendar,
+            @JsonProperty("scoring") List<Integer> scoring) {
         this.calendar = calendar;
         this.scoring = scoring;
         this.currentRound = 0;
+        this.results = new ArrayList<>();
     }
 
     @JsonIgnore
@@ -50,6 +52,49 @@ public class Championship {
             drivers.add(driver.getDriver());
         }
         return drivers;
+    }
+
+    /**
+     * Get the current race index (same as currentRound)
+     * @return current race index
+     */
+    @JsonIgnore
+    public int getCurrentRaceIndex() {
+        return currentRound;
+    }
+
+    /**
+     * Advance to the next race
+     * @return true if advanced, false if no more races
+     */
+    @JsonIgnore
+    public boolean advanceRound() {
+        if (currentRound < calendar.size() - 1) {
+            currentRound++;
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Check if championship is complete
+     * @return true if all races completed
+     */
+    @JsonIgnore
+    public boolean isComplete() {
+        return currentRound >= calendar.size();
+    }
+
+    /**
+     * Get the current track
+     * @return current Track or null if invalid index
+     */
+    @JsonIgnore
+    public Track getCurrentTrack() {
+        if (currentRound >= 0 && currentRound < calendar.size()) {
+            return calendar.get(currentRound);
+        }
+        return null;
     }
 
     @Setter

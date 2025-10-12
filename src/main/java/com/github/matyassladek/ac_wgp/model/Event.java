@@ -1,6 +1,6 @@
 package com.github.matyassladek.ac_wgp.model;
 
-import com.github.matyassladek.ac_wgp.enums.Track;
+import com.github.matyassladek.ac_wgp.enums.TrackEnum;
 import lombok.Getter;
 import org.eclipse.jdt.annotation.NonNullByDefault;
 
@@ -22,7 +22,7 @@ public class Event {
         this.race = new Race();
         this.round = game.getCurrentChampionship().getCurrentRound();
         this.championshipLength = game.getCurrentChampionship().getCalendar().size();
-        this.track = game.getCurrentChampionship().getCalendar().get(this.round);
+        this.track= game.getCurrentChampionship().getCalendar().get(this.round);
         this.scoring = game.getCurrentChampionship().getScoring();
     }
 

@@ -1,216 +1,151 @@
 package com.github.matyassladek.ac_wgp.services;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
+/**
+ * Service for integrating with Assetto Corsa installation
+ */
 public class AssettoCorsaIntegrationService {
 
     private static final Logger log = Logger.getLogger(AssettoCorsaIntegrationService.class.getName());
 
     private final String acGamePath;
-    private final ObjectMapper objectMapper;
+    private final Path tracksPath;
 
     public AssettoCorsaIntegrationService(String acGamePath) {
         this.acGamePath = acGamePath;
-        this.objectMapper = new ObjectMapper();
+        this.tracksPath = Paths.get(acGamePath, "content", "tracks");
     }
 
     /**
-     * Get list of available tracks from the AC installation
+     * Check if a track is available in the AC installation
+     *
+     * @param trackFolderId Track folder name (e.g., "ks_nurburgring")
+     * @param layoutFolderId Layout folder name (e.g., "gp_a") or null for single-layout tracks
+     * @return true if track exists
      */
-    public List<TrackInfo> getAvailableTracks() {
-        List<TrackInfo> tracks = new ArrayList<>();
+    public boolean isTrackAvailable(String trackFolderId, String layoutFolderId) {
+        Path trackPath = tracksPath.resolve(trackFolderId);
 
-        try {
-            Path tracksPath = Paths.get(acGamePath, "content", "tracks");
-            if (!Files.exists(tracksPath)) {
-                log.warning("Tracks directory not found: " + tracksPath);
-                return tracks;
-            }
-
-            Files.list(tracksPath)
-                    .filter(Files::isDirectory)
-                    .forEach(trackDir -> {
-                        TrackInfo trackInfo = loadTrackInfo(trackDir);
-                        if (trackInfo != null) {
-                            tracks.add(trackInfo);
-                        }
-                    });
-
-        } catch (IOException e) {
-            log.log(Level.SEVERE, "Error loading available tracks", e);
+        if (!Files.exists(trackPath)) {
+            log.warning("Track folder not found: " + trackFolderId);
+            return false;
         }
 
-        return tracks.stream()
-                .sorted(Comparator.comparing(TrackInfo::getDisplayName))
-                .collect(Collectors.toList());
-    }
+        Path uiPath = trackPath.resolve("ui");
 
-    private TrackInfo loadTrackInfo(Path trackDir) {
-        try {
-            String trackId = trackDir.getFileName().toString();
-
-            // Try to load ui_track.json for display information
-            Path uiTrackPath = trackDir.resolve("ui").resolve("ui_track.json");
-            String displayName = trackId; // Default to folder name
-            String country = "";
-            String description = "";
-
-            if (Files.exists(uiTrackPath)) {
-                try {
-                    JsonNode trackJson = objectMapper.readTree(uiTrackPath.toFile());
-                    if (trackJson.has("name")) {
-                        displayName = trackJson.get("name").asText();
-                    }
-                    if (trackJson.has("country")) {
-                        country = trackJson.get("country").asText();
-                    }
-                    if (trackJson.has("description")) {
-                        description = trackJson.get("description").asText();
-                    }
-                } catch (Exception e) {
-                    log.log(Level.WARNING, "Error reading track UI file for " + trackId, e);
-                }
-            }
-
-            // Get available configurations
-            List<String> configurations = getTrackConfigurations(trackDir);
-
-            return new TrackInfo(trackId, displayName, country, description, configurations);
-
-        } catch (Exception e) {
-            log.log(Level.WARNING, "Error loading track info for " + trackDir.getFileName(), e);
-            return null;
+        if (layoutFolderId == null || layoutFolderId.isEmpty()) {
+            // Single layout track - check for ui_track.json directly in ui folder
+            Path uiTrackJson = uiPath.resolve("ui_track.json");
+            return Files.exists(uiTrackJson);
+        } else {
+            // Multi-layout track - check for ui_track.json in layout subfolder
+            Path layoutPath = uiPath.resolve(layoutFolderId);
+            Path uiTrackJson = layoutPath.resolve("ui_track.json");
+            return Files.exists(uiTrackJson);
         }
-    }
-
-    private List<String> getTrackConfigurations(Path trackDir) {
-        List<String> configurations = new ArrayList<>();
-
-        try {
-            Files.list(trackDir)
-                    .filter(Files::isDirectory)
-                    .filter(dir -> !dir.getFileName().toString().equals("ui"))
-                    .forEach(configDir -> {
-                        String configName = configDir.getFileName().toString();
-                        configurations.add(configName);
-                    });
-        } catch (IOException e) {
-            log.log(Level.WARNING, "Error loading track configurations for " + trackDir.getFileName(), e);
-        }
-
-        return configurations.isEmpty() ? Arrays.asList("") : configurations;
     }
 
     /**
-     * Read UI flags/settings from Assetto Corsa
+     * Check if a track folder exists (without checking layout)
+     *
+     * @param trackFolderId Track folder name
+     * @return true if track folder exists
+     */
+    public boolean isTrackFolderAvailable(String trackFolderId) {
+        Path trackPath = tracksPath.resolve(trackFolderId);
+        return Files.exists(trackPath) && Files.isDirectory(trackPath);
+    }
+
+    /**
+     * Get UI flags from Assetto Corsa configuration
+     * This could read from AC's configuration files if needed
+     *
+     * @return Map of UI configuration flags
      */
     public Map<String, String> getUIFlags() {
         Map<String, String> flags = new HashMap<>();
 
-        try {
-            // Try to read from various AC configuration files
-            readVideoSettings(flags);
-            readControlsSettings(flags);
+        // Try to read from AC's video configuration
+        Path videoConfigPath = Paths.get(acGamePath, "system", "cfg", "video.ini");
 
-        } catch (Exception e) {
-            log.log(Level.WARNING, "Error reading AC UI flags", e);
+        if (Files.exists(videoConfigPath)) {
+            try {
+                Files.lines(videoConfigPath).forEach(line -> {
+                    if (line.contains("=")) {
+                        String[] parts = line.split("=", 2);
+                        if (parts.length == 2) {
+                            flags.put(parts[0].trim().toLowerCase(), parts[1].trim());
+                        }
+                    }
+                });
+            } catch (IOException e) {
+                log.log(Level.WARNING, "Could not read video configuration", e);
+            }
         }
 
         return flags;
     }
 
-    private void readVideoSettings(Map<String, String> flags) {
+    /**
+     * Get the path to the AC results directory
+     *
+     * @return Path to results directory
+     */
+    public Path getResultsPath() {
+        return Paths.get(acGamePath, "results");
+    }
+
+    /**
+     * Check if AC installation is valid
+     *
+     * @return true if valid AC installation
+     */
+    public boolean validateInstallation() {
+        File acDir = new File(acGamePath);
+        if (!acDir.exists()) {
+            return false;
+        }
+
+        // Check for essential folders
+        Path contentPath = Paths.get(acGamePath, "content");
+        Path carsPath = contentPath.resolve("cars");
+
+        // Check for executable
+        Path acExe = Paths.get(acGamePath, "acs.exe");
+        Path acExeAlt = Paths.get(acGamePath, "AssettoCorsa.exe");
+
+        return Files.exists(contentPath) &&
+                Files.exists(tracksPath) &&
+                Files.exists(carsPath) &&
+                (Files.exists(acExe) || Files.exists(acExeAlt));
+    }
+
+    /**
+     * Get the number of available tracks in the installation
+     *
+     * @return Track count
+     */
+    public int getAvailableTrackCount() {
+        if (!Files.exists(tracksPath)) {
+            return 0;
+        }
+
         try {
-            Path videoSettingsPath = Paths.get(acGamePath, "system", "cfg", "video.ini");
-            if (Files.exists(videoSettingsPath)) {
-                Properties props = new Properties();
-                props.load(Files.newInputStream(videoSettingsPath));
-
-                // Extract relevant display settings
-                flags.put("resolution", props.getProperty("WIDTH", "1920") + "x" + props.getProperty("HEIGHT", "1080"));
-                flags.put("fullscreen", props.getProperty("FULLSCREEN", "0"));
-                flags.put("vsync", props.getProperty("VERTICAL_SYNC", "0"));
-            }
+            return (int) Files.list(tracksPath)
+                    .filter(Files::isDirectory)
+                    .count();
         } catch (IOException e) {
-            log.log(Level.WARNING, "Could not read video settings", e);
-        }
-    }
-
-    private void readControlsSettings(Map<String, String> flags) {
-        try {
-            Path controlsPath = Paths.get(acGamePath, "system", "cfg", "controls.ini");
-            if (Files.exists(controlsPath)) {
-                Properties props = new Properties();
-                props.load(Files.newInputStream(controlsPath));
-
-                // Extract control-related settings that might affect UI
-                flags.put("steering_wheel", props.getProperty("STEER", ""));
-                flags.put("force_feedback", props.getProperty("FF_GAIN", "100"));
-            }
-        } catch (IOException e) {
-            log.log(Level.WARNING, "Could not read controls settings", e);
-        }
-    }
-
-    /**
-     * Check if a specific track exists in the AC installation
-     */
-    public boolean isTrackAvailable(String trackId) {
-        Path trackPath = Paths.get(acGamePath, "content", "tracks", trackId);
-        return Files.exists(trackPath) && Files.isDirectory(trackPath);
-    }
-
-    /**
-     * Get detailed information about a specific track
-     */
-    public Optional<TrackInfo> getTrackInfo(String trackId) {
-        Path trackPath = Paths.get(acGamePath, "content", "tracks", trackId);
-        if (!Files.exists(trackPath)) {
-            return Optional.empty();
-        }
-
-        TrackInfo trackInfo = loadTrackInfo(trackPath);
-        return Optional.ofNullable(trackInfo);
-    }
-
-    /**
-     * Data class to hold track information
-     */
-    public static class TrackInfo {
-        private final String id;
-        private final String displayName;
-        private final String country;
-        private final String description;
-        private final List<String> configurations;
-
-        public TrackInfo(String id, String displayName, String country, String description, List<String> configurations) {
-            this.id = id;
-            this.displayName = displayName;
-            this.country = country;
-            this.description = description;
-            this.configurations = configurations;
-        }
-
-        public String getId() { return id; }
-        public String getDisplayName() { return displayName; }
-        public String getCountry() { return country; }
-        public String getDescription() { return description; }
-        public List<String> getConfigurations() { return configurations; }
-
-        @Override
-        public String toString() {
-            return displayName + (country.isEmpty() ? "" : " (" + country + ")");
+            log.log(Level.WARNING, "Error counting tracks", e);
+            return 0;
         }
     }
 }

@@ -3,8 +3,8 @@ package com.github.matyassladek.ac_wgp.controllers;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.matyassladek.ac_wgp.enums.FXMLFile;
-import com.github.matyassladek.ac_wgp.enums.Track;
 import com.github.matyassladek.ac_wgp.model.Game;
+import com.github.matyassladek.ac_wgp.model.Track;
 import com.github.matyassladek.ac_wgp.helpers.UIHelper;
 import com.github.matyassladek.ac_wgp.model.Driver;
 import com.github.matyassladek.ac_wgp.services.AssettoCorsaIntegrationService;
@@ -63,13 +63,19 @@ public class EventResultsController extends ViewController {
         super(FXMLFile.DRIVERS_STANDINGS.getFileName());
     }
 
-//    @Override
-//    public void setGame(Game game) {
-//        this.game = game;
-//        this.championshipService = new ChampionshipService(game.getCurrentChampionship());
-//        populateDriversList();
-//        initializeDropTargets();
-//    }
+    @Override
+    public void setGame(Game game) {
+        this.game = game;
+        this.championshipService = new ChampionshipService(game.getCurrentChampionship());
+        populateDriversList();
+        initializeDropTargets();
+
+        // Apply AC-specific UI styling
+        applyAcUiStyling();
+
+        // Validate that configured tracks are available
+        validateAvailableTracks();
+    }
 
     private void initializeDropTargets() {
         dropTargets = List.of(
@@ -242,198 +248,12 @@ public class EventResultsController extends ViewController {
         driversList.getChildren().removeIf(node -> node instanceof Label && ((Label) node).getText().equals(driverName));
     }
 
-//    @FXML
-//    private void onLoadFromJsonButtonClick() {
-//        log.info("Load from JSON button clicked");
-//
-//        FileChooser fileChooser = new FileChooser();
-//        fileChooser.setTitle("Select race_out.json file");
-//        fileChooser.getExtensionFilters().add(
-//                new FileChooser.ExtensionFilter("JSON files (*.json)", "*.json")
-//        );
-//
-//        File selectedFile = fileChooser.showOpenDialog(dropTargetPosition1.getScene().getWindow());
-//
-//        if (selectedFile != null) {
-//            try {
-//                loadResultsFromJson(selectedFile);
-//                UIHelper.showAlert("Success", "Race results loaded successfully from JSON file!",
-//                        dropTargetPosition1.getScene().getWindow());
-//            } catch (Exception e) {
-//                log.log(Level.SEVERE, "Failed to load results from JSON", e);
-//                UIHelper.showAlert("Error", "Failed to load results from JSON file: " + e.getMessage(),
-//                        dropTargetPosition1.getScene().getWindow());
-//            }
-//        }
-//    }
-
-    private void loadResultsFromJson(File jsonFile) throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode rootNode = objectMapper.readTree(jsonFile);
-
-        // Get the players array
-        JsonNode playersNode = rootNode.get("players");
-        if (playersNode == null || !playersNode.isArray()) {
-            throw new IOException("Invalid JSON structure: missing or invalid players array");
-        }
-
-        // Get the race result array from the sessions
-        JsonNode sessionsNode = rootNode.get("sessions");
-        if (sessionsNode == null || !sessionsNode.isArray() || sessionsNode.size() == 0) {
-            throw new IOException("Invalid JSON structure: missing or empty sessions array");
-        }
-
-        JsonNode sessionNode = sessionsNode.get(0); // Get first session
-        JsonNode raceResultNode = sessionNode.get("raceResult");
-        if (raceResultNode == null || !raceResultNode.isArray()) {
-            throw new IOException("Invalid JSON structure: missing or invalid raceResult array");
-        }
-
-        // Step 1: Load all player names from the players array (index 0 = player 1, index 1 = player 2, etc.)
-        List<String> playerNames = new ArrayList<>();
-        for (int i = 0; i < playersNode.size(); i++) {
-            JsonNode playerNode = playersNode.get(i);
-            String playerName = playerNode.get("name").asText();
-            playerNames.add(playerName);
-            log.info("Loaded player " + (i + 1) + ": " + playerName);
-        }
-
-        // Step 2: Sort players according to raceResult array (raceResult contains player indices in finish order)
-        List<String> sortedPlayerNames = new ArrayList<>();
-        for (int i = 0; i < raceResultNode.size() && i < dropTargets.size(); i++) {
-            int playerIndex = raceResultNode.get(i).asInt(); // This is the player index (0-based in raceResult)
-
-            if (playerIndex >= 0 && playerIndex < playerNames.size()) {
-                String playerName = playerNames.get(playerIndex);
-                sortedPlayerNames.add(playerName);
-                log.info("Position " + (i + 1) + ": Player " + (playerIndex + 1) + " (" + playerName + ")");
-            } else {
-                log.warning("Invalid player index in raceResult: " + playerIndex);
-            }
-        }
-
-        // Clear current results and reset all drivers to pool
-        clearCurrentResults();
-
-        // Get available drivers from championship
-        Set<String> availableDrivers = game.getCurrentChampionship().getDrivers()
-                .stream()
-                .map(Driver::getName)
-                .collect(Collectors.toSet());
-
-        // Step 3: Match sorted players with available drivers from the championship
-        List<String> finalResults = new ArrayList<>();
-        for (String playerName : sortedPlayerNames) {
-            String matchedDriver = findMatchingDriver(playerName, availableDrivers);
-            if (matchedDriver != null) {
-                finalResults.add(matchedDriver);
-                availableDrivers.remove(matchedDriver); // Remove to avoid duplicates
-                log.info("Matched player '" + playerName + "' to driver '" + matchedDriver + "'");
-            } else {
-                log.warning("No matching driver found for player: " + playerName);
-                finalResults.add(playerName); // Use original name if no match found
-            }
-        }
-
-        // Apply the results to drop targets
-        for (int i = 0; i < finalResults.size() && i < dropTargets.size(); i++) {
-            String driverName = finalResults.get(i);
-            dropTargets.get(i).setText(driverName);
-            removeDriverFromPool(driverName);
-        }
-
-        log.info("Successfully loaded " + finalResults.size() + " race results from JSON file");
-    }
-
-    private String findMatchingDriver(String playerName, Set<String> availableDrivers) {
-        // First try exact match (case-insensitive)
-        for (String driver : availableDrivers) {
-            if (driver.equalsIgnoreCase(playerName)) {
-                return driver;
-            }
-        }
-
-        // Then try partial match - check if player name contains driver name or vice versa
-        for (String driver : availableDrivers) {
-            if (driver.toLowerCase().contains(playerName.toLowerCase()) ||
-                    playerName.toLowerCase().contains(driver.toLowerCase())) {
-                return driver;
-            }
-        }
-
-        // Try matching by last name
-        String[] playerParts = playerName.split("\\s+");
-        String[] driverParts;
-        for (String driver : availableDrivers) {
-            driverParts = driver.split("\\s+");
-            // Check if any part of the player name matches any part of driver name
-            for (String playerPart : playerParts) {
-                for (String driverPart : driverParts) {
-                    if (playerPart.equalsIgnoreCase(driverPart) && playerPart.length() > 2) {
-                        return driver;
-                    }
-                }
-            }
-        }
-
-        return null; // No match found
-    }
-
-    private void clearCurrentResults() {
-        // Reset all drop targets and return drivers to pool
-        for (Label dropTarget : dropTargets) {
-            if (!dropTarget.getText().equals("Drop Here")) {
-                addDriverToPool(dropTarget.getText());
-                dropTarget.setText("Drop Here");
-            }
-        }
-    }
-
-    @FXML
-    private void onClearResultsButtonClick() {
-        log.info("Clear results button clicked");
-        clearCurrentResults();
-    }
-
-    @FXML
-    private void onSubmitButtonClick() throws IOException {
-        log.info("Submit button clicked");
-
-        List<String> raceResult = new ArrayList<>();
-        for (Label dropTarget : dropTargets) {
-            if (dropTarget.getText().equals("Drop Here")) {
-                UIHelper.showAlert("Error", "All positions must be filled!", dropTarget.getScene().getWindow());
-                return;
-            }
-            raceResult.add(dropTarget.getText());
-        }
-
-        championshipService.updateChampionshipPoints(raceResult);
-
-        int currentRound = game.getCurrentChampionship().getCurrentRound();
-        List<Track> calendar = game.getCurrentChampionship().getCalendar();
-
-        game.getCurrentChampionship().setCurrentRound(currentRound + 1);
-        if (currentRound >= calendar.size()) {
-            if (game.getCurrentSeason() < game.getAllSeasons().size() - 1) {
-                game.setCurrentSeason(game.getCurrentSeason() + 1);
-            }
-        }
-
-        log.info(() -> championshipService.getChampionship().getDriversStandings().toString());
-        log.info(() -> championshipService.getChampionship().getConstructorsStandings().toString());
-
-        showNextScreen();
-    }
-
-    // Add these methods to the existing EventResultsController class
-
     @FXML
     private void onLoadFromJsonButtonClick() {
         log.info("Load from JSON button clicked");
 
         // Use the stored JSON path from game configuration
-        String jsonPath = game.getJsonResultsPath(); // You'll need to add this to Game class
+        String jsonPath = game.getJsonResultsPath();
 
         if (jsonPath == null || jsonPath.isEmpty()) {
             // Fallback to file chooser if no path is configured
@@ -471,51 +291,199 @@ public class EventResultsController extends ViewController {
         }
     }
 
-    /**
-     * Apply AC-specific UI styling based on the game's UI flags
-     */
-    private void applyAcUiStyling() {
-        if (game.getAcGamePath() != null) {
-            try {
-                AssettoCorsaIntegrationService acService = new AssettoCorsaIntegrationService(game.getAcGamePath());
-                Map<String, String> uiFlags = acService.getUIFlags();
+    private void loadResultsFromJson(File jsonFile) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode rootNode = objectMapper.readTree(jsonFile);
 
-                // Apply styling based on AC settings
-                // For example, adjust colors, fonts, or layout based on AC's UI settings
-                if ("1".equals(uiFlags.get("fullscreen"))) {
-                    // Apply fullscreen-optimized styling
-                    log.info("Applying fullscreen UI optimizations");
+        // Get the players array
+        JsonNode playersNode = rootNode.get("players");
+        if (playersNode == null || !playersNode.isArray()) {
+            throw new IOException("Invalid JSON structure: missing or invalid players array");
+        }
+
+        // Get the race result array from the sessions
+        JsonNode sessionsNode = rootNode.get("sessions");
+        if (sessionsNode == null || !sessionsNode.isArray() || sessionsNode.size() == 0) {
+            throw new IOException("Invalid JSON structure: missing or empty sessions array");
+        }
+
+        JsonNode sessionNode = sessionsNode.get(0); // Get first session
+        JsonNode raceResultNode = sessionNode.get("raceResult");
+        if (raceResultNode == null || !raceResultNode.isArray()) {
+            throw new IOException("Invalid JSON structure: missing or invalid raceResult array");
+        }
+
+        // Step 1: Load all player names from the players array
+        List<String> playerNames = new ArrayList<>();
+        for (int i = 0; i < playersNode.size(); i++) {
+            JsonNode playerNode = playersNode.get(i);
+            String playerName = playerNode.get("name").asText();
+            playerNames.add(playerName);
+            log.info("Loaded player " + (i + 1) + ": " + playerName);
+        }
+
+        // Step 2: Sort players according to raceResult array
+        List<String> sortedPlayerNames = new ArrayList<>();
+        for (int i = 0; i < raceResultNode.size() && i < dropTargets.size(); i++) {
+            int playerIndex = raceResultNode.get(i).asInt();
+
+            if (playerIndex >= 0 && playerIndex < playerNames.size()) {
+                String playerName = playerNames.get(playerIndex);
+                sortedPlayerNames.add(playerName);
+                log.info("Position " + (i + 1) + ": Player " + (playerIndex + 1) + " (" + playerName + ")");
+            } else {
+                log.warning("Invalid player index in raceResult: " + playerIndex);
+            }
+        }
+
+        // Clear current results and reset all drivers to pool
+        clearCurrentResults();
+
+        // Get available drivers from championship
+        Set<String> availableDrivers = game.getCurrentChampionship().getDrivers()
+                .stream()
+                .map(Driver::getName)
+                .collect(Collectors.toSet());
+
+        // Step 3: Match sorted players with available drivers from the championship
+        List<String> finalResults = new ArrayList<>();
+        for (String playerName : sortedPlayerNames) {
+            String matchedDriver = findMatchingDriver(playerName, availableDrivers);
+            if (matchedDriver != null) {
+                finalResults.add(matchedDriver);
+                availableDrivers.remove(matchedDriver);
+                log.info("Matched player '" + playerName + "' to driver '" + matchedDriver + "'");
+            } else {
+                log.warning("No matching driver found for player: " + playerName);
+                finalResults.add(playerName);
+            }
+        }
+
+        // Apply the results to drop targets
+        for (int i = 0; i < finalResults.size() && i < dropTargets.size(); i++) {
+            String driverName = finalResults.get(i);
+            dropTargets.get(i).setText(driverName);
+            removeDriverFromPool(driverName);
+        }
+
+        log.info("Successfully loaded " + finalResults.size() + " race results from JSON file");
+    }
+
+    private String findMatchingDriver(String playerName, Set<String> availableDrivers) {
+        // First try exact match (case-insensitive)
+        for (String driver : availableDrivers) {
+            if (driver.equalsIgnoreCase(playerName)) {
+                return driver;
+            }
+        }
+
+        // Then try partial match
+        for (String driver : availableDrivers) {
+            if (driver.toLowerCase().contains(playerName.toLowerCase()) ||
+                    playerName.toLowerCase().contains(driver.toLowerCase())) {
+                return driver;
+            }
+        }
+
+        // Try matching by last name
+        String[] playerParts = playerName.split("\\s+");
+        String[] driverParts;
+        for (String driver : availableDrivers) {
+            driverParts = driver.split("\\s+");
+            for (String playerPart : playerParts) {
+                for (String driverPart : driverParts) {
+                    if (playerPart.equalsIgnoreCase(driverPart) && playerPart.length() > 2) {
+                        return driver;
+                    }
                 }
+            }
+        }
 
-                // You could modify CSS classes or inline styles based on AC settings
-                // This is just an example - implement based on your specific needs
+        return null;
+    }
 
-            } catch (Exception e) {
-                log.log(Level.WARNING, "Could not apply AC UI styling", e);
+    private void clearCurrentResults() {
+        for (Label dropTarget : dropTargets) {
+            if (!dropTarget.getText().equals("Drop Here")) {
+                addDriverToPool(dropTarget.getText());
+                dropTarget.setText("Drop Here");
             }
         }
     }
 
-    @Override
-    public void setGame(Game game) {
-        this.game = game;
-        this.championshipService = new ChampionshipService(game.getCurrentChampionship());
-        populateDriversList();
-        initializeDropTargets();
+    @FXML
+    private void onClearResultsButtonClick() {
+        log.info("Clear results button clicked");
+        clearCurrentResults();
+    }
 
-        // Apply AC-specific UI styling
-        applyAcUiStyling();
+    @FXML
+    private void onSubmitButtonClick() throws IOException {
+        log.info("Submit button clicked");
 
-        // Validate that configured tracks are available
-        validateAvailableTracks();
+        List<String> raceResult = new ArrayList<>();
+        for (Label dropTarget : dropTargets) {
+            if (dropTarget.getText().equals("Drop Here")) {
+                UIHelper.showAlert("Error", "All positions must be filled!", dropTarget.getScene().getWindow());
+                return;
+            }
+            raceResult.add(dropTarget.getText());
+        }
+
+        championshipService.updateChampionshipPoints(raceResult);
+
+        int currentRound = game.getCurrentChampionship().getCurrentRound();
+        List<Track> calendar = game.getCurrentChampionship().getCalendar();
+
+        game.getCurrentChampionship().setCurrentRound(currentRound + 1);
+        if (currentRound >= calendar.size() - 1) {
+            // Last race of the season - advance to next season
+            if (game.newSeason()) {
+                log.info("Advanced to next season");
+            } else {
+                log.info("Championship complete - no more seasons");
+            }
+        }
+
+        log.info(() -> championshipService.getChampionship().getDriversStandings().toString());
+        log.info(() -> championshipService.getChampionship().getConstructorsStandings().toString());
+
+        showNextScreen();
+    }
+
+    /**
+     * Apply AC-specific UI styling based on the game's UI flags
+     */
+    private void applyAcUiStyling() {
+        if (game.getAcGamePath() == null || game.getAcGamePath().isEmpty()) {
+            return;
+        }
+
+        try {
+            AssettoCorsaIntegrationService acService = new AssettoCorsaIntegrationService(game.getAcGamePath());
+            Map<String, String> uiFlags = acService.getUIFlags();
+
+            // Apply styling based on AC settings
+            if ("1".equals(uiFlags.get("fullscreen"))) {
+                log.info("Applying fullscreen UI optimizations");
+            }
+
+        } catch (Exception e) {
+            log.log(Level.WARNING, "Could not apply AC UI styling", e);
+        }
     }
 
     /**
      * Check if the tracks in the championship calendar are available in the AC installation
      */
     private void validateAvailableTracks() {
-        if (game.getAcGamePath() == null) {
-            return; // No AC path configured
+        if (game.getAcGamePath() == null || game.getAcGamePath().isEmpty()) {
+            return;
+        }
+
+        if (!game.isValidateTracks()) {
+            log.info("Track validation is disabled");
+            return;
         }
 
         try {
@@ -526,10 +494,11 @@ public class EventResultsController extends ViewController {
             List<String> missingTracks = new ArrayList<>();
 
             for (Track track : calendar) {
-                // You'll need to add a method to get the AC track ID from Track enum
-                String trackId = track.getAcTrackId(); // This method needs to be added to Track enum
-                if (!acService.isTrackAvailable(trackId)) {
-                    missingTracks.add(track.getName());
+                String trackFolderId = track.getTrackFolderName();
+                String layoutId = track.getLayoutFolderName();
+
+                if (!acService.isTrackAvailable(trackFolderId, layoutId)) {
+                    missingTracks.add(track.getDisplayName());
                 }
             }
 
@@ -537,12 +506,13 @@ public class EventResultsController extends ViewController {
                 log.warning("Some championship tracks are not available in AC installation: " +
                         String.join(", ", missingTracks));
 
-                // Optionally show a warning to the user
                 UIHelper.showAlert("Missing Tracks",
                         "The following tracks from the championship calendar are not available in your AC installation:\n\n" +
                                 String.join("\n", missingTracks) +
                                 "\n\nYou may need to install these tracks or the results loading may not work correctly.",
                         dropTargetPosition1.getScene().getWindow());
+            } else {
+                log.info("All championship tracks validated successfully");
             }
 
         } catch (Exception e) {

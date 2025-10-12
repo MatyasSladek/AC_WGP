@@ -18,6 +18,7 @@ module com.github.matyassladek.ac_wgp {
     requires batik.awt.util;
     requires batik.util;
     requires xmlgraphics.commons;
+    requires com.fasterxml.jackson.annotation;
 
     opens com.github.matyassladek.ac_wgp to javafx.fxml;
     exports com.github.matyassladek.ac_wgp;
@@ -31,4 +32,9 @@ module com.github.matyassladek.ac_wgp {
     exports com.github.matyassladek.ac_wgp.enums;
     opens com.github.matyassladek.ac_wgp.enums to com.fasterxml.jackson.databind, javafx.fxml;
     opens com.github.matyassladek.ac_wgp.controllers to com.fasterxml.jackson.databind, javafx.fxml;
+
+    opens com.github.matyassladek.ac_wgp.helpers to com.fasterxml.jackson.databind;
+    exports com.github.matyassladek.ac_wgp.helpers;
+    exports com.github.matyassladek.ac_wgp.factory;
+    exports com.github.matyassladek.ac_wgp.services;
 }

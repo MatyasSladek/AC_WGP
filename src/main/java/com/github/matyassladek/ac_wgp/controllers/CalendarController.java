@@ -1,10 +1,11 @@
 package com.github.matyassladek.ac_wgp.controllers;
 
 import com.github.matyassladek.ac_wgp.enums.FXMLFile;
-import com.github.matyassladek.ac_wgp.enums.Track;
+import com.github.matyassladek.ac_wgp.model.Game;
+import com.github.matyassladek.ac_wgp.model.Track;
+import com.github.matyassladek.ac_wgp.services.TrackLoader;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.layout.VBox;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -46,17 +47,22 @@ public class CalendarController extends ViewController {
     @FXML
     private Label statusLabel;
 
+    @FXML
+    private Label trackCountLabel;
+
     private ObservableList<Track> availableTracks;
     private ObservableList<Track> selectedTracks;
+    private TrackLoader trackLoader;
 
     public CalendarController() {
         super(FXMLFile.NEXT_EVENT.getFileName());
+        this.trackLoader = new TrackLoader();
     }
 
     @FXML
     public void initialize() {
-        availableTracks = FXCollections.observableArrayList(Track.values());
         selectedTracks = FXCollections.observableArrayList();
+        availableTracks = FXCollections.observableArrayList();
 
         availableTracksList.setItems(availableTracks);
         selectedTracksList.setItems(selectedTracks);
@@ -69,7 +75,7 @@ public class CalendarController extends ViewController {
                 if (empty || track == null) {
                     setText(null);
                 } else {
-                    setText(track.getName() + " (" + track.getCountry().name() + ")");
+                    setText(track.getDisplayName() + " (" + track.getCountry() + ")");
                 }
             }
         });
@@ -81,7 +87,7 @@ public class CalendarController extends ViewController {
                 if (empty || track == null) {
                     setText(null);
                 } else {
-                    setText((getIndex() + 1) + ". " + track.getName());
+                    setText((getIndex() + 1) + ". " + track.getDisplayName());
                 }
             }
         });
@@ -96,6 +102,42 @@ public class CalendarController extends ViewController {
         selectedTracksList.getSelectionModel().selectedItemProperty().addListener(
                 (obs, oldVal, newVal) -> updateButtons()
         );
+    }
+
+    @Override
+    public void setGame(Game game) {
+        this.game = game;
+        // Now that we have the game instance, load the tracks
+        loadTracksFromAC();
+        updateRaceCount();
+        updateButtons();
+    }
+
+    private void loadTracksFromAC() {
+        if (game == null || game.getAcGamePath() == null) {
+            log.severe("Game or AC path not initialized");
+            statusLabel.setText("Error: AC game path not found!");
+            statusLabel.setStyle("-fx-text-fill: red;");
+            return;
+        }
+
+        try {
+            List<Track> tracks = trackLoader.loadTracks(game.getAcGamePath());
+            availableTracks.addAll(tracks);
+
+            // Sort tracks by name
+            availableTracks.sort((t1, t2) -> t1.getDisplayName().compareToIgnoreCase(t2.getDisplayName()));
+
+            if (trackCountLabel != null) {
+                trackCountLabel.setText("Available tracks: " + tracks.size());
+            }
+
+            log.info("Loaded " + tracks.size() + " tracks from AC installation");
+        } catch (Exception e) {
+            log.log(Level.SEVERE, "Failed to load tracks from AC", e);
+            statusLabel.setText("Error loading tracks from AC!");
+            statusLabel.setStyle("-fx-text-fill: red;");
+        }
     }
 
     @FXML
@@ -116,7 +158,7 @@ public class CalendarController extends ViewController {
             int index = selectedTracksList.getSelectionModel().getSelectedIndex();
             selectedTracks.remove(selected);
             availableTracks.add(selected);
-            availableTracks.sort((t1, t2) -> t1.name().compareTo(t2.name()));
+            availableTracks.sort((t1, t2) -> t1.getDisplayName().compareToIgnoreCase(t2.getDisplayName()));
             updateRaceCount();
             updateButtons();
 
@@ -169,6 +211,16 @@ public class CalendarController extends ViewController {
             statusLabel.setText("Please select at least " + MIN_RACES + " races!");
             statusLabel.setStyle("-fx-text-fill: red;");
         }
+    }
+
+    @FXML
+    private void handleRefreshTracks() {
+        // Reload tracks from AC installation
+        availableTracks.clear();
+        selectedTracks.clear();
+        loadTracksFromAC();
+        updateRaceCount();
+        updateButtons();
     }
 
     private void updateRaceCount() {

@@ -7,7 +7,7 @@ import org.eclipse.jdt.annotation.NonNullByDefault;
 @AllArgsConstructor
 @Getter
 @NonNullByDefault
-public enum Track {
+public enum TrackEnum {
     ALGARVE("Algarve International Circuit", Country.PRT, calculateLaps(4653), "algarve"),
     BARCELONA("Circuit de Barcelona-Catalunya", Country.ESP, calculateLaps(4675), "barcelona"),
     BRNO("Brno Circuit", Country.CZE, calculateLaps(5403), "brno"),
