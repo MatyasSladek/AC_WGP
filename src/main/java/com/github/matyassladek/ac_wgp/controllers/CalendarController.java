@@ -3,6 +3,7 @@ package com.github.matyassladek.ac_wgp.controllers;
 import com.github.matyassladek.ac_wgp.enums.FXMLFile;
 import com.github.matyassladek.ac_wgp.model.Game;
 import com.github.matyassladek.ac_wgp.model.Track;
+import com.github.matyassladek.ac_wgp.services.ac.ChampionshipExportService;
 import com.github.matyassladek.ac_wgp.services.ac.TrackLoader;
 import com.github.matyassladek.ac_wgp.services.calendar.CalendarValidationService;
 import com.github.matyassladek.ac_wgp.services.calendar.TrackListManager;
@@ -42,17 +43,19 @@ public class CalendarController extends ViewController {
     private final TrackLoader trackLoader;
     private final TrackListManager trackListManager;
     private final CalendarValidationService validationService;
+    private final ChampionshipExportService championshipExportService;
 
     public CalendarController() {
-        this(new TrackLoader(), new TrackListManager(), new CalendarValidationService());
+        this(new TrackLoader(), new TrackListManager(), new CalendarValidationService(), new ChampionshipExportService());
     }
 
     CalendarController(TrackLoader trackLoader, TrackListManager trackListManager,
-                       CalendarValidationService validationService) {
+                       CalendarValidationService validationService, ChampionshipExportService championshipExportService) {
         super(FXMLFile.NEXT_EVENT.getFileName());
         this.trackLoader = trackLoader;
         this.trackListManager = trackListManager;
         this.validationService = validationService;
+        this.championshipExportService = championshipExportService;
     }
 
     @FXML
@@ -122,6 +125,18 @@ public class CalendarController extends ViewController {
 
         if (success) {
             log.info("Calendar created with " + calendar.size() + " races");
+
+            // Export championship to .champ file
+            try {
+                championshipExportService.exportChampionship(game, calendar);
+                log.info("Championship exported to AC champs directory");
+            } catch (Exception e) {
+                log.log(Level.SEVERE, "Failed to export championship", e);
+                showError("Championship created but failed to export to AC. " +
+                        "You may need to manually create the championship in AC.");
+                // Don't return - still proceed with the game
+            }
+
             showNextScreen();
         } else {
             showError("Failed to initialize championship with the selected calendar.");
