@@ -1,253 +1,181 @@
 package com.github.matyassladek.ac_wgp.controllers;
 
 import com.github.matyassladek.ac_wgp.enums.FXMLFile;
+import com.github.matyassladek.ac_wgp.model.DriverFormData;
 import com.github.matyassladek.ac_wgp.model.Game;
 import com.github.matyassladek.ac_wgp.enums.Country;
 import com.github.matyassladek.ac_wgp.enums.Manufacture;
 import com.github.matyassladek.ac_wgp.helpers.UIHelper;
+import com.github.matyassladek.ac_wgp.services.AcInstallationValidator;
+import com.github.matyassladek.ac_wgp.services.FilePathSelector;
+import com.github.matyassladek.ac_wgp.services.FormValidator;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Button;
-import javafx.stage.DirectoryChooser;
-import javafx.stage.FileChooser;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Controller for the driver creation screen.
+ * Handles user input for creating a new game with driver information.
+ */
 public class CreateDriverController extends ViewController {
 
     private static final Logger log = Logger.getLogger(CreateDriverController.class.getName());
 
-    @FXML
-    private TextField firstNameField;
+    @FXML private TextField firstNameField;
+    @FXML private TextField lastNameField;
+    @FXML private ChoiceBox<String> countryChoiceBox;
+    @FXML private ChoiceBox<String> teamChoiceBox;
+    @FXML private TextField jsonFilePathField;
+    @FXML private Button browseJsonButton;
+    @FXML private TextField acGamePathField;
+    @FXML private Button browseAcPathButton;
 
-    @FXML
-    private TextField lastNameField;
-
-    @FXML
-    private ChoiceBox<String> countryChoiceBox;
-
-    @FXML
-    private ChoiceBox<String> teamChoiceBox;
-
-    @FXML
-    private TextField jsonFilePathField;
-
-    @FXML
-    private Button browseJsonButton;
-
-    @FXML
-    private TextField acGamePathField;
-
-    @FXML
-    private Button browseAcPathButton;
+    private final FilePathSelector filePathSelector;
+    private final AcInstallationValidator acValidator;
+    private final FormValidator formValidator;
 
     private String selectedJsonPath;
     private String selectedAcGamePath;
 
     public CreateDriverController() {
+        this(new FilePathSelector(), new AcInstallationValidator(), new FormValidator());
+    }
+
+    // Constructor injection for testing
+    CreateDriverController(FilePathSelector filePathSelector,
+                           AcInstallationValidator acValidator,
+                           FormValidator formValidator) {
         super(FXMLFile.PRE_SEASON.getFileName());
+        this.filePathSelector = filePathSelector;
+        this.acValidator = acValidator;
+        this.formValidator = formValidator;
     }
 
     @FXML
     public void initialize() {
-        List<String> countryNames = Arrays.stream(Country.values())
-                .map(Country::getName)
-                .toList();
-
-        countryChoiceBox.setItems(FXCollections.observableArrayList(countryNames));
-        countryChoiceBox.setValue("");
-
-        List<String> teamNames = Arrays.stream(Manufacture.values())
-                .map(Manufacture::getNameShort)
-                .toList();
-
-        teamChoiceBox.setItems(FXCollections.observableArrayList(teamNames));
-        teamChoiceBox.setValue("");
-
-        // Initialize path fields
-        jsonFilePathField.setEditable(false);
-        acGamePathField.setEditable(false);
+        initializeCountryChoiceBox();
+        initializeTeamChoiceBox();
+        setPathFieldsReadOnly();
     }
 
     @FXML
     private void onBrowseJsonButtonClick() {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Select JSON Results File");
-        fileChooser.getExtensionFilters().add(
-                new FileChooser.ExtensionFilter("JSON files (*.json)", "*.json")
-        );
-
-        // Set initial directory if possible
-        String userHome = System.getProperty("user.home");
-        File initialDir = new File(userHome);
-        if (initialDir.exists()) {
-            fileChooser.setInitialDirectory(initialDir);
-        }
-
-        File selectedFile = fileChooser.showOpenDialog(browseJsonButton.getScene().getWindow());
-
-        if (selectedFile != null) {
-            selectedJsonPath = selectedFile.getAbsolutePath();
-            jsonFilePathField.setText(selectedJsonPath);
-            log.info("Selected JSON file: " + selectedJsonPath);
-        }
+        filePathSelector.selectJsonFile(browseJsonButton.getScene().getWindow())
+                .ifPresent(path -> {
+                    selectedJsonPath = path;
+                    jsonFilePathField.setText(path);
+                    log.info("Selected JSON file: " + path);
+                });
     }
 
     @FXML
     private void onBrowseAcPathButtonClick() {
-        DirectoryChooser directoryChooser = new DirectoryChooser();
-        directoryChooser.setTitle("Select Assetto Corsa Game Directory");
-
-        // Try to set a reasonable initial directory
-        String programFiles = System.getProperty("os.name").toLowerCase().contains("windows")
-                ? "C:\\Program Files (x86)\\Steam\\steamapps\\common\\assettocorsa"
-                : System.getProperty("user.home");
-
-        File initialDir = new File(programFiles);
-        if (!initialDir.exists()) {
-            initialDir = new File(System.getProperty("user.home"));
-        }
-
-        if (initialDir.exists()) {
-            directoryChooser.setInitialDirectory(initialDir);
-        }
-
-        File selectedDirectory = directoryChooser.showDialog(browseAcPathButton.getScene().getWindow());
-
-        if (selectedDirectory != null) {
-            // Validate that this looks like an Assetto Corsa installation
-            if (validateAcInstallation(selectedDirectory)) {
-                selectedAcGamePath = selectedDirectory.getAbsolutePath();
-                acGamePathField.setText(selectedAcGamePath);
-                log.info("Selected AC game path: " + selectedAcGamePath);
-
-                // Load available tracks
-                loadAvailableTracks(selectedDirectory);
-            } else {
-                UIHelper.showAlert("Invalid Directory",
-                        "The selected directory doesn't appear to be a valid Assetto Corsa installation.\n" +
-                                "Please select the main Assetto Corsa game directory.",
-                        browseAcPathButton.getScene().getWindow());
-            }
-        }
-    }
-
-    private boolean validateAcInstallation(File directory) {
-        // Check for key Assetto Corsa files/folders
-        File contentFolder = new File(directory, "content");
-        File carsFolder = new File(contentFolder, "cars");
-        File tracksFolder = new File(contentFolder, "tracks");
-        File acExe = new File(directory, "acs.exe");
-        File acExeAlt = new File(directory, "AssettoCorsa.exe");
-
-        boolean hasContentStructure = contentFolder.exists() && carsFolder.exists() && tracksFolder.exists();
-        boolean hasExecutable = acExe.exists() || acExeAlt.exists();
-
-        log.info("AC validation - Content structure: " + hasContentStructure + ", Executable: " + hasExecutable);
-        return hasContentStructure && hasExecutable;
-    }
-
-    private void loadAvailableTracks(File acDirectory) {
-        try {
-            Path tracksPath = Paths.get(acDirectory.getAbsolutePath(), "content", "tracks");
-            if (Files.exists(tracksPath) && Files.isDirectory(tracksPath)) {
-                List<String> trackFolders = Files.list(tracksPath)
-                        .filter(Files::isDirectory)
-                        .map(path -> path.getFileName().toString())
-                        .sorted()
-                        .toList();
-
-                log.info("Found " + trackFolders.size() + " tracks in AC installation:");
-                trackFolders.forEach(track -> log.info("  - " + track));
-
-                // Store track information in game object or preferences
-                // This could be used later for track selection validation
-            }
-        } catch (IOException e) {
-            log.log(Level.WARNING, "Failed to load available tracks", e);
-        }
+        filePathSelector.selectAcDirectory(browseAcPathButton.getScene().getWindow())
+                .ifPresent(directory -> {
+                    if (acValidator.isValidInstallation(directory)) {
+                        selectedAcGamePath = directory.getAbsolutePath();
+                        acGamePathField.setText(selectedAcGamePath);
+                        log.info("Selected AC game path: " + selectedAcGamePath);
+                        acValidator.logAvailableTracks(directory);
+                    } else {
+                        showInvalidAcDirectoryError();
+                    }
+                });
     }
 
     @FXML
     private void onSubmitButtonClick() throws IOException {
-        String firstName = firstNameField.getText();
-        String lastName = lastNameField.getText();
-        String countryName = countryChoiceBox.getValue();
-        String teamName = teamChoiceBox.getValue();
+        DriverFormData formData = collectFormData();
 
-        // Validate required fields
-        if (firstName.isEmpty() || lastName.isEmpty() || countryName.isEmpty() || teamName.isEmpty()) {
-            UIHelper.showAlert("Missing Information", "Please fill out all required fields.",
-                    firstNameField.getScene().getWindow());
+        if (!formValidator.validateDriverForm(formData, firstNameField.getScene().getWindow())) {
             return;
         }
 
-        if (selectedJsonPath == null || selectedJsonPath.isEmpty()) {
-            UIHelper.showAlert("Missing JSON Path", "Please select a JSON results file path.",
-                    jsonFilePathField.getScene().getWindow());
-            return;
-        }
-
-        if (selectedAcGamePath == null || selectedAcGamePath.isEmpty()) {
-            UIHelper.showAlert("Missing AC Path", "Please select the Assetto Corsa game directory.",
-                    acGamePathField.getScene().getWindow());
-            return;
-        }
-
-        // Validate JSON file exists
-        if (!Files.exists(Paths.get(selectedJsonPath))) {
-            UIHelper.showAlert("Invalid JSON Path", "The selected JSON file does not exist.",
-                    jsonFilePathField.getScene().getWindow());
-            return;
-        }
-
-        // Validate AC directory still exists and is valid
-        File acDir = new File(selectedAcGamePath);
-        if (!acDir.exists() || !validateAcInstallation(acDir)) {
-            UIHelper.showAlert("Invalid AC Path", "The selected Assetto Corsa directory is not valid.",
-                    acGamePathField.getScene().getWindow());
-            return;
-        }
-
-        Optional<Country> country = Arrays.stream(Country.values())
-                .filter(c -> c.getName().equals(countryName))
-                .findFirst();
-
-        Optional<Manufacture> team = Arrays.stream(Manufacture.values())
-                .filter(t -> t.getNameShort().equals(teamName))
-                .findFirst();
-
-        if (country.isEmpty()) {
-            log.severe("Country not found.");
-            return;
-        }
-
-        if (team.isEmpty()) {
-            log.severe("Team not found.");
-            return;
-        }
-
-        // Create game with paths
-        game = new Game(firstName, lastName, country.get(), team.get(), selectedJsonPath, selectedAcGamePath);
-
-        log.info("JSON Results Path: " + selectedJsonPath);
-        log.info("AC Game Path: " + selectedAcGamePath);
-
+        createAndInitializeGame(formData);
         showNextScreen();
 
         if (log.isLoggable(Level.INFO)) {
             log.info(game.getPlayer().toString());
         }
+    }
+
+    private void initializeCountryChoiceBox() {
+        List<String> countryNames = Arrays.stream(Country.values())
+                .map(Country::getName)
+                .toList();
+        countryChoiceBox.setItems(FXCollections.observableArrayList(countryNames));
+        countryChoiceBox.setValue("");
+    }
+
+    private void initializeTeamChoiceBox() {
+        List<String> teamNames = Arrays.stream(Manufacture.values())
+                .map(Manufacture::getNameShort)
+                .toList();
+        teamChoiceBox.setItems(FXCollections.observableArrayList(teamNames));
+        teamChoiceBox.setValue("");
+    }
+
+    private void setPathFieldsReadOnly() {
+        jsonFilePathField.setEditable(false);
+        acGamePathField.setEditable(false);
+    }
+
+    private void showInvalidAcDirectoryError() {
+        UIHelper.showAlert("Invalid Directory",
+                "The selected directory doesn't appear to be a valid Assetto Corsa installation.\n" +
+                        "Please select the main Assetto Corsa game directory.",
+                browseAcPathButton.getScene().getWindow());
+    }
+
+    private DriverFormData collectFormData() {
+        return new DriverFormData(
+                firstNameField.getText(),
+                lastNameField.getText(),
+                countryChoiceBox.getValue(),
+                teamChoiceBox.getValue(),
+                selectedJsonPath,
+                selectedAcGamePath
+        );
+    }
+
+    private void createAndInitializeGame(DriverFormData formData) {
+        Country country = findCountryByName(formData.getCountryName())
+                .orElseThrow(() -> new IllegalStateException("Country not found: " + formData.getCountryName()));
+
+        Manufacture team = findTeamByName(formData.getTeamName())
+                .orElseThrow(() -> new IllegalStateException("Team not found: " + formData.getTeamName()));
+
+        game = new Game(
+                formData.getFirstName(),
+                formData.getLastName(),
+                country,
+                team,
+                formData.getJsonPath(),
+                formData.getAcGamePath()
+        );
+
+        log.info("JSON Results Path: " + formData.getJsonPath());
+        log.info("AC Game Path: " + formData.getAcGamePath());
+    }
+
+    private Optional<Country> findCountryByName(String name) {
+        return Arrays.stream(Country.values())
+                .filter(c -> c.getName().equals(name))
+                .findFirst();
+    }
+
+    private Optional<Manufacture> findTeamByName(String name) {
+        return Arrays.stream(Manufacture.values())
+                .filter(t -> t.getNameShort().equals(name))
+                .findFirst();
     }
 }
