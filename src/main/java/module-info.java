@@ -27,8 +27,6 @@ module com.github.matyassladek.ac_wgp {
     exports com.github.matyassladek.ac_wgp.controllers;
     exports com.github.matyassladek.ac_wgp.model;
     opens com.github.matyassladek.ac_wgp.model to com.fasterxml.jackson.databind;
-    exports com.github.matyassladek.ac_wgp.management;
-    opens com.github.matyassladek.ac_wgp.management to com.fasterxml.jackson.databind;
     exports com.github.matyassladek.ac_wgp.enums;
     opens com.github.matyassladek.ac_wgp.enums to com.fasterxml.jackson.databind, javafx.fxml;
     opens com.github.matyassladek.ac_wgp.controllers to com.fasterxml.jackson.databind, javafx.fxml;
@@ -36,8 +34,6 @@ module com.github.matyassladek.ac_wgp {
     opens com.github.matyassladek.ac_wgp.utils to com.fasterxml.jackson.databind;
     exports com.github.matyassladek.ac_wgp.utils;
     exports com.github.matyassladek.ac_wgp.factory;
-    exports com.github.matyassladek.ac_wgp.services;
-    opens com.github.matyassladek.ac_wgp.services to com.fasterxml.jackson.databind;
     exports com.github.matyassladek.ac_wgp.services.validators;
     opens com.github.matyassladek.ac_wgp.services.validators to com.fasterxml.jackson.databind;
     exports com.github.matyassladek.ac_wgp.services.ac;
