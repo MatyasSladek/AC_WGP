@@ -109,7 +109,7 @@ public class SeasonProgressionService {
             garagePosition++;
 
             // Upgrade team components
-            teamUpgradeService.upgradeTeamComponents(team, newSeasonIndex, random);
+            teamUpgradeService.upgradeTeamComponents(team, newSeasonIndex + 1, random);
 
             // Random factory level upgrade
             if (shouldUpgradeFactory()) {

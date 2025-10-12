@@ -154,7 +154,8 @@ public class Game {
      */
     @JsonIgnore
     public boolean hasMoreSeasons() {
-        return currentSeason < allSeasons.size() - 1;
+        final int max_seasons = 5;
+        return currentSeason < max_seasons;
     }
 
     /**

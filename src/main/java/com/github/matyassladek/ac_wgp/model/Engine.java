@@ -10,6 +10,6 @@ public class Engine extends VehiclePart {
 
     @JsonCreator
     public Engine() {
-        super(List.of(100, 66, 44, 28, 16, 7, 0), 1);
+        super(List.of(100, 66, 42, 24, 10, 0, 0), 1);
     }
 }

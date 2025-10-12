@@ -10,6 +10,6 @@ public class Chassis extends VehiclePart {
 
     @JsonCreator
     public Chassis() {
-        super(List.of(40, 36, 30, 20, 10, 4, 0), 5);
+        super(List.of(40, 26, 16, 9, 4, 0, 0), 5);
     }
 }

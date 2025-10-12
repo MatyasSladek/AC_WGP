@@ -32,6 +32,10 @@ public abstract class VehiclePart {
     @JsonIgnore
     public void upgrade(int factoryLevel, int season, Random rand) {
         int range = performance / upgradeValue - developmentLimits.get(season) - factoryLevel;
-        this.performance = (performance / upgradeValue - factoryLevel - rand.nextInt(range)) * upgradeValue;
+        if (range < 1) {
+            this.performance = 0;
+        } else {
+            this.performance = (performance / upgradeValue - factoryLevel - rand.nextInt(range)) * upgradeValue;
+        }
     }
 }
