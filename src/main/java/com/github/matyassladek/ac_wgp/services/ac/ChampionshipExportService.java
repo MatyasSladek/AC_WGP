@@ -21,8 +21,8 @@ import java.util.logging.Logger;
 public class ChampionshipExportService {
 
     private static final Logger log = Logger.getLogger(ChampionshipExportService.class.getName());
-    private static final String CHAMPIONSHIP_NAME = "WGP";
-    private static final int MAX_CARS = 22;
+    private static final String CHAMPIONSHIP_NAME = "Companion app - WGP";
+    private static final int MAX_CARS = 20;
 
     private final ObjectMapper objectMapper;
     private final Random random;
@@ -192,12 +192,16 @@ public class ChampionshipExportService {
                 ? team.getManufacture().getSkinDriver1()
                 : team.getManufacture().getSkinDriver2();
 
+        // Calculate penalties based on team performance
+        int ballast = team.getChassis().getPerformance();
+        int restrictor = team.getEngine().getPerformance();
+
         opponent.put("name", driver.getName());
         opponent.put("nation", driver.getCountry().getCode());
         opponent.put("car", team.getManufacture().getCar());
         opponent.put("skin", skin);
-        opponent.put("ballast", 0);
-        opponent.put("restrictor", 0);
+        opponent.put("ballast", ballast);
+        opponent.put("restrictor", restrictor);
 
         return opponent;
     }
