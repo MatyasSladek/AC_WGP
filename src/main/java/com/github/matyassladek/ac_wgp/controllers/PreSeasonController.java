@@ -94,7 +94,7 @@ public class PreSeasonController extends ViewController {
                     team.getEngine().getPerformance(),
                     team.getChassis().getPerformance(),
                     team.getFactoryLevel(),
-                    team.getEngine().getPerformance() + team.getChassis().getPerformance(),
+                    294 - (team.getEngine().getPerformance() + team.getChassis().getPerformance()),
                     team.equals(playerTeam)
             );
             upgradeInfos.add(info);

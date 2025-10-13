@@ -54,10 +54,10 @@
                 <columns>
                     <TableColumn fx:id="teamColumn" text="Team"
                                  prefWidth="200" minWidth="150"/>
-                    <TableColumn fx:id="engineColumn" text="Engine Performance"
+                    <TableColumn fx:id="chassisColumn" text="Ballast"
                                  prefWidth="150" minWidth="120"
                                  style="-fx-alignment: CENTER;"/>
-                    <TableColumn fx:id="chassisColumn" text="Chassis Performance"
+                    <TableColumn fx:id="engineColumn" text="Restrictor"
                                  prefWidth="150" minWidth="120"
                                  style="-fx-alignment: CENTER;"/>
                     <TableColumn fx:id="factoryColumn" text="Factory"
