@@ -138,6 +138,8 @@ public class NavigationManager {
      */
     private void showScene(Parent root) {
         Scene scene = new Scene(root);
+        scene.setFill(javafx.scene.paint.Color.web("#121212"));
+
         primaryStage.setTitle("Assetto Corsa: World Grand Prix Championship Career");
         primaryStage.setScene(scene);
         primaryStage.setFullScreen(true);
@@ -169,6 +171,7 @@ public class NavigationManager {
      */
     private void fadeInNewScene(Scene currentScene, Parent newRoot) {
         newRoot.setOpacity(0.0);
+        currentScene.setFill(javafx.scene.paint.Color.web("#121212"));
         currentScene.setRoot(newRoot);
 
         FadeTransition fadeIn = createFadeTransition(newRoot, 0.0, 1.0);

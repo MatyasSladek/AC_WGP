@@ -8,7 +8,8 @@
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.github.matyassladek.ac_wgp.controllers.CalendarController"
-            >
+            stylesheets="@../styles/modern-theme.css"
+            styleClass="root">
 
     <top>
         <VBox spacing="10" styleClass="header-section">
