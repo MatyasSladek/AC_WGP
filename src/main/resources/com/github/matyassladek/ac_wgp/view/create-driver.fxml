@@ -25,7 +25,7 @@
    </Label>
 
    <!-- Driver Information Section -->
-   <Label text="DRIVER INFORMATION">
+   <Label text="DRIVER INFORMATION" styleClass="section-label">
       <font>
          <Font size="18.0" />
       </font>
@@ -46,29 +46,33 @@
    <Separator prefWidth="400.0" />
 
    <!-- File Paths Section -->
-   <Label text="CONFIGURATION PATHS">
+   <Label text="CONFIGURATION PATHS" styleClass="section-label">
       <font>
          <Font size="18.0" />
       </font>
    </Label>
 
-   <Label text="JSON RESULTS FILE PATH" />
-   <HBox alignment="CENTER_LEFT" spacing="10.0">
-      <TextField fx:id="jsonFilePathField" prefWidth="350.0" promptText="Select the JSON file that will contain race results..." />
-      <Button fx:id="browseJsonButton" text="BROWSE" onAction="#onBrowseJsonButtonClick"
-              style="-fx-background-color: #4CAF50; -fx-text-fill: white;" />
+   <HBox spacing="20.0" alignment="CENTER">
+      <!-- JSON File Path Section -->
+      <VBox spacing="8.0" prefWidth="380.0">
+         <Label text="JSON RESULTS FILE PATH" />
+         <HBox alignment="CENTER_LEFT" spacing="10.0">
+            <TextField fx:id="jsonFilePathField" promptText="Select JSON file..." HBox.hgrow="ALWAYS" />
+            <Button fx:id="browseJsonButton" text="BROWSE" onAction="#onBrowseJsonButtonClick"
+                    style="-fx-padding: 8 16; -fx-pref-width: 100;" />
+         </HBox>
+      </VBox>
+
+      <!-- AC Game Path Section -->
+      <VBox spacing="8.0" prefWidth="380.0">
+         <Label text="ASSETTO CORSA DIRECTORY" />
+         <HBox alignment="CENTER_LEFT" spacing="10.0">
+            <TextField fx:id="acGamePathField" promptText="Select AC folder..." HBox.hgrow="ALWAYS" />
+            <Button fx:id="browseAcPathButton" text="BROWSE" onAction="#onBrowseAcPathButtonClick"
+                    style="-fx-padding: 8 16; -fx-pref-width: 100;" />
+         </HBox>
+      </VBox>
    </HBox>
 
-   <Label text="ASSETTO CORSA GAME DIRECTORY" />
-   <HBox alignment="CENTER_LEFT" spacing="10.0">
-      <TextField fx:id="acGamePathField" prefWidth="350.0" promptText="Select your Assetto Corsa installation folder..." />
-      <Button fx:id="browseAcPathButton" text="BROWSE" onAction="#onBrowseAcPathButtonClick"
-              style="-fx-background-color: #2196F3; -fx-text-fill: white;" />
-   </HBox>
-
-   <Label text="Note: The JSON file will be used to load race results automatically.&#10;The AC directory is used to read UI settings and available tracks."
-          style="-fx-text-fill: #666666;" wrapText="true" maxWidth="500.0" />
-
-   <Button mnemonicParsing="false" text="SUBMIT" onAction="#onSubmitButtonClick"
-           style="-fx-background-color: #FF9800; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 16px;" />
+   <Button mnemonicParsing="false" text="SUBMIT" onAction="#onSubmitButtonClick" />
 </VBox>

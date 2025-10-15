@@ -153,6 +153,31 @@
     -fx-effect: dropshadow(gaussian, -fx-primary, 8, 0.3, 0, 0);
 }
 
+/* ChoiceBox Dropdown Styling */
+.choice-box .context-menu {
+    -fx-background-color: -fx-surface-elevated;
+    -fx-border-color: -fx-secondary-lighter;
+    -fx-border-width: 1;
+    -fx-background-radius: 6;
+    -fx-padding: 4;
+}
+
+.choice-box .menu-item {
+    -fx-background-color: transparent;
+    -fx-text-fill: -fx-text-primary;
+    -fx-padding: 8 15;
+}
+
+.choice-box .menu-item:focused {
+    -fx-background-color: -fx-primary-dark;
+    -fx-text-fill: white;
+}
+
+.choice-box .menu-item:hover {
+    -fx-background-color: -fx-primary-dark;
+    -fx-text-fill: white;
+}
+
 /* Labels */
 .label {
     -fx-text-fill: -fx-text-primary;
