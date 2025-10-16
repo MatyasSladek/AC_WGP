@@ -1,142 +1,300 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx/fxml/1"
-      fx:controller="com.github.matyassladek.ac_wgp.controllers.EventResultsController"
-      stylesheets="@../styles/modern-theme.css"
-      styleClass="root">
-    <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-    </padding>
-    <Label text="RACE RESULTS">
-        <font>
-            <Font size="48.0" />
-        </font>
-    </Label>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.github.matyassladek.ac_wgp.controllers.EventResultsController"
+            stylesheets="@../styles/modern-theme.css"
+            styleClass="root">
 
-    <!-- Action buttons -->
-    <HBox alignment="CENTER" spacing="20.0">
-        <Button mnemonicParsing="false" onAction="#onLoadFromJsonButtonClick" text="LOAD FROM JSON"
-                style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold;" />
-        <Button mnemonicParsing="false" onAction="#onClearResultsButtonClick" text="CLEAR RESULTS"
-                style="-fx-background-color: #f44336; -fx-text-fill: white; -fx-font-weight: bold;" />
-    </HBox>
+    <!-- Header Section -->
+    <top>
+        <VBox spacing="20" styleClass="header-section">
+            <padding>
+                <Insets top="25" right="25" bottom="25" left="25"/>
+            </padding>
 
-    <HBox alignment="CENTER" spacing="40.0">
-        <!-- Positions on the left -->
-        <GridPane>
-            <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="150.0" />
-            </columnConstraints>
-            <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            </rowConstraints>
-            <children>
-                <Label text="Position" />
-                <Label text="Driver" GridPane.columnIndex="1" />
+            <HBox alignment="CENTER_LEFT" spacing="15">
+                <Label text="🏁" style="-fx-font-size: 48px;"/>
+                <VBox>
+                    <Label text="RACE RESULTS" styleClass="title">
+                        <font>
+                            <Font name="System Bold" size="36"/>
+                        </font>
+                    </Label>
+                    <Label text="Drag and drop drivers to their finishing positions"
+                           styleClass="subtitle">
+                        <font>
+                            <Font size="14"/>
+                        </font>
+                    </Label>
+                </VBox>
+            </HBox>
 
-                <Label text="1" GridPane.rowIndex="1" />
-                <Label fx:id="dropTargetPosition1" text="Drop Here" GridPane.columnIndex="1" GridPane.rowIndex="1" style="-fx-border-color: gray; -fx-background-color: #f0f0f0;" />
+            <!-- Action Buttons Row -->
+            <HBox spacing="15" alignment="CENTER">
+                <Button onAction="#onLoadFromJsonButtonClick"
+                        text="📂 LOAD FROM JSON"
+                        styleClass="success-button"
+                        prefWidth="200" prefHeight="40">
+                    <font>
+                        <Font name="System Bold" size="14"/>
+                    </font>
+                </Button>
 
-                <Label text="2" GridPane.rowIndex="2" />
-                <Label fx:id="dropTargetPosition2" text="Drop Here" GridPane.columnIndex="1" GridPane.rowIndex="2" style="-fx-border-color: gray; -fx-background-color: #f0f0f0;" />
+                <Button onAction="#onClearResultsButtonClick"
+                        text="🗑️ CLEAR RESULTS"
+                        styleClass="danger-button"
+                        prefWidth="200" prefHeight="40">
+                    <font>
+                        <Font name="System Bold" size="14"/>
+                    </font>
+                </Button>
 
-                <Label text="3" GridPane.rowIndex="3" />
-                <Label fx:id="dropTargetPosition3" text="Drop Here" GridPane.columnIndex="1" GridPane.rowIndex="3" style="-fx-border-color: gray; -fx-background-color: #f0f0f0;" />
+                <Region HBox.hgrow="ALWAYS"/>
 
-                <Label text="4" GridPane.rowIndex="4" />
-                <Label fx:id="dropTargetPosition4" text="Drop Here" GridPane.columnIndex="1" GridPane.rowIndex="4" style="-fx-border-color: gray; -fx-background-color: #f0f0f0;" />
-
-                <Label text="5" GridPane.rowIndex="5" />
-                <Label fx:id="dropTargetPosition5" text="Drop Here" GridPane.columnIndex="1" GridPane.rowIndex="5" style="-fx-border-color: gray; -fx-background-color: #f0f0f0;" />
-
-                <Label text="6" GridPane.rowIndex="6" />
-                <Label fx:id="dropTargetPosition6" text="Drop Here" GridPane.columnIndex="1" GridPane.rowIndex="6" style="-fx-border-color: gray; -fx-background-color: #f0f0f0;" />
-
-                <Label text="7" GridPane.rowIndex="7" />
-                <Label fx:id="dropTargetPosition7" text="Drop Here" GridPane.columnIndex="1" GridPane.rowIndex="7" style="-fx-border-color: gray; -fx-background-color: #f0f0f0;" />
-
-                <Label text="8" GridPane.rowIndex="8" />
-                <Label fx:id="dropTargetPosition8" text="Drop Here" GridPane.columnIndex="1" GridPane.rowIndex="8" style="-fx-border-color: gray; -fx-background-color: #f0f0f0;" />
-
-                <Label text="9" GridPane.rowIndex="9" />
-                <Label fx:id="dropTargetPosition9" text="Drop Here" GridPane.columnIndex="1" GridPane.rowIndex="9" style="-fx-border-color: gray; -fx-background-color: #f0f0f0;" />
-
-                <Label text="10" GridPane.rowIndex="10" />
-                <Label fx:id="dropTargetPosition10" text="Drop Here" GridPane.columnIndex="1" GridPane.rowIndex="10" style="-fx-border-color: gray; -fx-background-color: #f0f0f0;" />
-
-                <Label text="11" GridPane.rowIndex="11" />
-                <Label fx:id="dropTargetPosition11" text="Drop Here" GridPane.columnIndex="1" GridPane.rowIndex="11" style="-fx-border-color: gray; -fx-background-color: #f0f0f0;" />
-
-                <Label text="12" GridPane.rowIndex="12" />
-                <Label fx:id="dropTargetPosition12" text="Drop Here" GridPane.columnIndex="1" GridPane.rowIndex="12" style="-fx-border-color: gray; -fx-background-color: #f0f0f0;" />
-
-                <Label text="13" GridPane.rowIndex="13" />
-                <Label fx:id="dropTargetPosition13" text="Drop Here" GridPane.columnIndex="1" GridPane.rowIndex="13" style="-fx-border-color: gray; -fx-background-color: #f0f0f0;" />
-
-                <Label text="14" GridPane.rowIndex="14" />
-                <Label fx:id="dropTargetPosition14" text="Drop Here" GridPane.columnIndex="1" GridPane.rowIndex="14" style="-fx-border-color: gray; -fx-background-color: #f0f0f0;" />
-
-                <Label text="15" GridPane.rowIndex="15" />
-                <Label fx:id="dropTargetPosition15" text="Drop Here" GridPane.columnIndex="1" GridPane.rowIndex="15" style="-fx-border-color: gray; -fx-background-color: #f0f0f0;" />
-
-                <Label text="16" GridPane.rowIndex="16" />
-                <Label fx:id="dropTargetPosition16" text="Drop Here" GridPane.columnIndex="1" GridPane.rowIndex="16" style="-fx-border-color: gray; -fx-background-color: #f0f0f0;" />
-
-                <Label text="17" GridPane.rowIndex="17" />
-                <Label fx:id="dropTargetPosition17" text="Drop Here" GridPane.columnIndex="1" GridPane.rowIndex="17" style="-fx-border-color: gray; -fx-background-color: #f0f0f0;" />
-
-                <Label text="18" GridPane.rowIndex="18" />
-                <Label fx:id="dropTargetPosition18" text="Drop Here" GridPane.columnIndex="1" GridPane.rowIndex="18" style="-fx-border-color: gray; -fx-background-color: #f0f0f0;" />
-
-                <Label text="19" GridPane.rowIndex="19" />
-                <Label fx:id="dropTargetPosition19" text="Drop Here" GridPane.columnIndex="1" GridPane.rowIndex="19" style="-fx-border-color: gray; -fx-background-color: #f0f0f0;" />
-
-                <Label text="20" GridPane.rowIndex="20" />
-                <Label fx:id="dropTargetPosition20" text="Drop Here" GridPane.columnIndex="1" GridPane.rowIndex="20" style="-fx-border-color: gray; -fx-background-color: #f0f0f0;" />
-            </children>
-        </GridPane>
-
-        <!-- Drivers list on the right -->
-        <VBox alignment="TOP_CENTER" spacing="10.0">
-            <GridPane fx:id="driversList" alignment="TOP_CENTER" hgap="10.0" vgap="5.0" style="-fx-border-color: gray; -fx-background-color: #f0f0f0;" prefHeight="500.0" prefWidth="400.0">
-                <!-- Drivers will be added dynamically into two columns -->
-            </GridPane>
+                <Label text="💡 Tip: You can also drag drivers out of positions to return them to the pool"
+                       styleClass="status-label info"
+                       style="-fx-font-size: 12px;"/>
+            </HBox>
         </VBox>
-    </HBox>
-    <Button mnemonicParsing="false" onAction="#onSubmitButtonClick" text="SUBMIT"
-            style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 16px;" />
-</VBox>
+    </top>
+
+    <!-- Main Content Area -->
+    <center>
+        <HBox spacing="30" style="-fx-padding: 30;">
+
+            <!-- Positions Section -->
+            <VBox spacing="15" HBox.hgrow="ALWAYS">
+                <Label text="Finishing Order" styleClass="section-label">
+                    <font>
+                        <Font name="System Bold" size="18"/>
+                    </font>
+                </Label>
+
+                <HBox spacing="30">
+
+                    <!-- Left Grid: Positions 1–10 -->
+                    <GridPane hgap="15" vgap="8" styleClass="card" HBox.hgrow="ALWAYS">
+                        <padding>
+                            <Insets top="20" right="20" bottom="20" left="20"/>
+                        </padding>
+                        <columnConstraints>
+                            <ColumnConstraints minWidth="50" prefWidth="60" maxWidth="80"/>
+                            <ColumnConstraints minWidth="200" prefWidth="250" hgrow="ALWAYS"/>
+                        </columnConstraints>
+
+                        <!-- Header -->
+                        <Label text="POS" GridPane.columnIndex="0" GridPane.rowIndex="0" alignment="CENTER"
+                               style="-fx-font-weight: bold; -fx-font-size: 14px;"/>
+                        <Label text="DRIVER" GridPane.columnIndex="1" GridPane.rowIndex="0"
+                               style="-fx-font-weight: bold; -fx-font-size: 14px;"/>
+
+                        <!-- Positions 1–3 with podium colors -->
+                        <HBox alignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                            <Label text="1" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #FFD700;"/>
+                        </HBox>
+                        <Label fx:id="dropTargetPosition1" text="Drop Here"
+                               GridPane.columnIndex="1" GridPane.rowIndex="2"
+                               styleClass="drop-target" style="-fx-min-height: 40px; -fx-alignment: center-left;"/>
+
+                        <HBox alignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="3">
+                            <Label text="2" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #C0C0C0;"/>
+                        </HBox>
+                        <Label fx:id="dropTargetPosition2" text="Drop Here"
+                               GridPane.columnIndex="1" GridPane.rowIndex="3"
+                               styleClass="drop-target" style="-fx-min-height: 40px; -fx-alignment: center-left;"/>
+
+                        <HBox alignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="4">
+                            <Label text="3" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #CD7F32;"/>
+                        </HBox>
+                        <Label fx:id="dropTargetPosition3" text="Drop Here"
+                               GridPane.columnIndex="1" GridPane.rowIndex="4"
+                               styleClass="drop-target" style="-fx-min-height: 40px; -fx-alignment: center-left;"/>
+
+                        <!-- Positions 4–10 uniform structure -->
+                        <HBox alignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="5">
+                            <Label text="4"/>
+                        </HBox>
+                        <Label fx:id="dropTargetPosition4" text="Drop Here"
+                               GridPane.columnIndex="1" GridPane.rowIndex="5"
+                               styleClass="drop-target"/>
+
+                        <HBox alignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="6">
+                            <Label text="5"/>
+                        </HBox>
+                        <Label fx:id="dropTargetPosition5" text="Drop Here"
+                               GridPane.columnIndex="1" GridPane.rowIndex="6"
+                               styleClass="drop-target"/>
+
+                        <HBox alignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="7">
+                            <Label text="6"/>
+                        </HBox>
+                        <Label fx:id="dropTargetPosition6" text="Drop Here"
+                               GridPane.columnIndex="1" GridPane.rowIndex="7"
+                               styleClass="drop-target"/>
+
+                        <HBox alignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="8">
+                            <Label text="7"/>
+                        </HBox>
+                        <Label fx:id="dropTargetPosition7" text="Drop Here"
+                               GridPane.columnIndex="1" GridPane.rowIndex="8"
+                               styleClass="drop-target"/>
+
+                        <HBox alignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="9">
+                            <Label text="8"/>
+                        </HBox>
+                        <Label fx:id="dropTargetPosition8" text="Drop Here"
+                               GridPane.columnIndex="1" GridPane.rowIndex="9"
+                               styleClass="drop-target"/>
+
+                        <HBox alignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="10">
+                            <Label text="9"/>
+                        </HBox>
+                        <Label fx:id="dropTargetPosition9" text="Drop Here"
+                               GridPane.columnIndex="1" GridPane.rowIndex="10"
+                               styleClass="drop-target"/>
+
+                        <HBox alignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="11">
+                            <Label text="10"/>
+                        </HBox>
+                        <Label fx:id="dropTargetPosition10" text="Drop Here"
+                               GridPane.columnIndex="1" GridPane.rowIndex="11"
+                               styleClass="drop-target"/>
+                    </GridPane>
+
+                    <!-- Right Grid: Positions 11–20 -->
+                    <GridPane hgap="15" vgap="8" styleClass="card" HBox.hgrow="ALWAYS">
+                        <padding>
+                            <Insets top="20" right="20" bottom="20" left="20"/>
+                        </padding>
+                        <columnConstraints>
+                            <ColumnConstraints minWidth="50" prefWidth="60" maxWidth="80"/>
+                            <ColumnConstraints minWidth="200" prefWidth="250" hgrow="ALWAYS"/>
+                        </columnConstraints>
+
+                        <!-- Header -->
+                        <Label text="POS" GridPane.columnIndex="0" GridPane.rowIndex="0" alignment="CENTER"
+                               style="-fx-font-weight: bold; -fx-font-size: 14px;"/>
+                        <Label text="DRIVER" GridPane.columnIndex="1" GridPane.rowIndex="0"
+                               style="-fx-font-weight: bold; -fx-font-size: 14px;"/>
+
+                        <!-- Positions 11–20 -->
+                        <HBox alignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                            <Label text="11"/>
+                        </HBox>
+                        <Label fx:id="dropTargetPosition11" text="Drop Here"
+                               GridPane.columnIndex="1" GridPane.rowIndex="2"
+                               styleClass="drop-target"/>
+
+                        <HBox alignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="3">
+                            <Label text="12"/>
+                        </HBox>
+                        <Label fx:id="dropTargetPosition12" text="Drop Here"
+                               GridPane.columnIndex="1" GridPane.rowIndex="3"
+                               styleClass="drop-target"/>
+
+                        <HBox alignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="4">
+                            <Label text="13"/>
+                        </HBox>
+                        <Label fx:id="dropTargetPosition13" text="Drop Here"
+                               GridPane.columnIndex="1" GridPane.rowIndex="4"
+                               styleClass="drop-target"/>
+
+                        <HBox alignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="5">
+                            <Label text="14"/>
+                        </HBox>
+                        <Label fx:id="dropTargetPosition14" text="Drop Here"
+                               GridPane.columnIndex="1" GridPane.rowIndex="5"
+                               styleClass="drop-target"/>
+
+                        <HBox alignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="6">
+                            <Label text="15"/>
+                        </HBox>
+                        <Label fx:id="dropTargetPosition15" text="Drop Here"
+                               GridPane.columnIndex="1" GridPane.rowIndex="6"
+                               styleClass="drop-target"/>
+
+                        <HBox alignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="7">
+                            <Label text="16"/>
+                        </HBox>
+                        <Label fx:id="dropTargetPosition16" text="Drop Here"
+                               GridPane.columnIndex="1" GridPane.rowIndex="7"
+                               styleClass="drop-target"/>
+
+                        <HBox alignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="8">
+                            <Label text="17"/>
+                        </HBox>
+                        <Label fx:id="dropTargetPosition17" text="Drop Here"
+                               GridPane.columnIndex="1" GridPane.rowIndex="8"
+                               styleClass="drop-target"/>
+
+                        <HBox alignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="9">
+                            <Label text="18"/>
+                        </HBox>
+                        <Label fx:id="dropTargetPosition18" text="Drop Here"
+                               GridPane.columnIndex="1" GridPane.rowIndex="9"
+                               styleClass="drop-target"/>
+
+                        <HBox alignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="10">
+                            <Label text="19"/>
+                        </HBox>
+                        <Label fx:id="dropTargetPosition19" text="Drop Here"
+                               GridPane.columnIndex="1" GridPane.rowIndex="10"
+                               styleClass="drop-target"/>
+
+                        <HBox alignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="11">
+                            <Label text="20"/>
+                        </HBox>
+                        <Label fx:id="dropTargetPosition20" text="Drop Here"
+                               GridPane.columnIndex="1" GridPane.rowIndex="11"
+                               styleClass="drop-target"/>
+                    </GridPane>
+
+                </HBox>
+
+            </VBox>
+
+            <!-- Driver Pool (Right Side) -->
+            <VBox spacing="15" prefWidth="450" HBox.hgrow="NEVER">
+                <Label text="👥 Available Drivers" styleClass="section-label">
+                    <font>
+                        <Font name="System Bold" size="18"/>
+                    </font>
+                </Label>
+
+                <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS"
+                            style="-fx-background-color: transparent; -fx-border-color: -fx-secondary-lighter; -fx-border-width: 1; -fx-border-radius: 8; -fx-background-radius: 8;">
+                    <GridPane fx:id="driversList" hgap="10" vgap="8"
+                              style="-fx-padding: 15; -fx-background-color: -fx-surface;"/>
+                </ScrollPane>
+
+                <HBox spacing="10" styleClass="status-label warning" style="-fx-padding: 12;">
+                    <Label text="⚠️" style="-fx-font-size: 14px;"/>
+                    <Label text="All positions must be filled before submitting"
+                           wrapText="true" HBox.hgrow="ALWAYS" style="-fx-font-size: 12px;"/>
+                </HBox>
+
+                <HBox alignment="CENTER_RIGHT" spacing="20"
+                      style="-fx-padding: 25; -fx-background-color: derive(-fx-surface, -5%);">
+                    <Label text="Ready to submit results?"
+                           style="-fx-font-size: 15px; -fx-text-fill: #B3B3B3;"/>
+                    <Button onAction="#onSubmitButtonClick"
+                            text="✓ SUBMIT RESULTS"
+                            styleClass="confirm-button"
+                            prefWidth="200" prefHeight="45">
+                        <font>
+                            <Font name="System Bold" size="16"/>
+                        </font>
+                    </Button>
+                </HBox>
+            </VBox>
+
+        </HBox>
+    </center>
+
+</BorderPane>
