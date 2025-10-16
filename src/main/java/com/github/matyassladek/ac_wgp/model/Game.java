@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.matyassladek.ac_wgp.enums.Country;
 import com.github.matyassladek.ac_wgp.enums.Manufacture;
-import com.github.matyassladek.ac_wgp.enums.FXMLFile;
 import com.github.matyassladek.ac_wgp.factory.TeamFactory;
 import com.github.matyassladek.ac_wgp.utils.GameConfiguration;
 import lombok.Getter;
@@ -55,7 +54,7 @@ public class Game {
         this.teams = teams;
         this.currentChampionship = null;
         this.currentSeason = 0;
-        this.fxmlScreen = FXMLFile.DRIVERS_STANDINGS.getFileName();
+        this.fxmlScreen = null; // Will be resolved by ScreenResolver
         this.configuration = configuration;
     }
 

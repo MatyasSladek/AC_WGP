@@ -20,26 +20,38 @@ public class GameManager {
     private final GamePersistenceService persistenceService;
     private final GameService gameService;
     private final SeasonProgressionService seasonProgressionService;
+    private final ScreenResolver screenResolver;
 
     public GameManager() {
-        this(new GamePersistenceService(), new GameService(), new SeasonProgressionService());
+        this(new GamePersistenceService(), new GameService(),
+                new SeasonProgressionService(), new ScreenResolver());
     }
 
     public GameManager(GamePersistenceService persistenceService,
                        GameService gameService,
-                       SeasonProgressionService seasonProgressionService) {
+                       SeasonProgressionService seasonProgressionService,
+                       ScreenResolver screenResolver) {
         this.persistenceService = persistenceService;
         this.gameService = gameService;
         this.seasonProgressionService = seasonProgressionService;
+        this.screenResolver = screenResolver;
     }
 
     /**
      * Saves the game state to persistent storage.
+     * If no screen is explicitly set, resolves the appropriate default screen.
      *
      * @param game The game to save
      */
     public void saveGame(Game game) {
         try {
+            // Resolve default screen if not set
+            if (game.getFxmlScreen() == null || game.getFxmlScreen().isEmpty()) {
+                String defaultScreen = screenResolver.resolveDefaultScreen(game);
+                game.setFxmlScreen(defaultScreen);
+                log.info("Resolved default screen: " + defaultScreen);
+            }
+
             persistenceService.saveGame(game);
             log.info("Game saved successfully");
         } catch (IOException e) {
@@ -50,6 +62,7 @@ public class GameManager {
 
     /**
      * Loads the game state from persistent storage.
+     * Always resolves the appropriate screen based on current game state.
      *
      * @return The loaded game
      * @throws IOException if game cannot be loaded
@@ -57,6 +70,13 @@ public class GameManager {
     public Game loadGame() throws IOException {
         log.info("Loading game...");
         Game game = persistenceService.loadGame();
+
+        // Always resolve screen based on current game state
+        // This ensures we show the correct screen even if the save is inconsistent
+        String resolvedScreen = screenResolver.resolveDefaultScreen(game);
+        game.setFxmlScreen(resolvedScreen);
+        log.info("Resolved screen for loaded game: " + resolvedScreen);
+
         log.info("Game loaded successfully");
         return game;
     }
@@ -136,6 +156,8 @@ public class GameManager {
 
         if (advanced) {
             log.info("Advanced to season " + game.getCurrentSeason());
+            // Clear championship to show pre-season screen
+            game.setCurrentChampionship(null);
             saveGame(game);
         } else {
             log.info("Cannot advance - no more seasons available");

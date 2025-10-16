@@ -52,8 +52,18 @@ public class NavigationManager {
     private void initSavedGame() throws IOException {
         log.info("Game save found. Loading saved game.");
         Game game = gameManager.loadGame();
-        log.info("Loading screen: " + game.getFxmlScreen());
-        loadScene(game.getFxmlScreen(), game);
+
+        String screenToLoad = game.getFxmlScreen();
+
+        // Safety check - should never happen with updated GameManager, but just in case
+        if (screenToLoad == null || screenToLoad.isEmpty()) {
+            log.warning("Screen not resolved properly, defaulting to PRE_SEASON");
+            screenToLoad = FXMLFile.PRE_SEASON.getFileName();
+            game.setFxmlScreen(screenToLoad);
+        }
+
+        log.info("Loading screen: " + screenToLoad);
+        loadScene(screenToLoad, game);
     }
 
     /**
