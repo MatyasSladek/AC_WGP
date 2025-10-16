@@ -77,10 +77,11 @@ public class ConstructorsStandingsController extends ViewController {
     private String determineNextScreen() {
         if (isSeasonComplete()) {
             if (hasMoreSeasons()) {
-                // Advance to next season using GameManager
+                // Advance to next season
                 boolean advanced = gameManager.advanceToNextSeason(game);
                 if (advanced) {
                     log.info("Advanced to season " + game.getCurrentSeason());
+                    // After advancing, show pre-season screen to set up new calendar
                     return FXMLFile.PRE_SEASON.getFileName();
                 } else {
                     log.warning("Failed to advance to next season");
@@ -92,6 +93,7 @@ public class ConstructorsStandingsController extends ViewController {
             }
         }
 
+        // Season not complete, continue with next event
         return FXMLFile.NEXT_EVENT.getFileName();
     }
 

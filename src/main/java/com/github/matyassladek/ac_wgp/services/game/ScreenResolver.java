@@ -16,7 +16,7 @@ public class ScreenResolver {
 
     /**
      * Determines the appropriate default screen based on game state.
-     * This is used when loading a saved game or when no explicit screen is set.
+     * This is used when loading a saved game to show the most contextually relevant screen.
      *
      * @param game The game instance
      * @return The appropriate FXML file path
@@ -29,20 +29,26 @@ public class ScreenResolver {
 
         Championship championship = game.getCurrentChampionship();
 
-        // No championship exists - show pre-season
-        if (championship == null) {
-            log.info("No championship found, resolving to PRE_SEASON screen");
+        // No championship and no calendar = need to set up first season
+        if (championship == null && !game.hasCurrentCalendar()) {
+            log.info("No championship or calendar found, resolving to PRE_SEASON screen");
             return FXMLFile.PRE_SEASON.getFileName();
         }
 
-        // Championship exists and is complete - show pre-season for next season
+        // No championship but calendar exists = between seasons (calendar already set for next season)
+        if (championship == null && game.hasCurrentCalendar()) {
+            log.info("Calendar exists but no championship, resolving to PRE_SEASON screen (next season ready)");
+            return FXMLFile.PRE_SEASON.getFileName();
+        }
+
+        // Championship exists and is complete = show constructor standings for season end
         if (isChampionshipComplete(game, championship)) {
-            log.info("Championship complete, resolving to PRE_SEASON screen");
-            return FXMLFile.PRE_SEASON.getFileName();
+            log.info("Championship complete, resolving to CONSTRUCTORS_STANDINGS screen");
+            return FXMLFile.CONSTRUCTORS_STANDINGS.getFileName();
         }
 
-        // Active championship - show driver standings
-        log.info("Active championship found, resolving to DRIVERS_STANDINGS screen");
+        // Active championship in progress = show driver standings
+        log.info("Active championship in progress, resolving to DRIVERS_STANDINGS screen");
         return FXMLFile.DRIVERS_STANDINGS.getFileName();
     }
 
