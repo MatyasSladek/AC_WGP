@@ -126,13 +126,13 @@ public class PreSeasonController extends ViewController {
         }
 
         // Restrictor stat
-        VBox restrictorBox = createStatColumn("Restrictor", 147 - info.enginePerfValue, 147);
+        VBox restrictorBox = createPenaltyColumn("Restrictor", 100 - info.enginePerfValue, 100);
 
         // Ballast stat
-        VBox ballastBox = createStatColumn("Ballast", 147 - info.chassisPerfValue, 147);
+        VBox ballastBox = createPenaltyColumn("Ballast", 200 - info.chassisPerfValue, 200);
 
         // Total Performance stat
-        VBox totalBox = createStatColumn("Total Perf", 294 - info.totalPerfValue, 294);
+        VBox totalBox = createStatColumn("Total Development", 294 - info.totalPerfValue, 294);
 
         // Factory level
         Label factoryLabel = new Label(info.getFactoryLevel());
@@ -148,6 +148,42 @@ public class PreSeasonController extends ViewController {
         HBox.setHgrow(totalBox, javafx.scene.layout.Priority.ALWAYS);
 
         return row;
+    }
+
+    private VBox createPenaltyColumn(String label, int value, int maxValue) {
+        VBox column = new VBox(5);
+        column.setAlignment(Pos.CENTER_LEFT);
+        column.setPrefWidth(180);
+
+        // Label
+        Label nameLabel = new Label(label);
+        nameLabel.setStyle("-fx-text-fill: #cccccc; -fx-font-size: 12px;");
+
+        // Value and progress bar container
+        HBox valueBarBox = new HBox(8);
+        valueBarBox.setAlignment(Pos.CENTER_LEFT);
+
+        Label valueLabel = new Label(String.valueOf(maxValue - value));
+        valueLabel.setStyle(
+                "-fx-text-fill: white;" +
+                        "-fx-font-size: 14px;" +
+                        "-fx-font-weight: bold;" +
+                        "-fx-min-width: 35px;"
+        );
+
+        // Progress bar
+        ProgressBar bar = new ProgressBar((double) value / maxValue);
+        bar.setPrefHeight(16);
+        bar.setPrefWidth(100);
+        bar.setStyle(
+                "-fx-accent: " + getColorForValue(value, maxValue) + ";" +
+                        "-fx-background-color: rgba(255, 255, 255, 0.1);"
+        );
+
+        valueBarBox.getChildren().addAll(valueLabel, bar);
+        column.getChildren().addAll(nameLabel, valueBarBox);
+
+        return column;
     }
 
     private VBox createStatColumn(String label, int value, int maxValue) {
@@ -244,7 +280,7 @@ public class PreSeasonController extends ViewController {
         }
 
         public String getFactoryLevel() {
-            return "Level " + factoryLevelValue;
+            return "Factory Level " + factoryLevelValue;
         }
 
         public String getTotalPerformance() {
