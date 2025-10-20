@@ -10,6 +10,8 @@ import javafx.scene.layout.HBox;
 import javafx.geometry.Pos;
 import javafx.scene.control.ProgressBar;
 import javafx.geometry.Insets;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,16 +70,16 @@ public class PreSeasonController extends ViewController {
                     team.getEngine().getPerformance(),
                     team.getChassis().getPerformance(),
                     team.getFactoryLevel(),
-                    294 - (team.getEngine().getPerformance() + team.getChassis().getPerformance()),
+                    team.getEngine().getPerformance() + team.getChassis().getPerformance(),
                     team.equals(playerTeam)
             );
             upgradeInfos.add(info);
         }
 
-        // Sort by total performance (descending)
+        // Sort by total performance (ascending)
         upgradeInfos.sort((a, b) -> Integer.compare(
-                b.getTotalPerformanceValue(),
-                a.getTotalPerformanceValue()
+                a.getTotalPerformanceValue(),
+                b.getTotalPerformanceValue()
         ));
 
         // Clear and populate teams container
@@ -108,14 +110,29 @@ public class PreSeasonController extends ViewController {
                         "-fx-min-width: 120px;"
         );
 
+        // Car image
+        ImageView carImage = new ImageView();
+        carImage.setFitHeight(60);
+        carImage.setFitWidth(120);
+        carImage.setPreserveRatio(true);
+        try {
+            String imagePath = "/com/github/matyassladek/ac_wgp/enum/" + info.getTeamName() + ".png";
+            Image image = new Image(getClass().getResourceAsStream(imagePath));
+            carImage.setImage(image);
+        } catch (Exception e) {
+            log.log(Level.WARNING, "Failed to load car image: " + info.getTeamName(), e);
+            // If image fails to load, show a placeholder label
+            carImage.setImage(null);
+        }
+
         // Restrictor stat
-        VBox restrictorBox = createStatColumn("Restrictor", info.enginePerfValue, 147);
+        VBox restrictorBox = createStatColumn("Restrictor", 147 - info.enginePerfValue, 147);
 
         // Ballast stat
-        VBox ballastBox = createStatColumn("Ballast", info.chassisPerfValue, 147);
+        VBox ballastBox = createStatColumn("Ballast", 147 - info.chassisPerfValue, 147);
 
         // Total Performance stat
-        VBox totalBox = createStatColumn("Total Perf", info.totalPerfValue, 294);
+        VBox totalBox = createStatColumn("Total Perf", 294 - info.totalPerfValue, 294);
 
         // Factory level
         Label factoryLabel = new Label(info.getFactoryLevel());
@@ -125,7 +142,7 @@ public class PreSeasonController extends ViewController {
                         "-fx-min-width: 80px;"
         );
 
-        row.getChildren().addAll(nameLabel, restrictorBox, ballastBox, totalBox, factoryLabel);
+        row.getChildren().addAll(nameLabel, carImage, restrictorBox, ballastBox, totalBox, factoryLabel);
         HBox.setHgrow(restrictorBox, javafx.scene.layout.Priority.ALWAYS);
         HBox.setHgrow(ballastBox, javafx.scene.layout.Priority.ALWAYS);
         HBox.setHgrow(totalBox, javafx.scene.layout.Priority.ALWAYS);
