@@ -5,11 +5,11 @@ import com.github.matyassladek.ac_wgp.model.Team;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
+import javafx.scene.layout.VBox;
+import javafx.scene.layout.HBox;
+import javafx.geometry.Pos;
+import javafx.scene.control.ProgressBar;
+import javafx.geometry.Insets;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,28 +24,7 @@ public class PreSeasonController extends ViewController {
     private Label seasonLabel;
 
     @FXML
-    private Label playerTeamLabel;
-
-    @FXML
-    private TableView<TeamUpgradeInfo> upgradesTable;
-
-    @FXML
-    private TableColumn<TeamUpgradeInfo, String> teamColumn;
-
-    @FXML
-    private TableColumn<TeamUpgradeInfo, String> engineColumn;
-
-    @FXML
-    private TableColumn<TeamUpgradeInfo, String> chassisColumn;
-
-    @FXML
-    private TableColumn<TeamUpgradeInfo, String> factoryColumn;
-
-    @FXML
-    private TableColumn<TeamUpgradeInfo, String> totalPerfColumn;
-
-    @FXML
-    private Button continueButton;
+    private VBox teamsContainer;
 
     public PreSeasonController() {
         super(FXMLFile.CREATE_CALENDAR.getFileName());
@@ -53,15 +32,14 @@ public class PreSeasonController extends ViewController {
 
     @FXML
     public void initialize() {
-        // Set up table columns
-        teamColumn.setCellValueFactory(new PropertyValueFactory<>("teamName"));
-        engineColumn.setCellValueFactory(new PropertyValueFactory<>("enginePerformance"));
-        chassisColumn.setCellValueFactory(new PropertyValueFactory<>("chassisPerformance"));
-        factoryColumn.setCellValueFactory(new PropertyValueFactory<>("factoryLevel"));
-        totalPerfColumn.setCellValueFactory(new PropertyValueFactory<>("totalPerformance"));
+        // Don't load data here - wait for game to be set
+    }
 
-        // Load team data after initialization
-        javafx.application.Platform.runLater(this::loadTeamData);
+    @Override
+    public void setGame(com.github.matyassladek.ac_wgp.model.Game game) {
+        super.setGame(game);
+        // Load data immediately after game is set
+        loadTeamData();
     }
 
     public void loadTeamData() {
@@ -74,16 +52,12 @@ public class PreSeasonController extends ViewController {
         int nextSeason = game.getCurrentSeason() + 1;
         seasonLabel.setText("Season " + nextSeason + " - Team Development");
 
-        // Find player's team
+        // Find player's team by comparing first and last names
         Team playerTeam = game.getTeams().stream()
-                .filter(team -> team.getDriver1().equals(game.getPlayer()) ||
-                        team.getDriver2().equals(game.getPlayer()))
+                .filter(team -> isPlayerDriver(team.getDriver1(), game.getPlayer()) ||
+                        isPlayerDriver(team.getDriver2(), game.getPlayer()))
                 .findFirst()
                 .orElse(null);
-
-        if (playerTeam != null) {
-            playerTeamLabel.setText("Your Team: " + playerTeam.getManufacture().name());
-        }
 
         // Load team upgrade data
         List<TeamUpgradeInfo> upgradeInfos = new ArrayList<>();
@@ -106,28 +80,119 @@ public class PreSeasonController extends ViewController {
                 a.getTotalPerformanceValue()
         ));
 
-        upgradesTable.setItems(FXCollections.observableArrayList(upgradeInfos));
+        // Clear and populate teams container
+        teamsContainer.getChildren().clear();
+        for (TeamUpgradeInfo info : upgradeInfos) {
+            teamsContainer.getChildren().add(createTeamRow(info));
+        }
+    }
 
-        // Highlight player's team row
-        upgradesTable.setRowFactory(tv -> new javafx.scene.control.TableRow<TeamUpgradeInfo>() {
-            @Override
-            protected void updateItem(TeamUpgradeInfo item, boolean empty) {
-                super.updateItem(item, empty);
-                if (item == null || empty) {
-                    setStyle("");
-                } else if (item.isPlayerTeam()) {
-                    setStyle("-fx-background-color: rgba(100, 200, 100, 0.3); -fx-font-weight: bold;");
-                } else {
-                    setStyle("");
-                }
-            }
-        });
+    private HBox createTeamRow(TeamUpgradeInfo info) {
+        HBox row = new HBox(20);
+        row.setAlignment(Pos.CENTER_LEFT);
+        row.setPadding(new Insets(12, 20, 12, 20));
+        row.setStyle(
+                "-fx-background-color: " + (info.isPlayerTeam() ? "rgba(100, 200, 100, 0.2)" : "rgba(255, 255, 255, 0.05)") + ";" +
+                        "-fx-background-radius: 8;" +
+                        "-fx-border-color: " + (info.isPlayerTeam() ? "#64c864" : "rgba(255, 255, 255, 0.1)") + ";" +
+                        "-fx-border-width: " + (info.isPlayerTeam() ? "2" : "1") + ";" +
+                        "-fx-border-radius: 8;"
+        );
+
+        // Team name (fixed width)
+        Label nameLabel = new Label(info.getTeamName() + (info.isPlayerTeam() ? " ★" : ""));
+        nameLabel.setStyle(
+                "-fx-font-size: 16px;" +
+                        "-fx-font-weight: bold;" +
+                        "-fx-text-fill: white;" +
+                        "-fx-min-width: 120px;"
+        );
+
+        // Restrictor stat
+        VBox restrictorBox = createStatColumn("Restrictor", info.enginePerfValue, 147);
+
+        // Ballast stat
+        VBox ballastBox = createStatColumn("Ballast", info.chassisPerfValue, 147);
+
+        // Total Performance stat
+        VBox totalBox = createStatColumn("Total Perf", info.totalPerfValue, 294);
+
+        // Factory level
+        Label factoryLabel = new Label(info.getFactoryLevel());
+        factoryLabel.setStyle(
+                "-fx-text-fill: #aaaaaa;" +
+                        "-fx-font-size: 14px;" +
+                        "-fx-min-width: 80px;"
+        );
+
+        row.getChildren().addAll(nameLabel, restrictorBox, ballastBox, totalBox, factoryLabel);
+        HBox.setHgrow(restrictorBox, javafx.scene.layout.Priority.ALWAYS);
+        HBox.setHgrow(ballastBox, javafx.scene.layout.Priority.ALWAYS);
+        HBox.setHgrow(totalBox, javafx.scene.layout.Priority.ALWAYS);
+
+        return row;
+    }
+
+    private VBox createStatColumn(String label, int value, int maxValue) {
+        VBox column = new VBox(5);
+        column.setAlignment(Pos.CENTER_LEFT);
+        column.setPrefWidth(180);
+
+        // Label
+        Label nameLabel = new Label(label);
+        nameLabel.setStyle("-fx-text-fill: #cccccc; -fx-font-size: 12px;");
+
+        // Value and progress bar container
+        HBox valueBarBox = new HBox(8);
+        valueBarBox.setAlignment(Pos.CENTER_LEFT);
+
+        Label valueLabel = new Label(String.valueOf(value));
+        valueLabel.setStyle(
+                "-fx-text-fill: white;" +
+                        "-fx-font-size: 14px;" +
+                        "-fx-font-weight: bold;" +
+                        "-fx-min-width: 35px;"
+        );
+
+        // Progress bar
+        ProgressBar bar = new ProgressBar((double) value / maxValue);
+        bar.setPrefHeight(16);
+        bar.setPrefWidth(100);
+        bar.setStyle(
+                "-fx-accent: " + getColorForValue(value, maxValue) + ";" +
+                        "-fx-background-color: rgba(255, 255, 255, 0.1);"
+        );
+
+        valueBarBox.getChildren().addAll(valueLabel, bar);
+        column.getChildren().addAll(nameLabel, valueBarBox);
+
+        return column;
+    }
+
+    private String getColorForValue(int value, int maxValue) {
+        double ratio = (double) value / maxValue;
+        if (ratio > 0.8) return "#4caf50"; // Green
+        if (ratio > 0.6) return "#8bc34a"; // Light green
+        if (ratio > 0.4) return "#ffc107"; // Yellow
+        if (ratio > 0.2) return "#ff9800"; // Orange
+        return "#f44336"; // Red
     }
 
     @FXML
     private void handleContinue() {
         log.log(Level.INFO, "Continuing to calendar creation");
         showNextScreen();
+    }
+
+    // Helper method to compare drivers by name instead of object equality
+    private boolean isPlayerDriver(com.github.matyassladek.ac_wgp.model.Driver driver,
+                                   com.github.matyassladek.ac_wgp.model.Driver player) {
+        if (driver == null || player == null) {
+            return false;
+        }
+        return driver.getFirstName().equals(player.getFirstName()) &&
+                driver.getLastName().equals(player.getLastName()) &&
+                driver.getCountry().equals(player.getCountry());
     }
 
     // Inner class to hold team upgrade information
