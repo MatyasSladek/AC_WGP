@@ -81,8 +81,21 @@ public class RaceResultsLoader {
             throw new IOException("Invalid JSON structure: missing or empty sessions array");
         }
 
-        JsonNode sessionNode = sessionsNode.get(0);
-        JsonNode raceResultNode = sessionNode.get("raceResult");
+        // Find the race session (type 3) or session with raceResult
+        JsonNode raceSession = null;
+        for (JsonNode sessionNode : sessionsNode) {
+            if (sessionNode.has("raceResult") ||
+                    (sessionNode.has("type") && sessionNode.get("type").asInt() == 3)) {
+                raceSession = sessionNode;
+                break;
+            }
+        }
+
+        if (raceSession == null) {
+            throw new IOException("No race session found in sessions array");
+        }
+
+        JsonNode raceResultNode = raceSession.get("raceResult");
 
         if (raceResultNode == null || !raceResultNode.isArray()) {
             throw new IOException("Invalid JSON structure: missing or invalid raceResult array");
