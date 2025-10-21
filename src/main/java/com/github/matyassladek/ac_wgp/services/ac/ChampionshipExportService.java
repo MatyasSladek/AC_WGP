@@ -161,6 +161,12 @@ public class ChampionshipExportService {
         List<Map<String, Object>> opponents = new ArrayList<>();
 
         Driver player = game.getPlayer();
+        Team playerTeam = findPlayerTeam(game, player);
+
+        // Add PLAYER as the first entry
+        if (playerTeam != null) {
+            opponents.add(buildPlayerData(player, playerTeam));
+        }
 
         for (Team team : game.getTeams()) {
             // Add driver 1 if not the player
@@ -175,6 +181,33 @@ public class ChampionshipExportService {
         }
 
         return opponents;
+    }
+
+    private Team findPlayerTeam(Game game, Driver player) {
+        for (Team team : game.getTeams()) {
+            if (team.getDriver1().equals(player) || team.getDriver2().equals(player)) {
+                return team;
+            }
+        }
+        return null;
+    }
+
+    private Map<String, Object> buildPlayerData(Driver player, Team team) {
+        Map<String, Object> playerData = new LinkedHashMap<>();
+
+        // Determine which skin to use based on driver position in team
+        String skin = player.equals(team.getDriver1())
+                ? team.getManufacture().getSkinDriver1()
+                : team.getManufacture().getSkinDriver2();
+
+        playerData.put("name", "PLAYER");
+        playerData.put("nation", ""); // Empty nation for player
+        playerData.put("car", team.getManufacture().getCar());
+        playerData.put("skin", skin);
+        playerData.put("ballast", 0);
+        playerData.put("restrictor", 0);
+
+        return playerData;
     }
 
     /**
