@@ -197,7 +197,7 @@ public class Track {
      */
     public String getIdentifier() {
         if (layoutFolderName != null && !layoutFolderName.isEmpty()) {
-            return trackFolderName + "_" + layoutFolderName;
+            return trackFolderName + "-" + layoutFolderName;  // Use hyphen
         }
         return trackFolderName;
     }
