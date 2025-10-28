@@ -45,11 +45,14 @@ public class ConstructorsStandingsController extends ViewController {
 
     @FXML
     private void onSubmitButtonClick() throws IOException {
-        log.info("Continue button clicked");
+        log.info("Continue button clicked from Constructor Standings");
 
-        String nextScreen = determineNextScreen();
-        setNextScreen(nextScreen);
-        showNextScreen();
+        DetermineNextScreenResult result = determineNextScreen();
+        setNextScreen(result.screenFile);
+
+        // If we advanced to next season, advanceToNextSeason() already saved
+        // Otherwise, we need to save before navigating
+        showNextScreen(!result.alreadySaved);
     }
 
     private void setupTableColumns() {
@@ -74,27 +77,28 @@ public class ConstructorsStandingsController extends ViewController {
         }
     }
 
-    private String determineNextScreen() {
+    private DetermineNextScreenResult determineNextScreen() {
         if (isSeasonComplete()) {
             if (hasMoreSeasons()) {
-                // Advance to next season
+                // Advance to next season (this will save the game automatically)
                 boolean advanced = gameManager.advanceToNextSeason(game);
                 if (advanced) {
-                    log.info("Advanced to season " + game.getCurrentSeason());
-                    // After advancing, show pre-season screen to set up new calendar
-                    return FXMLFile.PRE_SEASON.getFileName();
+                    log.info("Advanced to season " + game.getCurrentSeason() +
+                            " (Display: Season " + (game.getCurrentSeason() + 1) + ")");
+                    // Return PRE_SEASON with alreadySaved=true because advanceToNextSeason saves
+                    return new DetermineNextScreenResult(FXMLFile.PRE_SEASON.getFileName(), true);
                 } else {
                     log.warning("Failed to advance to next season");
-                    return FXMLFile.CAREER_END.getFileName();
+                    return new DetermineNextScreenResult(FXMLFile.CAREER_END.getFileName(), false);
                 }
             } else {
                 log.info("Career complete - no more seasons");
-                return FXMLFile.CAREER_END.getFileName();
+                return new DetermineNextScreenResult(FXMLFile.CAREER_END.getFileName(), false);
             }
         }
 
         // Season not complete, continue with next event
-        return FXMLFile.NEXT_EVENT.getFileName();
+        return new DetermineNextScreenResult(FXMLFile.NEXT_EVENT.getFileName(), false);
     }
 
     private boolean isSeasonComplete() {
@@ -108,5 +112,18 @@ public class ConstructorsStandingsController extends ViewController {
 
     private boolean hasMoreSeasons() {
         return gameManager.hasMoreSeasons(game);
+    }
+
+    /**
+     * Helper class to track whether game was already saved during screen determination.
+     */
+    private static class DetermineNextScreenResult {
+        final String screenFile;
+        final boolean alreadySaved;
+
+        DetermineNextScreenResult(String screenFile, boolean alreadySaved) {
+            this.screenFile = screenFile;
+            this.alreadySaved = alreadySaved;
+        }
     }
 }

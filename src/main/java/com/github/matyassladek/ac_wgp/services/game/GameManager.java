@@ -143,7 +143,8 @@ public class GameManager {
 
     /**
      * Advances the game to the next season.
-     * Processes end-of-season standings, upgrades teams, and initializes new championship.
+     * Processes end-of-season standings, upgrades teams, and prepares for new season.
+     * The championship is cleared - caller must set calendar and initialize new championship.
      * Automatically saves the game after successful advancement.
      *
      * @param game The game instance
@@ -156,8 +157,8 @@ public class GameManager {
 
         if (advanced) {
             log.info("Advanced to season " + game.getCurrentSeason());
-            // Clear championship to show pre-season screen
-            game.setCurrentChampionship(null);
+            // Championship already cleared in seasonProgressionService
+            // Screen will be resolved to PRE_SEASON automatically during save
             saveGame(game);
         } else {
             log.info("Cannot advance - no more seasons available");

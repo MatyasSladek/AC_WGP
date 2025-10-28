@@ -1,6 +1,7 @@
 package com.github.matyassladek.ac_wgp.controllers;
 
 import com.github.matyassladek.ac_wgp.enums.FXMLFile;
+import com.github.matyassladek.ac_wgp.model.Game;
 import com.github.matyassladek.ac_wgp.model.Team;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -38,9 +39,22 @@ public class PreSeasonController extends ViewController {
     }
 
     @Override
-    public void setGame(com.github.matyassladek.ac_wgp.model.Game game) {
+    public void setGame(Game game) {
         super.setGame(game);
-        // Load data immediately after game is set
+
+        log.info("=== PRE-SEASON CONTROLLER ===");
+        log.info("Current season (internal): " + game.getCurrentSeason());
+        log.info("Display season: " + (game.getCurrentSeason() + 1));
+
+        // Log all team states to see what upgrades were applied
+        log.info("ALL TEAM STATES:");
+        for (Team team : game.getTeams()) {
+            log.info("  " + team.getManufacture().getNameLong() +
+                    " - Engine: " + team.getEngine().getPerformance() +
+                    ", Chassis: " + team.getChassis().getPerformance() +
+                    ", Factory: " + team.getFactoryLevel());
+        }
+
         loadTeamData();
     }
 

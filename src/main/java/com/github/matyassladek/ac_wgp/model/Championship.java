@@ -107,7 +107,7 @@ public class Championship {
         private final Driver driver;
 
         @JsonProperty("team")
-        private final Team team;
+        private Team team;  // Not final - allows reference reconciliation
 
         @JsonProperty("points")
         private int points;
@@ -130,7 +130,7 @@ public class Championship {
     public static class TeamSlot {
 
         @JsonProperty("team")
-        private final Team team;
+        private Team team;  // Not final - allows reference reconciliation
 
         @JsonProperty("points")
         private int points;

@@ -44,23 +44,19 @@ public class SeasonProgressionService {
             return false;
         }
 
-        int newSeasonIndex = game.getCurrentSeason() + 1;
-        log.info("Advancing from season " + game.getCurrentSeason() + " to season " + newSeasonIndex);
+        int oldSeasonIndex = game.getCurrentSeason();
+        int newSeasonIndex = oldSeasonIndex + 1;
+        log.info("Advancing from season " + oldSeasonIndex + " to season " + newSeasonIndex);
 
-        // Update season
+        // Process end-of-season standings and upgrades BEFORE incrementing season
+        // This ensures we're using the correct season index for upgrades
+        processEndOfSeason(game, oldSeasonIndex);
+
+        // Now increment the season
         game.setCurrentSeason(newSeasonIndex);
 
-        // Process end-of-season standings and upgrades
-        processEndOfSeason(game);
-
-        // Initialize new championship
-        if (game.hasCurrentCalendar()) {
-            Championship newChampionship = championshipFactory.createChampionship(
-                    game.getTeams(),
-                    game.getCurrentCalendar()
-            );
-            game.setCurrentChampionship(newChampionship);
-        }
+        // Clear the old championship - new one will be created when calendar is set
+        game.setCurrentChampionship(null);
 
         log.info("Successfully advanced to season " + newSeasonIndex);
         return true;
@@ -70,8 +66,9 @@ public class SeasonProgressionService {
      * Processes end-of-season activities: standings, garage assignments, and upgrades.
      *
      * @param game The game instance
+     * @param completedSeasonIndex The season that just completed (before increment)
      */
-    private void processEndOfSeason(Game game) {
+    private void processEndOfSeason(Game game, int completedSeasonIndex) {
         Championship championship = game.getCurrentChampionship();
         if (championship == null) {
             log.warning("No championship to process");
@@ -86,19 +83,20 @@ public class SeasonProgressionService {
                 )
         );
 
-        log.info("Constructor standings sorted for season " + (game.getCurrentSeason() - 1));
+        log.info("Constructor standings sorted for completed season " + completedSeasonIndex);
 
-        // Update garages and upgrade teams
-        assignGaragesAndUpgradeTeams(championship, game.getCurrentSeason());
+        // Update garages and upgrade teams for the NEXT season (completed + 1)
+        int nextSeasonIndex = completedSeasonIndex + 1;
+        assignGaragesAndUpgradeTeams(championship, nextSeasonIndex);
     }
 
     /**
      * Assigns garage positions based on standings and upgrades team components.
      *
      * @param championship The championship with final standings
-     * @param newSeasonIndex The new season index for upgrade calculations
+     * @param nextSeasonIndex The upcoming season index (for upgrade calculations)
      */
-    private void assignGaragesAndUpgradeTeams(Championship championship, int newSeasonIndex) {
+    private void assignGaragesAndUpgradeTeams(Championship championship, int nextSeasonIndex) {
         int garagePosition = 0;
 
         for (Championship.TeamSlot teamSlot : championship.getConstructorsStandings()) {
@@ -106,10 +104,13 @@ public class SeasonProgressionService {
 
             // Assign garage based on championship position
             team.setGarage(garagePosition);
+            log.info(String.format("Team %s assigned to garage %d",
+                    team.getManufacture().getNameLong(), garagePosition));
             garagePosition++;
 
-            // Upgrade team components
-            teamUpgradeService.upgradeTeamComponents(team, newSeasonIndex + 1, random);
+            // Upgrade team components for next season
+            // Pass nextSeasonIndex directly (internal index, not display season)
+            teamUpgradeService.upgradeTeamComponents(team, nextSeasonIndex, random);
 
             // Random factory level upgrade
             if (shouldUpgradeFactory()) {
@@ -118,6 +119,8 @@ public class SeasonProgressionService {
                 log.info(team.getManufacture().getNameLong() + " factory upgraded to level " + newFactoryLevel);
             }
         }
+
+        log.info("All teams upgraded for season " + nextSeasonIndex);
     }
 
     /**
