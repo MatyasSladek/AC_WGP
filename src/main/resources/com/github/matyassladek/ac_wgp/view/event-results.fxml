@@ -38,7 +38,7 @@
             <!-- Action Buttons Row -->
             <HBox spacing="15" alignment="CENTER">
                 <Button onAction="#onLoadFromJsonButtonClick"
-                        text="📂 LOAD FROM JSON"
+                        text="LOAD FROM JSON"
                         styleClass="success-button"
                         prefWidth="200" prefHeight="40">
                     <font>
@@ -47,7 +47,7 @@
                 </Button>
 
                 <Button onAction="#onClearResultsButtonClick"
-                        text="🗑️ CLEAR RESULTS"
+                        text="CLEAR RESULTS"
                         styleClass="danger-button"
                         prefWidth="200" prefHeight="40">
                     <font>
@@ -261,7 +261,7 @@
 
             <!-- Driver Pool (Right Side) -->
             <VBox spacing="15" prefWidth="450" HBox.hgrow="NEVER">
-                <Label text="👥 Available Drivers" styleClass="section-label">
+                <Label text="Available Drivers" styleClass="section-label">
                     <font>
                         <Font name="System Bold" size="18"/>
                     </font>
@@ -273,18 +273,12 @@
                               style="-fx-padding: 15; -fx-background-color: -fx-surface;"/>
                 </ScrollPane>
 
-                <HBox spacing="10" styleClass="status-label warning" style="-fx-padding: 12;">
-                    <Label text="⚠️" style="-fx-font-size: 14px;"/>
-                    <Label text="All positions must be filled before submitting"
-                           wrapText="true" HBox.hgrow="ALWAYS" style="-fx-font-size: 12px;"/>
-                </HBox>
-
                 <HBox alignment="CENTER_RIGHT" spacing="20"
-                      style="-fx-padding: 25; -fx-background-color: derive(-fx-surface, -5%);">
+                      style="-fx-padding: 25;">
                     <Label text="Ready to submit results?"
                            style="-fx-font-size: 15px; -fx-text-fill: #B3B3B3;"/>
                     <Button onAction="#onSubmitButtonClick"
-                            text="✓ SUBMIT RESULTS"
+                            text="SUBMIT RESULTS"
                             styleClass="confirm-button"
                             prefWidth="200" prefHeight="45">
                         <font>
