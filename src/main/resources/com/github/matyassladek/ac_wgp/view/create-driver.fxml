@@ -74,5 +74,5 @@
       </VBox>
    </HBox>
 
-   <Button mnemonicParsing="false" text="SUBMIT" onAction="#onSubmitButtonClick" />
+   <Button mnemonicParsing="false" text="SUBMIT" onAction="#onSubmitButtonClick" styleClass="confirm-button" />
 </VBox>
