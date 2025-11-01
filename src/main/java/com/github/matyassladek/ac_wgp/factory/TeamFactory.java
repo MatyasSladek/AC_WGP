@@ -37,13 +37,13 @@ public class TeamFactory {
         List<Team> defaultTeams = new ArrayList<>();
 
         defaultTeams.add(new Team(Manufacture.JPS, ++garage,
-                DriverEnum.RICK_SWART.getDriver(),
                 DriverEnum.ANTOINE_LAVOIE.getDriver(),
+                DriverEnum.RICK_SWART.getDriver(),
                 3));
 
         defaultTeams.add(new Team(Manufacture.NEWMAN, ++garage,
-                DriverEnum.HAKARU_KOJIMA.getDriver(),
                 DriverEnum.EMILIO_CEVALLOS.getDriver(),
+                DriverEnum.HAKARU_KOJIMA.getDriver(),
                 2));
 
         defaultTeams.add(new Team(Manufacture.MARTINI, ++garage,
@@ -52,13 +52,13 @@ public class TeamFactory {
                 4));
 
         defaultTeams.add(new Team(Manufacture.RBR, ++garage,
+                DriverEnum.SONNY_KELLY.getDriver(),
                 DriverEnum.FRANZ_HERMANN.getDriver(),
-                DriverEnum.BRENT_HARRIS.getDriver(),
                 6));
 
         defaultTeams.add(new Team(Manufacture.GULF, ++garage,
-                DriverEnum.LUCAS_PEREYRA.getDriver(),
                 DriverEnum.DAVID_STARK.getDriver(),
+                DriverEnum.LUCAS_PEREYRA.getDriver(),
                 5));
 
         defaultTeams.add(new Team(Manufacture.CASTROL, ++garage,
@@ -77,8 +77,8 @@ public class TeamFactory {
                 2));
 
         defaultTeams.add(new Team(Manufacture.VODAFONE, ++garage,
-                DriverEnum.JAIME_OLIVEIRA.getDriver(),
                 DriverEnum.NOAH_TANNER.getDriver(),
+                DriverEnum.JAIME_OLIVEIRA.getDriver(),
                 3));
 
         defaultTeams.add(new Team(Manufacture.TARGET, ++garage,

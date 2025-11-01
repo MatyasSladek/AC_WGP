@@ -49,6 +49,7 @@ public enum DriverEnum {
     RUAIRI_FERRITER(new Driver("Ruairi", "Ferriter", Country.IRL)),
 
     SAMUEL_SCHMID(new Driver("Samuel", "Schmid", Country.AUT)),
+    SONNY_KELLY(new Driver("Sonny", "Kelly", Country.AUS)),
     SEBASTIAN_DUDA(new Driver("Sebastian", "Duda", Country.POL));
 
     private final Driver driver;
