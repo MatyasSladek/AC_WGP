@@ -152,7 +152,7 @@ public class ChampionshipExportService {
     }
 
     /**
-     * Builds the opponents list (all drivers except the player).
+     * Builds the opponents list (all drivers with PLAYER first).
      *
      * @param game The game instance
      * @return List of opponent data
@@ -161,51 +161,115 @@ public class ChampionshipExportService {
         List<Map<String, Object>> opponents = new ArrayList<>();
 
         Driver player = game.getPlayer();
+        log.info("Exporting championship for player: " + (player != null ? player.getName() : "NULL"));
+
         Team playerTeam = findPlayerTeam(game, player);
 
-        // Add PLAYER as the first entry
-        if (playerTeam != null) {
+        if (playerTeam == null) {
+            log.severe("Could not find team for player: " + (player != null ? player.getName() : "NULL"));
+        } else {
+            // Add PLAYER as the first entry
             opponents.add(buildPlayerData(player, playerTeam));
+            log.info("Added PLAYER (was: " + player.getName() + ") as first opponent");
         }
 
+        // Add all other drivers (not the player)
         for (Team team : game.getTeams()) {
             // Add driver 1 if not the player
-            if (!team.getDriver1().equals(player)) {
+            if (!isSameDriver(team.getDriver1(), player)) {
                 opponents.add(buildOpponentData(team.getDriver1(), team));
             }
 
             // Add driver 2 if not the player
-            if (!team.getDriver2().equals(player)) {
+            if (!isSameDriver(team.getDriver2(), player)) {
                 opponents.add(buildOpponentData(team.getDriver2(), team));
             }
         }
 
+        log.info("Total opponents exported: " + opponents.size());
         return opponents;
     }
 
+    /**
+     * Checks if two drivers are the same.
+     * Uses name comparison as the primary method.
+     *
+     * @param d1 First driver
+     * @param d2 Second driver
+     * @return true if drivers are the same
+     */
+    private boolean isSameDriver(Driver d1, Driver d2) {
+        if (d1 == null || d2 == null) {
+            return false;
+        }
+
+        // Compare by name - adjust if you have a better unique identifier
+        boolean same = d1.getName() != null && d1.getName().equals(d2.getName());
+
+        if (same) {
+            log.fine("Driver match found: " + d1.getName() + " == " + d2.getName());
+        }
+
+        return same;
+    }
+
+    /**
+     * Finds the team that contains the player.
+     *
+     * @param game The game instance
+     * @param player The player driver
+     * @return The team containing the player, or null if not found
+     */
     private Team findPlayerTeam(Game game, Driver player) {
+        if (player == null) {
+            log.severe("Player is null in findPlayerTeam");
+            return null;
+        }
+
         for (Team team : game.getTeams()) {
-            if (team.getDriver1().equals(player) || team.getDriver2().equals(player)) {
+            if (isSameDriver(team.getDriver1(), player)) {
+                log.info("Found player as driver1 in team with car: " + team.getManufacture().getCar());
+                return team;
+            }
+            if (isSameDriver(team.getDriver2(), player)) {
+                log.info("Found player as driver2 in team with car: " + team.getManufacture().getCar());
                 return team;
             }
         }
+
+        log.warning("Player '" + player.getName() + "' not found in any team!");
         return null;
     }
 
+    /**
+     * Builds player data entry.
+     * Player gets the same ballast/restrictor as their team.
+     *
+     * @param player The player driver
+     * @param team The player's team
+     * @return Map containing player data
+     */
     private Map<String, Object> buildPlayerData(Driver player, Team team) {
         Map<String, Object> playerData = new LinkedHashMap<>();
 
         // Determine which skin to use based on driver position in team
-        String skin = player.equals(team.getDriver1())
+        String skin = isSameDriver(player, team.getDriver1())
                 ? team.getManufacture().getSkinDriver1()
                 : team.getManufacture().getSkinDriver2();
+
+        // Calculate penalties based on team performance (same as opponents)
+        int ballast = team.getChassis().getPerformance();
+        int restrictor = team.getEngine().getPerformance();
 
         playerData.put("name", "PLAYER");
         playerData.put("nation", ""); // Empty nation for player
         playerData.put("car", team.getManufacture().getCar());
         playerData.put("skin", skin);
-        playerData.put("ballast", 0);
-        playerData.put("restrictor", 0);
+        playerData.put("ballast", ballast);
+        playerData.put("restrictor", restrictor);
+
+        log.info("Built PLAYER data: car=" + team.getManufacture().getCar() + ", skin=" + skin +
+                ", ballast=" + ballast + ", restrictor=" + restrictor);
 
         return playerData;
     }
@@ -221,7 +285,7 @@ public class ChampionshipExportService {
         Map<String, Object> opponent = new LinkedHashMap<>();
 
         // Determine which skin to use based on driver position in team
-        String skin = driver.equals(team.getDriver1())
+        String skin = isSameDriver(driver, team.getDriver1())
                 ? team.getManufacture().getSkinDriver1()
                 : team.getManufacture().getSkinDriver2();
 
