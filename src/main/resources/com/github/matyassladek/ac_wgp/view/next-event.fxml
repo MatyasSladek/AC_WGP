@@ -20,5 +20,5 @@
    </Label>
    <Label fx:id="circuitLabel" text="(circuit)" />
    <Label fx:id="lapsLabel" text="(laps)" />
-   <Button fx:id="raceButton" mnemonicParsing="false" onAction="#onSubmitButtonClick" text="RACE" />
+   <Button fx:id="raceButton" mnemonicParsing="false" onAction="#onSubmitButtonClick" text="RACE" styleClass="confirm-button"/>
 </VBox>

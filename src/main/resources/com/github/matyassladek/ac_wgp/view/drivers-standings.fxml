@@ -33,5 +33,5 @@
             <TableColumn fx:id="pointsColumn" prefWidth="75.0" text="Points" />
         </columns>
     </TableView>
-    <Button mnemonicParsing="false" onAction="#onContinueButtonClick" text="CONTINUE" />
+    <Button mnemonicParsing="false" onAction="#onContinueButtonClick" text="CONTINUE" styleClass="confirm-button"/>
 </VBox>
